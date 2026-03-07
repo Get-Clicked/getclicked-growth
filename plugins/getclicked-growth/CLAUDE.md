@@ -2,10 +2,10 @@
 
 ## Skill System Overview
 
-The Growth Officer has 8 skills: start, context, brand, seo, ads, landing, optimize, experiment.
+The Growth Officer has 9 skills: start, context, brand, seo, ads, landing, optimize, experiment, gtm.
 Skills are model-invoked — the Growth Officer decides when to use each one based on what the client needs.
 Files persist, not agents. Every skill reads and writes markdown and CSV as shared state.
-Canonical sequence: context -> brand -> ads/seo -> landing -> optimize -> experiment.
+Canonical sequence: context -> brand -> ads/seo -> landing -> optimize -> experiment. GTM can run after context for distribution strategy.
 Skills are composable but self-contained. Context files and personas are shared state across all skills.
 Insights compound across sessions — each run builds on previous learnings.
 
@@ -20,6 +20,7 @@ Insights compound across sessions — each run builds on previous learnings.
 | landing | ads/ad-groups.json |
 | optimize | ads/keywords.csv |
 | experiment | context/business.md |
+| gtm | context/business.md, context/market.md, context/keywords.md |
 | start | No dependencies (onboarding flow) |
 
 If a required file is missing, run the upstream skill first. Do not proceed with stale or absent inputs.
