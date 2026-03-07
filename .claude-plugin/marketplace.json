@@ -1,0 +1,26 @@
+{
+  "name": "getclicked",
+  "owner": {
+    "name": "Founderbee Labs",
+    "email": "hello@founderbeelabs.com"
+  },
+  "metadata": {
+    "description": "AI Growth Officer — market research, brand strategy, Google Ads campaigns, SEO, landing pages, optimization, and experimentation.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "getclicked-growth",
+      "source": "./plugins/getclicked-growth",
+      "description": "Your AI Growth Officer — a dedicated marketing team that lives in your editor.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Founderbee Labs"
+      },
+      "homepage": "https://getclicked.ai",
+      "license": "MIT",
+      "keywords": ["marketing", "google-ads", "seo", "growth", "campaigns", "landing-pages", "brand-strategy"],
+      "category": "marketing"
+    }
+  ]
+}
