@@ -68,7 +68,7 @@ Before starting work, check if Notion is available:
 4. Set NOTION_ENABLED = true and note the section page IDs for later
 5. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
 
-When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page:
+When NOTION_ENABLED, complete all local file writes first. As the final step, sync all files to Notion in a single pass:
 - For markdown files → `notion-update-page` with the page content
 
 **Output mapping (local file → Notion target):**
@@ -78,6 +78,15 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 | `experiments/EXP-NNN-*.md` | Experiments > [new child page] | `notion-create-pages` |
 | `experiments/INDEX.md` | Experiments > Index page | `notion-update-page` |
 | `insights/*.md` | Insights > [matching page or new child] | `notion-update-page` or `notion-create-pages` |
+
+---
+
+## Execution Mode
+
+| Mode | Deliverables |
+|------|-------------|
+| Fast (default) | experiments/EXP-NNN-{slug}.md + experiments/INDEX.md |
+| Comprehensive | Same (this skill is already focused) |
 
 ---
 
@@ -116,8 +125,8 @@ IDEA → HYPOTHESIS → DESIGN → LIVE → MEASURING → COMPLETE
 
 When the user runs `/experiment`, determine the mode first:
 
-- **No campaign exists yet?** → Launch mode. The experiment frames the entire go-to-market as a hypothesis.
-- **Campaign is running?** → Optimization mode. The experiment frames a specific change as a test.
+- **Existing campaign running AND experiment is about that campaign** → Optimization mode. Frame a specific change as a test.
+- **Everything else** (no campaign, new market test, positioning test) → Launch mode. Frame the go-to-market as a hypothesis.
 
 Then have a strategy conversation:
 
@@ -355,6 +364,19 @@ For `insights/INDEX.md`, maintain a summary:
 7. **Be honest about results.** Inconclusive is a valid outcome. Don't force a narrative onto noisy data.
 8. **Reflection is mandatory.** Every completed experiment must have a filled Reflection section before moving to Complete status. Reflection captures the WHY, not just the WHAT — that's what makes the learning transferable to future campaigns.
 9. **Never guess at keyword data.** Every keyword referenced in the Design section must cite actual DataForSEO metrics (volume, CPC, competition index) from `context/keywords.md` or a live API pull. If a keyword hasn't been validated, mark it explicitly as `UNVALIDATED — must pull in /ads Step 2`. No estimated ranges like "$5-10 avg." Real numbers or a clear label that data is missing.
+
+---
+
+## Done
+
+You are done when these files exist:
+
+| File | Fast | Comprehensive |
+|------|------|---------------|
+| `experiments/EXP-NNN-{slug}.md` | Required | Required |
+| `experiments/INDEX.md` | Required | Required |
+
+Stop. Present completion summary. Do not add unrequested deliverables.
 
 ---
 

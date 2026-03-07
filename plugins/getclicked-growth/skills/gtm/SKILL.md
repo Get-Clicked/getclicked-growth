@@ -166,7 +166,11 @@ This is the core of the skill. Apply the Bullseye Framework (Weinberg & Mares, "
 | **Team Fit** | Do we have the skills and capacity to execute on this channel? |
 | **Competitive Density** | How crowded is this channel for our category? |
 
-**For search-based channels (SEO, SEM):** Use DataForSEO to pull real demand data. Read credentials from `.env` (same pattern as `/context` and `/ads`).
+**For search-based channels (SEO, SEM):** Use DataForSEO to pull real demand data.
+
+**Preferred: MCP tools.** If `keyword_search_volume` tool is available, use MCP tools directly (no credentials needed). Falls back to curl + .env if MCP unavailable. See plugin CLAUDE.md "Data Access" for the full fallback chain.
+
+**BYOK fallback (Claude Code only):**
 
 ```bash
 curl -s -X POST "https://api.dataforseo.com/v3/keywords_data/google_ads/keywords_for_keywords/live" \

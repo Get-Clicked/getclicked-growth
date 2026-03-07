@@ -54,116 +54,16 @@ landing/geo/{city-slug}.md (location-specific variants)
 
 ---
 
-## Conversion Research: The Numbers Behind Every Decision
+## Conversion Research
 
-These data points inform every rule in this skill. They're not theory — they're from documented studies with sample sizes.
+See `skills/landing/REFERENCE.md` for full benchmark data (conversion rates by industry, A/B test results, reading level impact, form field data, page speed thresholds, mobile stats, trust signal research).
 
-### Benchmark Conversion Rates (Unbounce 2024, 41,000 pages / 464M visitors / 57M conversions)
-
-| Industry | Median CR |
-|----------|-----------|
-| Dental / Local Health | 10.8% |
-| Home Services / Local Lead Gen | 5–12% |
-| Financial Services | 8.4% |
-| SaaS | 3.8% |
-| All Industries Median | 6.6% |
-
-**Target: 10%+ for local services (confirmed by both Unbounce and WordStream data). Floor: 6.6% (Unbounce all-industry median). Below your industry's Google Ads Search CVR = page is underperforming vs. competitors.**
-
-**Google Ads Search CVR by Industry (WordStream 2025, 79,000+ campaigns):**
-
-These benchmarks specifically measure Google Ads Search campaign conversion rates — the ad-specific comparison point for your landing pages:
-
-| Industry | Google Ads Search CVR | Unbounce Landing Page CVR | Gap Analysis |
-|----------|----------------------|--------------------------|-------------|
-| Legal | 7.1% | — | Strong baseline for high-intent legal queries |
-| Home Services | 10.2% | 5-12% | High-intent local searches convert well |
-| Healthcare | 3.9% | 10.8% (dental) | Healthcare is broad; dental outperforms general |
-| Real Estate | 3.4% | — | Longer consideration cycle |
-| SaaS/Technology | 2.5% | 3.8% | Low CVR = optimize landing pages heavily |
-| E-commerce | 2.8% | — | Volume play — even small CVR gains matter at scale |
-| Financial Services | 5.1% | 8.4% | Trust-heavy; landing page credibility is critical |
-| Professional Services | 7.2% | — | Relationship-driven — page must build trust fast |
-| Dental | 10.4% | 10.8% | Highest CVR category — urgent local need |
-| Industrial/B2B | 3.4% | — | Multiple stakeholders, longer cycle |
-
-**How to use both tables:** Unbounce data measures dedicated landing pages across all traffic sources. WordStream data measures Google Ads Search specifically. Compare your page's CVR against BOTH — the Google Ads number tells you how you compare against other advertisers, the Unbounce number tells you how you compare against optimized landing pages receiving all traffic types. If you're below the Google Ads number, the page is underperforming for paid search specifically.
-
-### What Moves Conversion Rate (documented A/B test results)
-
-| Change | Lift | Source |
-|--------|------|--------|
-| Removing navigation from landing page | +100% to +336% | VWO (Yuppiechef), HubSpot, career college studies |
-| Dedicated landing page vs. homepage | +116% | ConversionLab A/B |
-| Adding client logo row after hero | +69% | comScore A/B |
-| 1:1 attention ratio vs. 6:1 | +40% | Unbounce webinar test |
-| Programmatic page-per-ad-group vs. generic | +25% | Google Ads + KlientBoost |
-| Adding testimonials with names/photos | +34% | WikiJobs A/B |
-| Online reviews displayed on page | up to +270% | Northwestern Spiegel Research |
-| Reducing form from 11 to 4 fields | +160% | Multi-study composite |
-| CTA label change (generic → specific) | +104% | Documented A/B |
-| Short-form page for paid search traffic | +38% vs. long-form | CXL analysis |
-
-### Reading Level = Conversion (Unbounce 2024)
-
-| Copy Reading Level | Median CR |
-|--------------------|-----------|
-| 5th–7th grade | 11.1% |
-| 8th–9th grade | 7.1% |
-| College level | 5.3% |
-
-**Copy at 5th–7th grade level converts 2x better than professional-level copy.** Short sentences. Concrete language. No jargon. "We clean your home top to bottom" beats "We provide comprehensive residential cleaning solutions." This correlation has grown 62% stronger since 2020.
-
-### Form Field Conversion Curve (HubSpot, 40,000+ landing pages)
-
-| Fields | Conversion Rate | Notes |
-|--------|----------------|-------|
-| 3 fields | ~25% | Sweet spot |
-| 4 fields | ~22% | Marginal drop |
-| 5 fields | ~21% | Still OK |
-| 7+ fields | <15% | Steep decline |
-
-**Adding a phone number field drops conversion 32%.** Phone should be optional or collected post-conversion.
-
-| Specific Field Added | CR Drop |
-|---------------------|---------|
-| Phone number | -32% |
-| Permission to call | -29% |
-| Age | -17% |
-| Street address | -25% |
-
-### Page Speed = Money (Google Core Web Vitals + conversion studies)
-
-| Load Time | Impact |
-|-----------|--------|
-| 1 second | Baseline (highest CR) |
-| 2 seconds | -7% conversions |
-| 3 seconds | -20% conversions; 32% higher bounce vs 1s |
-| 5 seconds | 3x lower CR than 1s; 106% higher bounce vs 1s |
-| 100ms delay | -7% conversions on its own |
-
-**Google's "Good" thresholds:**
-- LCP (Largest Contentful Paint): under 2.5 seconds
-- INP (Interaction to Next Paint): under 200ms
-- CLS (Cumulative Layout Shift): under 0.1
-
-### Mobile Reality (Unbounce 2024 + Google)
-
-- **83% of landing page visits are mobile**
-- Desktop converts 1.9x higher than mobile — mobile optimization is the biggest untapped lever
-- 53% of mobile users abandon pages taking >3 seconds
-- 88% of consumers who search locally on mobile visit or call within 24 hours
-- Above-fold on mobile (375px iPhone SE) = ~500-600px vertical space — CTA must fit
-
-### Trust Signals: What Actually Works
-
-- Star ratings with number displayed: **pages without visible star ratings convert 8.8% worse**
-- Minimum 5 reviews displayed: **increases purchase likelihood 4x**
-- 50+ reviews: **35% more revenue** than fewer reviews
-- Specific numbers beat vague claims: "2,400 homes cleaned" > "Thousands of customers"
-- Named testimonials with city + headshot: **+34% over no testimonials**
-- Industry certifications as badges outperform generic "trusted" language
-- SSL badges / "secure" labels: table stakes, not a differentiator — don't waste space on them
+**Key numbers to remember:**
+- Dedicated landing page vs homepage: +116% conversion
+- Removing navigation: +100% to +336%
+- 5th-7th grade reading level: 2x conversion vs college level
+- 3 form fields: ~25% CR. Phone field: -32% CR drop
+- 83% of landing page visits are mobile
 
 ---
 
@@ -194,7 +94,7 @@ Before starting work, check if Notion is available:
 4. Set NOTION_ENABLED = true and note the section page IDs for later
 5. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
 
-When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page:
+When NOTION_ENABLED, complete all local file writes first. As the final step, sync all files to Notion in a single pass:
 - For markdown files → `notion-update-page` with the page content
 
 **Output mapping (local file → Notion target):**
@@ -204,6 +104,17 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 | `landing/audit.md` | Landing Pages > Audit page | `notion-update-page` |
 | `landing/brief.md` | Landing Pages > Brief page | `notion-update-page` |
 | `landing/pages/*.md` | Landing Pages > [page name] (new child pages) | `notion-create-pages` |
+
+---
+
+## Execution Mode
+
+| Mode | Deliverables |
+|------|-------------|
+| Fast (default) | audit.md + pages/ (top 3 ad groups) + brief.md |
+| Comprehensive | + all ad group pages + geo/ pages + variants/ |
+
+Fast skips: geo pages, variants, lower-priority ad group pages.
 
 ---
 
@@ -223,7 +134,9 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 
 Run these sub-agents in order. Each builds on the previous output.
 
-### 1. Page Auditor → `landing/audit.md`
+### 1. Page Auditor → `landing/audit.md` [~2 min]
+
+**Bounds: Max 5 Final URLs.** Highest-traffic ad groups first.
 
 Read `ads/export-keywords.csv` for current Final URLs. For each unique Final URL, fetch the page with WebFetch and score it.
 
@@ -275,11 +188,17 @@ Write `landing/audit.md`:
 
 **When all Final URLs point to the same homepage:** This is the most common scenario and the biggest opportunity. Flag it clearly — dedicated pages convert 116% better than homepage traffic (ConversionLab). Every ad group deserves its own page.
 
-### 2. Page Architect → `landing/pages/{slug}.md`
+Tell the user: "Step 1 done — [N] pages audited. Building page specs next."
+
+### 2. Page Architect → `landing/pages/{slug}.md` [~4 min]
+
+**Fast mode: Top 3 ad groups** (highest-traffic BOFU). Comprehensive: all groups.
 
 For each ad group in `ads/ad-groups.json`, produce a landing page specification. Read the ad group's headlines, descriptions, keywords, and persona to build a page that converts the traffic the ad is sending.
 
 **Insight Integration — read before writing pages:**
+
+**Insight precedence:** (1) per-client recent, (2) per-client older, (3) cross-client high-confidence, (4) cross-client moderate.
 
 1. **Read `insights/optimize-*.md`** (if any exist) for landing page correlation findings from previous /optimize runs. If /optimize found "high CTR + low CVR on Group A = page problem," address that specific issue in the page spec for Group A.
 
@@ -293,78 +212,32 @@ For each ad group in `ads/ad-groups.json`, produce a landing page specification.
 
 **Slug convention:** Lowercase, hyphenated version of ad group name. "Window Cleaning - Local" → `window-cleaning-local`.
 
-#### Copywriting Framework: PAS (Problem → Agitate → Solve)
-
-PAS is the default framework for paid search landing pages. Paid visitors already know their problem — they searched for it. AIDA assumes you need to create awareness; PAS meets them where they are.
-
-- **Problem:** Name the pain precisely. The visitor should think "that's exactly my situation."
-- **Agitate:** Show the cost of not solving it. What gets worse if they don't act? What are they losing?
-- **Solve:** Present your service as the relief. Specific, concrete, grounded in what you actually do.
-
-For higher-ticket services ($5K+), layer in StoryBrand elements: customer = hero, you = guide with empathy + authority.
+#### Copywriting Framework: PAS
+Default for paid search landing pages. **Problem** (name the pain precisely) → **Agitate** (show cost of not solving) → **Solve** (your service as relief). For $5K+ services, layer in StoryBrand: customer = hero, you = guide.
 
 #### Copy Rules
-
-1. **Write at a 5th–7th grade reading level.** Short sentences. One idea per sentence. Concrete words. No industry jargon. "We clean your gutters so your basement stays dry" — not "Our comprehensive gutter maintenance solutions mitigate water damage risk." This is the single strongest copy signal in the conversion data (2x lift).
-2. **First-person CTA labels.** "Get **My** Free Quote" outperforms "Get **Your** Free Quote." "Start **My** Free Estimate" > "Start **Your** Free Estimate."
-3. **Draft real copy, don't describe it.** "The headline should convey trust" is useless. Write the actual headline.
-4. **Persona language, not marketing language.** Use words from `context/personas/` — their pain points, their phrasing. Not "leverage our expertise" — "stop worrying about [their actual concern]."
+1. **5th-7th grade reading level** (2x conversion lift). Short sentences. No jargon.
+2. **First-person CTA labels.** "Get **My** Free Quote" > "Get **Your** Free Quote."
+3. **Draft real copy, don't describe it.** Write the actual headline.
+4. **Persona language.** Use words from `context/personas/`, not marketing-speak.
 
 #### Page Structure — Data-Backed Section Order
 
 This order is validated by CRO research (CXL, Unbounce, Demand Curve, ConversionWise). Don't rearrange it without a documented reason.
 
-```
-┌─────────────────────────────────────────┐
-│ 1. HERO (promise + immediate CTA)       │
-│    H1 echoes ad headline (keyword match)│
-│    Subheadline: agitate the problem     │
-│    Primary CTA button (1st-person)      │
-│    Hero image: outcome, not stock       │
-├─────────────────────────────────────────┤
-│ 2. MICRO-TRUST BAR (fast credibility)   │
-│    Star rating + count | Credential     │
-│    Years in business | Guarantee        │
-│    ALL with specific numbers            │
-├─────────────────────────────────────────┤
-│ 3. PROBLEM + AGITATION (PAS)            │
-│    Name the pain in persona's words     │
-│    Show cost of inaction (agitate)      │
-│    Transition to solution               │
-├─────────────────────────────────────────┤
-│ 4. SOLUTION + BENEFITS                  │
-│    How your service solves it            │
-│    3 benefits with concrete outcomes    │
-│    CTA #2 (same label as hero)          │
-├─────────────────────────────────────────┤
-│ 5. HOW IT WORKS                         │
-│    3-step process (reduces anxiety)     │
-│    Step 3 = the outcome they want       │
-├─────────────────────────────────────────┤
-│ 6. DEEP SOCIAL PROOF                    │
-│    Full testimonials: name, city, quote │
-│    Supporting stat from business.md     │
-│    Before/after if applicable           │
-├─────────────────────────────────────────┤
-│ 7. OBJECTION HANDLING (FAQ)             │
-│    4-6 questions from persona fears     │
-│    Price question always included       │
-│    FAQPage schema for this section      │
-├─────────────────────────────────────────┤
-│ 8. FINAL CTA                            │
-│    CTA #3 (same label, same action)     │
-│    Risk removal: guarantee, free, no    │
-│    obligation                           │
-├─────────────────────────────────────────┤
-│ 9. FOOTER (minimal)                     │
-│    Phone (click-to-call), address, hours│
-│    Zero navigation links                │
-└─────────────────────────────────────────┘
-```
+**Section order (validated by CRO research — don't rearrange without reason):**
 
-**Why trust is split into two layers:** Micro-trust bar (#2) gives fast credibility signals right after the hero — star rating, review count, years, credential. This is what visitors process in the first 3 seconds. Deep social proof (#6) goes lower on the page for visitors who are engaged but not yet convinced — full testimonials with names, cities, and stories.
-
-**CTA appears 3 times:** In the hero (capture ready buyers), after benefits (capture convinced browsers), at the bottom (capture thorough readers). Same label, same action every time. Single CTA pages convert 13.5% vs 11.9% for multi-CTA pages.
+| # | Section | Purpose |
+|---|---------|---------|
+| 1 | Hero | H1 echoes ad headline + primary CTA + hero image |
+| 2 | Micro-Trust Bar | Star rating + credential + years + guarantee (specific numbers) |
+| 3 | Problem + Agitation (PAS) | Name pain → show cost of inaction → pivot to solution |
+| 4 | Solution + Benefits | 3 concrete outcomes + CTA #2 (same label as hero) |
+| 5 | How It Works | 3-step process → Step 3 = the outcome they want |
+| 6 | Deep Social Proof | Full testimonials with name/city + supporting stat |
+| 7 | Objection Handling (FAQ) | 4-6 questions from persona fears + price question mandatory |
+| 8 | Final CTA | CTA #3 (same label) + risk removal |
+| 9 | Footer | Phone (click-to-call) + address + hours. Zero navigation. |
 
 #### Page Spec Template
 
@@ -393,412 +266,128 @@ This order is validated by CRO research (CXL, Unbounce, Demand Curve, Conversion
 ## Content Blocks
 
 ### 1. Hero
-**Headline:** "[Echoes top ad headline — includes primary keyword + location + differentiator]"
-**Subheadline:** "[Agitates the problem — speaks to persona's pain in their words, then hints at the solution]"
-**CTA Button:** "[First-person action verb + outcome]" (e.g., "Get My Free Quote", "Book My Appointment")
-**Image Direction:** [Outcome or real team — never stock. What the hero image shows: real service result, real crew, smiling customer after service]
+- **Headline:** [Echoes top ad headline — primary keyword + location + differentiator]
+- **Subheadline:** [Agitates the problem in persona's words, hints at solution]
+- **CTA Button:** [First-person action verb + outcome]
+- **Image Direction:** [Outcome or real team — never stock]
 
 ### 2. Micro-Trust Bar
 | Signal | Content |
 |--------|---------|
-| Reviews | "[exact number] 5-Star Google Reviews" (pull from business.md) |
-| Credential | "[Specific license or certification]" (e.g., "IICRC Certified", "Board Certified") |
-| Experience | "[Exact year or count] — Serving [Location] Since [Year]" or "[N] Homes Serviced" |
-| Guarantee | "[Specific guarantee]" (e.g., "100% Satisfaction or We Re-Clean Free") |
+| Reviews | "[N] 5-Star Google Reviews" |
+| Credential | "[Specific license/certification]" |
+| Experience | "[N] Years Serving [Location]" or "[N] Customers Served" |
+| Guarantee | "[Specific guarantee]" |
+Every signal uses a specific number. No vague claims.
 
-**Rule: Every signal uses a specific number or named credential. No vague claims. "Years of experience" is banned. "12 Years Serving Boise" is required.**
-
-### 3. Problem + Agitation (PAS)
-**The problem:** "[In the persona's exact words — what they're dealing with. Short. Visceral. They should nod.]"
-
-**The agitation:** "[What gets worse if they don't act? What are they losing — time, money, peace of mind? Show the cost of inaction. 1-2 sentences.]"
-
-**The pivot:** "[Transition to your solution — one sentence that bridges pain to relief.]"
+### 3. Problem + Agitation
+- **Problem:** [Persona's exact words — what they're dealing with]
+- **Agitation:** [Cost of inaction — time, money, peace of mind]
+- **Pivot:** [Bridge from pain to relief — one sentence]
 
 ### 4. Solution + Benefits
-**Solution framing:** "[How this service solves the problem — specific, concrete, grounded in what you actually do. Not 'we provide solutions.' What do you literally do?]"
-
-**3 Benefits (outcomes, not features):**
-1. **[Outcome headline]** — [One sentence. What the customer gets, not what you do. Concrete.]
-2. **[Outcome headline]** — [One sentence. Different facet of value.]
-3. **[Outcome headline]** — [One sentence. Address a secondary concern.]
-
-**CTA Button:** "[Same label as hero CTA — exact same text]"
+- **Solution:** [How the service solves it — concrete, not abstract]
+- **Benefits:** 3 outcomes (not features). One sentence each.
+- **CTA Button:** [Same label as hero — exact same text]
 
 ### 5. How It Works
-| Step | Title | Description |
-|------|-------|-------------|
-| 1 | [Simple action verb] | [What happens — keep it to one sentence. Reduce anxiety.] |
-| 2 | [Simple action verb] | [What happens — show your competence without jargon.] |
-| 3 | [Outcome verb] | [What they get — end with the result they want, in their words.] |
+3-step table: Step → Title → Description. Step 3 = the outcome they want. Reduce anxiety, show competence without jargon.
 
-### 6. Deep Social Proof
-**Testimonial 1:**
-> "[Specific quote — what was the situation, what happened, what was the result. Specificity beats length.]"
-> — [Full Name], [City/Neighborhood]
+### 6. Social Proof
+- 2 testimonials: name, city, specific quote with concrete detail
+- Supporting stat from business.md (exact number)
 
-**Testimonial 2:**
-> "[Different angle — different persona concern addressed. Include a concrete detail (time, cost, result).]"
-> — [Full Name], [City/Neighborhood]
-
-**Supporting stat:** [Pull from business.md — exact number. "[N] homes cleaned in [area] this year" or "[N] 5-star reviews on Google"]
-
-### 7. Objection Handling (FAQ)
-| Question | Answer |
-|----------|--------|
-| [Top objection from persona — phrased as a question they'd actually ask] | [Direct answer. No hedging. Transparent.] |
-| [Second objection — common concern for this service type] | [Reassuring, specific answer with proof point.] |
-| [Third objection — timing/availability] | [Answer that reduces friction.] |
-| How much does [service] cost? | [Use actual pricing from business.md. If pricing is variable, use the real range from the business — never guess. Frame value: "$X–$Y depending on [variable from business.md]."] |
-| [Fifth objection — trust/safety] | [Answer with credential, guarantee, or insurance proof.] |
-
-**Pricing question is mandatory.** It's always a top objection. Avoiding it costs conversions. Be transparent — give a range and frame the value.
+### 7. FAQ (Objection Handling)
+4-6 questions from persona fears. Price question mandatory — use real pricing from business.md. FAQPage schema for this section.
 
 ### 8. Final CTA
-**Headline:** "[Urgency or value restatement — short, punchy]"
-**CTA Button:** "[Same label as hero and mid-page CTA — exact same text]"
-**Supporting text:** "[Remove risk: guarantee, no obligation, free. One line that eliminates the last objection.]"
+- **Headline:** [Urgency or value restatement]
+- **CTA Button:** [Same label as hero and mid-page]
+- **Supporting text:** [Risk removal — guarantee, no obligation, free]
 
 ### 9. Footer
-- Phone: [from business.md — click-to-call formatted]
-- Address: [from business.md]
-- Hours: [from business.md]
-- **No navigation menu. No links to other pages. Zero exit routes.**
+Phone (click-to-call), address, hours from business.md. **Zero navigation links.**
 
 ---
 
-## Lead Capture Form Spec
+## Lead Capture
 
-**Form placement:** Below the hero CTA button (inline on the page) or as the CTA destination (scrolls to form section).
+**3 fields max:** Name (first only) + Email + one qualifying field (service type, zip, or project description).
 
-**Fields (3 max for initial conversion):**
+**Never in initial form:** Phone (-32% CR), street address (-25%), budget range. Collect in follow-up or use multi-step form.
 
-| Field | Type | Required | Notes |
-|-------|------|----------|-------|
-| Name | Text | Yes | First name only — reduces friction |
-| Email | Email | Yes | Primary contact method |
-| [One qualifying field] | Select/Text | Yes | Service type, zip code, or project description — pick ONE |
-
-**Do NOT include in the initial form:**
-- Phone number (drops CR 32% — collect in follow-up)
-- Street address (drops CR 25%)
-- Budget range (drops CR in lead gen — qualify in call)
-- Multiple qualifying questions (use multi-step form if needed)
-
-**If more qualification is needed:** Use a multi-step form pattern (1 question per screen, progress bar visible). Commitment escalation: once they answer Q1, they're far more likely to finish.
-
-**Mobile form rules:**
-- All fields stack vertically
-- Input height: minimum 44px (tap target)
-- Submit button: full-width, high contrast
-- No CAPTCHA visible (use honeypot instead)
-
----
-
-## Mobile-First Spec
-
-83% of landing page visits are mobile. These are not suggestions — they're requirements.
-
-**Above the fold on mobile (375px wide, ~600px tall):**
-Must contain within this viewport:
-- H1 headline (visible, dominant)
-- Subheadline (1-2 lines max)
-- CTA button (visible without scrolling, thumb-reachable)
-- At least one trust micro-signal (star rating or review count)
-
-**What must NOT push the CTA below fold:**
-- Large hero images that fill the viewport
-- Announcement banners or cookie bars
-- Logo that takes more than 60px height
-
-**Click-to-call:**
-For local services, click-to-call should be the primary mobile CTA. 88% of consumers who search locally on mobile visit or call within 24 hours. Format: `<a href="tel:+12085550123">Call Now — We Answer 24/7</a>`
-
-**Tap targets:** All buttons and links minimum 44x44px. Links embedded in text paragraphs are nearly untappable on mobile.
-
----
-
-## Page Speed / Technical Requirements
-
-| Requirement | Threshold | Why |
-|-------------|-----------|-----|
-| LCP (Largest Contentful Paint) | Under 2.5 seconds | Google's "Good" threshold — affects Quality Score |
-| INP (Interaction to Next Paint) | Under 200ms | Responsiveness signal |
-| CLS (Cumulative Layout Shift) | Under 0.1 | Visual stability |
-| Hero image | WebP, preloaded, max 150-200KB | Hero is almost always the LCP element |
-| Render-blocking JS | None above the fold | Delays LCP |
-| Fonts | Preconnect or system fonts | Font swap causes CLS |
-| Redirects | Zero on landing page URL | Each redirect adds 200-500ms |
-| Pop-ups | None on page load | Google penalizes mobile interstitials |
-| Form submission | AJAX, no full page reload | Preserves conversion context |
-| Tracking | GA4 event on form submit + CTA click | Conversion measurement |
-
-**Quality Score impact:** Slow pages suppress Quality Score independent of content relevance. This means slow pages cost money twice: lower conversion from user abandonment AND higher CPC from lower Quality Score.
-
-**Landing Page Experience = ~39% of Quality Score.** This is the single most heavily weighted QS component (tied with Expected CTR at ~39%, while Ad Relevance is ~22%). The dollar impact is direct:
-
-| Quality Score | CPC Modifier | Monthly Impact at $3K baseline spend |
-|--------------|-------------|--------------------------------------|
-| QS 10 | -50% CPC | ~$1,500/month (save half) |
-| QS 6-7 | -15-20% CPC | ~$2,400-$2,550/month |
-| QS 5 | Baseline | $3,000/month |
-| QS 3-4 | Progressive penalty | ~$4,000-$5,000/month |
-| QS 1 | +600% CPC | ~$21,000/month |
-
-A landing page that loads in 1s with strong message match can literally cut CPC in half compared to a slow, generic page. This makes landing page optimization the highest-ROI activity in the entire campaign — better than ad copy, better than bid strategy, better than keyword selection. **Fix the page before optimizing anything else.**
+**Mobile:** Stack vertically, 44px min input height, full-width submit, honeypot instead of CAPTCHA.
 
 ---
 
 ## Ad Copy Alignment Check
 
-Every page spec must end with this verification table. Pull actual copy from `ads/ad-groups.json`.
-
-| Ad Element | Page Element | Match? |
-|-----------|-------------|--------|
-| Headline 1: "[exact text from ad-groups.json]" | H1: "[page headline]" | [Y/N — if N, fix it] |
-| Description 1: "[exact text from ad-groups.json]" | Subheadline: "[page subheadline]" | [Y/N] |
-| Top keyword: "[primary keyword from this group]" | H1 contains keyword? | [Y/N — must be Y] |
-| CTA in ad: "[implied action from ad copy]" | CTA button: "[page CTA]" | [Y/N] |
-| Display URL path: [path from ad] | Suggested URL: /[path] | [Y/N] |
-| Offer in ad: "[any specific offer — free estimate, etc.]" | Above fold on page? | [Y/N — if ad promises it, page must show it immediately] |
-
-**If any row is N, fix the page spec before finalizing.** Message match is not a nice-to-have — it's the #1 Quality Score and conversion factor. Pages with "Above Average" landing page experience show 750% better conversion rates than "Below Average" (Google Ads data).
+Every page spec ends with a verification table: Ad Headline vs Page H1, Ad Description vs Subheadline, Primary Keyword in H1, CTA match, Display URL vs Suggested URL, Offer above fold. **If any row is N, fix before finalizing.** Message match = #1 QS and conversion factor.
 
 ```
 
-**Rules for page content:**
-1. **Message match is non-negotiable.** The page H1 must echo the ad headline. The primary keyword must appear in the H1. The offer promised in the ad must appear above the fold. No exceptions.
-2. **One CTA per page, three placements.** Every page has one action (book, call, or submit). That same CTA appears in the hero, after benefits, and at the bottom. Same label, same destination.
-3. **No navigation on landing pages.** No header menu. No footer links. No social media icons. One exit: the CTA. Removing nav = +100% to +336% conversion lift in documented tests.
-4. **5th-7th grade reading level.** Short sentences. Concrete words. No jargon. No marketing-speak. "We clean your gutters so your basement stays dry." Every sentence should pass the "would I say this out loud?" test.
-5. **PAS framework.** Problem (name it), Agitate (show cost of inaction), Solve (your service as relief). Paid search visitors already know their problem — meet them there.
-6. **Specific numbers, always.** "150+ 5-Star Reviews" not "highly rated." "Serving Boise since 2012" not "years of experience." "2,400 homes cleaned" not "thousands of customers." Numbers from `context/business.md`.
-7. **3 form fields max.** Name + Email + one qualifying field. No phone required (32% CR drop). Collect phone in follow-up. Multi-step form if more info needed.
-8. **Mobile-first is the default.** CTA within 600px viewport on 375px-wide screen. Click-to-call for local services. 44px minimum tap targets. No hero image that pushes CTA below fold.
-9. **Page speed is Quality Score.** Hero image: WebP, preloaded, max 200KB. No render-blocking JS above fold. LCP under 2.5 seconds. Zero redirects on the landing page URL.
-10. **Proof beats claims.** Testimonials with full names and cities. Star ratings with the number displayed. Certifications as named badges. Before/after photos for service businesses. Every trust element must be verifiable.
+See **Rules** section below — all 10 rules apply to every page spec.
+
+Tell the user: "Page specs done — [N] pages written. [Generating geo pages / Moving to brief]."
 
 ### 3. Geo Page Builder → `landing/geo/{city-slug}.md`
 
-For local businesses with multiple service areas, generate location-specific page specs. Read `context/business.md` for service area and `context/keywords.md` for target market.
+**Comprehensive mode only.** For local businesses with multiple service areas, generate location-specific variants of service pages.
 
-**When to generate geo pages:**
-- Business has a defined service area with multiple cities/neighborhoods
-- `context/keywords.md` shows location-modified search terms
-- `/seo` content-ideas.csv includes location pages
+Each geo page needs: location-specific headline, local trust signals (exact customer count from business.md or omit), local testimonial, LocalBusiness schema, and unique content (not just city-name swaps — Google penalizes doorway pages).
 
-**Each geo page is a variant of a service page with location-specific content:**
-
-```markdown
-# Geo Page: [Service] in [City]
-
-**Base page:** landing/pages/[slug].md
-**Location:** [City, State]
-**Target keywords:** [service] in [city], [service] near [city], [city] [service]
-**Suggested URL:** /[service]/[city] (e.g., /window-cleaning/saginaw)
-
----
-
-## Location-Specific Content
-
-### Hero
-**Headline:** "[Service] in [City] — [Differentiator]"
-**Subheadline:** "[Location-specific pain point or value prop]"
-
-### Local Trust Signals
-- "[Exact number] customers served in [City/County]" (from business.md only — do not estimate. If unknown, omit this line and use a different trust signal.)
-- "Serving [City] since [year]"
-- "[Local landmark/neighborhood] references"
-- Local testimonial from someone in this area
-
-### Local Schema (LocalBusiness)
-```json
-{
-  "@type": "LocalBusiness",
-  "name": "[Business Name]",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "[City]",
-    "addressRegion": "[State]"
-  },
-  "areaServed": "[City and surrounding areas]",
-  "telephone": "[phone]",
-  "openingHours": "[hours from business.md]"
-}
-```
-
-### Content Differentiation
-[What makes this page unique — not just find-and-replace city name. Include:]
-- Local service area details (neighborhoods, zip codes)
-- Local testimonial placeholder (customer from this area)
-- Driving directions or service radius from this location
-- Local regulatory or market specifics if relevant
-
----
-
-## Anti-Pattern: Doorway Pages
-Google penalizes thin location pages that only swap the city name. Every geo page must have:
-- At least one unique paragraph of location-specific content
-- Local testimonial or case study reference
-- Specific service area details (not just "we serve [City]")
-- Unique meta description with city name + specific differentiator
-```
-
-**Generate geo pages for:** The top 5-10 cities in the service area, prioritized by population and search volume from `context/keywords.md`.
+Generate for top 5-10 cities by population/search volume. Slug: `/[service]/[city]`.
 
 ### 4. Variant Generator → `landing/variants/{slug}-v{n}.md`
 
-Generate A/B test variants for existing page specs. Each variant changes one major element and includes a hypothesis.
+**Comprehensive mode only.** Generate A/B test variants for existing page specs. Each variant changes ONE major element with a hypothesis.
 
-**When to generate variants:**
-- User asks for "variants" or "A/B tests"
-- An existing page has been live long enough for baseline data
-- `insights/` suggests a specific element to test
+Structure: Base page reference → Element changed → Hypothesis → Changed sections only.
 
-**Variant structure:**
+**High-value tests:** Keyword-first vs benefit-first H1, first-person vs second-person CTA, trust bar position, form length (2 vs 3 fields), social proof type, copy length. Max 2-3 variants per page. Connect to `/experiment` for lifecycle tracking.
 
-```markdown
-# Variant: [Ad Group Name] — v[N]
+### 5. Page Brief → `landing/brief.md` [~1 min]
 
-**Base page:** landing/pages/[slug].md
-**Element changed:** [Headline / CTA / Social proof / Layout / Offer]
-**Hypothesis:** If we change [element] from [current] to [proposed], conversion rate will increase because [reasoning grounded in persona/insight data and conversion research].
+Summary for dev/design team:
 
----
-
-## Changes from Base
-
-| Section | Base Version | This Variant | Why |
-|---------|-------------|-------------|-----|
-| Hero headline | "[current]" | "[proposed]" | [reasoning — cite data if applicable] |
-| CTA | "[current]" | "[proposed]" | [reasoning] |
-
-## Full Updated Sections
-[Only include sections that changed — reference base page for everything else]
-
-### Hero (changed)
-**Headline:** "[New headline]"
-**Subheadline:** "[New subheadline if changed]"
-
----
-
-## Experiment Link
-[If /experiment is available, reference the experiment ID this variant belongs to]
-```
-
-**High-value variant ideas backed by data:**
-- **Headline:** Test keyword-first vs. benefit-first H1
-- **CTA label:** Test first-person ("Get My Quote") vs. second-person ("Get Your Quote")
-- **Trust bar position:** Test immediately after hero vs. inside hero
-- **Form length:** Test 2-field (name + email) vs. 3-field (name + email + zip)
-- **Social proof type:** Test star-rating bar vs. full testimonial above fold
-- **Copy length:** Test short (hero + CTA + trust) vs. full PAS page
-
-**Variant rules:**
-- Change ONE major element per variant. Don't test headline + CTA + layout simultaneously.
-- Always include a hypothesis with reasoning from persona or insight data.
-- Limit to 2-3 variants per page. More than that dilutes traffic.
-- Connect to `/experiment` when possible — variants are experiments.
-
-### 5. Page Brief → `landing/brief.md`
-
-After generating all page specs, produce a summary brief for the dev/design team.
-
-```markdown
-# Landing Page Brief
-
-**Date:** [date]
-**Campaign:** [campaign name from ad-groups.json]
-**Total pages:** [N]
-
-## Page Inventory
-
-| # | Page | Ad Group | Persona | Intent | URL | Priority | Status |
-|---|------|----------|---------|--------|-----|----------|--------|
-| 1 | [name] | [group] | [persona] | BOFU | /[path] | Build first | Spec ready |
-| 2 | [name] | [group] | [persona] | MOFU | /[path] | Build second | Spec ready |
-
-## Geo Pages
-
-| # | Location | Base Page | URL | Priority |
-|---|----------|-----------|-----|----------|
-| 1 | [City] | [base] | /[service]/[city] | [priority] |
-
-## Shared Elements
-- **CTA label:** [consistent first-person label across all pages]
-- **CTA action:** [what the button does — scrolls to form, opens modal, click-to-call]
-- **Micro-trust bar:** [consistent 4 elements with specific numbers, used across all pages]
-- **Form fields:** [standard 3 fields across all pages: Name, Email, [qualifier]]
-- **Tracking:** [UTM parameter structure, GA4 conversion events, phone tracking]
-
-## Build Order
-1. [Highest-traffic ad group page — why first]
-2. [Second — why]
-3. [Third — why]
-
-## Content Needs from Client
-| Item | Source | Status |
-|------|--------|--------|
-| Testimonials (2-3 per page, with name + city) | Client | [Need from client] |
-| Photos (real service photos, not stock) | Client | [Need from client] |
-| Review count + star rating | Google Business Profile | [Pull from GBP] |
-| Credentials / certifications | Client | [Need from client] |
-| Business hours | context/business.md | [Available] |
-| Phone number (tracked) | Client / call tracking provider | [Need from client] |
-
-## Technical Requirements
-- Mobile-first responsive design (test on 375px viewport)
-- LCP under 2.5 seconds (hero image: WebP, preloaded, max 200KB)
-- Click-to-call phone numbers (`tel:` links)
-- Form: 3 fields, AJAX submit, no page reload
-- GA4 events: form_submit, cta_click, phone_call
-- No navigation header/footer (landing page isolation)
-- Schema markup per page spec (LocalBusiness, Service, FAQPage)
-- No pop-ups or interstitials on load
-- Zero redirects on landing page URLs
-```
+Write `landing/brief.md`: Page inventory table (page, ad group, persona, intent, URL, priority, status) → Geo pages table → Shared elements (CTA label, form fields, tracking) → Build order (highest-traffic first) → Content needs from client (testimonials, photos, review count, credentials, phone) → Technical requirements (mobile-first, LCP <2.5s, click-to-call, 3-field form, GA4 events, no nav, schema, zero redirects).
 
 ---
 
 ## Rules
 
-1. **Message match is non-negotiable.** The page H1 must echo the ad headline. The primary keyword must appear in the H1. The ad's offer must appear above the fold. Pages with strong message match show 750% better conversion rates.
-2. **One CTA per page, three placements.** Same label, same action: hero, after benefits, bottom. Single-CTA pages convert 13.5% vs. 11.9% for multi-CTA.
-3. **No navigation on landing pages.** No header menu. No footer links. No social icons. One exit: the CTA. Documented lifts: +100% to +336%.
-4. **5th–7th grade reading level.** This is a 2x conversion multiplier (Unbounce 2024, 41K pages). Short sentences. Concrete words. No jargon. If you wouldn't say it out loud, rewrite it.
-5. **PAS framework.** Problem → Agitate → Solve. Paid search visitors know their problem. Name it, show what happens if they don't fix it, then present your service as relief.
-6. **Specific numbers, always.** Pull from `context/business.md`. Star rating + review count. Years in business. Customers served. Named credentials. Vague trust claims are worthless.
-7. **3 form fields max.** Name + Email + one qualifier. Phone field drops CR 32%. Multi-step if more info needed.
-8. **Mobile-first is the default.** 83% of traffic is mobile. CTA within 600px on 375px screen. Click-to-call for local services. 44px tap targets.
-9. **Page speed is Quality Score.** LCP under 2.5s. Hero: WebP, preloaded, max 200KB. No render-blocking JS. Zero redirects.
-10. **Proof beats claims.** Testimonials with full names and cities. Star ratings with numbers. Certifications as named badges. Before/after for service businesses.
+1. **Message match is non-negotiable.** H1 echoes ad headline. Primary keyword in H1. Ad offer above fold. 750% CVR difference.
+2. **One CTA, three placements.** Same label: hero, after benefits, bottom. Single-CTA = 13.5% vs 11.9% multi-CTA.
+3. **No navigation.** Zero exit routes. +100% to +336% lift.
+4. **5th-7th grade copy.** 2x conversion multiplier.
+5. **PAS framework.** Problem → Agitate → Solve.
+6. **Specific numbers from business.md.** No vague claims.
+7. **3 form fields max.** Phone = -32% CR.
+8. **Mobile-first.** CTA within 600px on 375px screen. Click-to-call for local.
+9. **Page speed = QS.** LCP <2.5s. WebP hero <200KB. Zero redirects.
+10. **Proof beats claims.** Named testimonials, star ratings with numbers, certification badges.
 
 ---
 
 ## Publishing to Webflow
 
-Page specs in `landing/pages/` can be pushed directly to a Webflow CMS collection using the `wf` CLI.
-
-```bash
-# Push page specs as drafts
-wf pages push --landing-dir ./landing/pages/
-
-# Push, publish live, and open each page in browser
-wf pages push --landing-dir ./landing/pages/ --publish --open --webflow-domain example.webflow.io
-
-# Then wire Final URLs in Google Ads and open the Ads dashboard
-gads publish --live --webflow-domain example.com --collection-slug services --open
-```
-
-**Field mapping:** The parser extracts Hero Headline, Hero Subheadline, Final CTA Headline, and Final CTA Subheadline from the page spec markdown and maps them to Webflow CMS fields. Other content blocks (trust bar, problem, benefits, FAQ, etc.) are stored in the model but only the fields matching the Webflow collection schema are pushed.
-
-**Character limits:** Webflow CMS fields may have character limits set in the collection schema (e.g., 120 chars for subheadlines). Keep hero subheadlines under 120 characters.
-
-**Idempotent:** Push is idempotent — existing items are updated by slug match, new items are created.
-
-**`--open` flag:** Opens each published page in the browser. Requires `--publish` and `--webflow-domain`. URL pattern: `https://{domain}/{collection-slug}/{slug}`.
+Push page specs to Webflow CMS: `wf pages push --landing-dir ./landing/pages/ --publish --open --webflow-domain example.webflow.io`. Parser extracts Hero Headline, Subheadline, CTA from markdown. Push is idempotent (updates by slug match). Keep hero subheadlines under 120 chars (Webflow field limit).
 
 ---
+
+## Done
+
+You are done when these files exist:
+
+| File | Fast | Comprehensive |
+|------|------|---------------|
+| `landing/audit.md` | Required | Required |
+| `landing/pages/*.md` | Top 3 groups | All groups |
+| `landing/brief.md` | Required | Required |
+| `landing/geo/*.md` | Skip | If applicable |
+| `landing/variants/*.md` | Skip | If requested |
+
+Stop. Present completion summary. Do not add unrequested deliverables.
 
 ## When to Use This Skill
 

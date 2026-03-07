@@ -60,7 +60,7 @@ Before starting work, check if Notion is available:
 4. Set NOTION_ENABLED = true and note the section page IDs for later
 5. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
 
-When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page:
+When NOTION_ENABLED, complete all local file writes first. As the final step, sync all files to Notion in a single pass:
 - For markdown files → `notion-update-page` with the page content
 
 **Output mapping (local file → Notion target):**
@@ -68,6 +68,15 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 | Local File | Notion Target | Method |
 |-----------|---------------|--------|
 | `context/brand.md` | Brand page | `notion-update-page` |
+
+---
+
+## Execution Mode
+
+| Mode | Deliverables |
+|------|-------------|
+| Fast (default) | context/brand.md (full — this skill is already fast) |
+| Comprehensive | Same output, deeper competitive positioning analysis |
 
 ---
 
@@ -103,6 +112,8 @@ Ask the user these questions one at a time. Be conversational — this is a stra
 
 7. What's the #1 objection or concern people have before choosing you?
 8. What makes someone finally decide to go with you? (The tipping point.)
+
+Tell the user: "Discovery done. Writing your brand strategy now."
 
 ### Write `context/brand.md`
 
@@ -184,6 +195,18 @@ Brand decisions can flow back into context. When brand strategy reveals somethin
 4. **Specific examples beat abstract principles.** "Be authentic" means nothing. "Say 'We fix it right the first time' instead of 'We strive to provide quality service'" is useful.
 5. **Write for downstream use.** Channel skills will read `context/brand.md` and use it directly. Make it scannable and actionable.
 6. **One question at a time.** During interactive discovery, ask one question per message. Build the conversation naturally.
+
+---
+
+## Done
+
+You are done when this file exists:
+
+| File | Fast | Comprehensive |
+|------|------|---------------|
+| `context/brand.md` | Required | Required |
+
+Stop. Present completion summary and suggest next skill (/ads or /seo). Do not add unrequested deliverables.
 
 ---
 

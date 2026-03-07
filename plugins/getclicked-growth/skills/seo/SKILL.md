@@ -73,7 +73,7 @@ Before starting work, check if Notion is available:
 4. Set NOTION_ENABLED = true and note the section page IDs for later
 5. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
 
-When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page:
+When NOTION_ENABLED, complete all local file writes first. As the final step, sync all files to Notion in a single pass:
 - For markdown files → `notion-update-page` with the page content
 - For CSV/tabular data → `notion-create-pages` to add rows to the corresponding database
 
@@ -86,6 +86,15 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 | `seo/content-ideas.csv` | SEO > Content Ideas database | `notion-create-pages` (rows) |
 | `seo/analysis.md` | SEO > Audit page (append) | `notion-update-page` |
 | `insights/keyword-research.md` | Insights > Keyword Research page | `notion-update-page` |
+
+---
+
+## Execution Mode
+
+| Mode | Deliverables |
+|------|-------------|
+| Fast (default) | audit.md (homepage + 3 pages) + keywords.csv (50-80 keywords) + analysis.md + content-ideas.csv (15-25 ideas) |
+| Comprehensive | audit.md (full site) + keywords.csv (80-150 keywords) + analysis.md + content-ideas.csv (25-40 ideas) |
 
 ---
 
@@ -104,9 +113,11 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 
 Run these sub-agents in order. Each builds on the previous.
 
-### 1. Website Manager → `seo/audit.md`
+### Step 1 — Website Audit → `seo/audit.md` [~2 min]
 
 Scrape the business URL (from `context/business.md`) using WebFetch. Analyze:
+
+**Bounds: Homepage + max 3 internal pages** in fast mode. Full site crawl in comprehensive.
 
 - **Technical:** Page speed signals, mobile readiness, HTTPS, meta tags, heading structure
 - **Content:** Thin pages, missing H1s, duplicate titles, keyword gaps
@@ -147,9 +158,13 @@ Write `seo/audit.md`:
 [Anything that limits the audit — e.g., couldn't detect page speed without Lighthouse, etc.]
 ```
 
-### 2. Keyword Researcher → `seo/keywords.csv`
+Tell the user: "Step 1 done — site audited. Researching keywords next."
+
+### Step 2 — Keyword Research → `seo/keywords.csv` [~3 min]
 
 Read `context/keywords.md` for north star themes. Expand each theme into a full organic keyword list:
+
+**Bounds: 50-80 keywords** in fast mode. 80-150 in comprehensive.
 
 - Generate keywords across all intent types (transactional, commercial, informational, navigational)
 - Group into clusters by semantic similarity
@@ -158,7 +173,9 @@ Read `context/keywords.md` for north star themes. Expand each theme into a full 
 
 **Before expanding themes into organic keywords**, read `insights/keyword-research.md` (if it exists). Use known canonical forms — don't query DataForSEO with phrasings already proven to return 0 when a canonical form exists. Skip dead ends.
 
-DataForSEO credentials are required (`DATAFORSEO_API_LOGIN` + `DATAFORSEO_API_PASSWORD` in `.env`). If missing, stop and tell the user to configure them — do not proceed without real metrics. Use the DMA/location from `context/keywords.md`.
+**Preferred: MCP tools.** If `keyword_search_volume` tool is available, use MCP tools directly (no credentials needed). Falls back to curl + .env if MCP unavailable. See plugin CLAUDE.md "Data Access" for the full fallback chain.
+
+**BYOK fallback (Claude Code only):** DataForSEO credentials required (`DATAFORSEO_API_LOGIN` + `DATAFORSEO_API_PASSWORD` in `.env`). If neither MCP nor .env credentials exist, stop and tell the user. Use the DMA/location from `context/keywords.md`.
 
 ```bash
 curl -s -X POST "https://api.dataforseo.com/v3/keywords_data/google_ads/keywords_for_keywords/live" \
@@ -183,7 +200,9 @@ family doctor near me,Primary Services,Primary Care,260,0.81,3.46,60500,1.85,7.0
 
 Target: 80-150+ keywords across all themes. Be comprehensive — this is the master organic keyword list.
 
-### 3. SEO Analyzer → `seo/analysis.md`
+Tell the user: "Step 2 done — [N] keywords validated. Running analysis."
+
+### Step 3 — Analysis → `seo/analysis.md` [~1 min]
 
 Read `seo/keywords.csv` + `context/market.md`. Produce competitive SEO analysis:
 
@@ -228,7 +247,9 @@ Read `seo/keywords.csv` + `context/market.md`. Produce competitive SEO analysis:
 [Longer-term strategy]
 ```
 
-### 4. Content Designer → `seo/content-ideas.csv`
+Tell the user: "Step 3 done — competitive analysis complete. Building content ideas."
+
+### Step 4 — Content Ideas → `seo/content-ideas.csv` [~2 min]
 
 Read `seo/keywords.csv` + `seo/audit.md` + `context/brand.md` (if available) + `context/personas/` (if available). Map keywords to specific content pieces. When personas exist, tag each content idea with the primary persona it serves — this ensures content covers all audience segments, not just the most obvious one.
 
@@ -245,7 +266,7 @@ Include:
 - **FAQ content** for question-based queries and voice search
 - **Location pages** for surrounding areas (if local business)
 
-Target: 25-40 content ideas, phased by priority.
+**Bounds: 15-25 content ideas** in fast mode. 25-40 in comprehensive.
 
 ---
 
@@ -258,6 +279,21 @@ Target: 25-40 content ideas, phased by priority.
 5. **Content types follow intent.** Transactional → Landing/Service pages. Informational → Blog/FAQ. Commercial → Comparison content.
 6. **Be specific.** "Write a blog post about diabetes" is useless. "Blog: Managing Type 2 Diabetes in Rural Michigan — What Your Primary Care Doctor Wants You to Know" is a brief.
 7. **Competitor analysis is research, not guessing.** Use WebSearch to find real competitors and their content strategies.
+
+---
+
+## Done
+
+You are done when these files exist:
+
+| File | Fast | Comprehensive |
+|------|------|---------------|
+| `seo/audit.md` | Required | Required |
+| `seo/keywords.csv` | Required (50-80) | Required (80-150) |
+| `seo/analysis.md` | Required | Required |
+| `seo/content-ideas.csv` | Required (15-25) | Required (25-40) |
+
+Stop. Present completion summary and suggest next skill (/landing or /ads). Do not add unrequested deliverables.
 
 ---
 

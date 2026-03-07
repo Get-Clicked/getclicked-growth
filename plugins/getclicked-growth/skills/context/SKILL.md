@@ -64,7 +64,7 @@ Before starting work, check if Notion is available:
 4. Set NOTION_ENABLED = true and note the section page IDs for later
 5. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
 
-When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page:
+When NOTION_ENABLED, complete all local file writes first. As the final step, sync all files to Notion in a single pass:
 - For markdown files → `notion-update-page` with the page content
 - For CSV/tabular data → `notion-create-pages` to add rows to the corresponding database
 - For JSON files → `notion-update-page` with JSON in a code block
@@ -81,13 +81,24 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 
 ---
 
+## Execution Mode
+
+| Mode | Deliverables |
+|------|-------------|
+| Fast (default) | business.md + market.md (basic, no competitor SEO audit) + keywords.md (1 national pull, no geo CPC) + 2 personas |
+| Comprehensive | + competitor SEO audit (DataForSEO Labs) + geo CPC pulls + 3-4 personas |
+
+Fast skips: competitor SEO audit, geo-specific CPC pulls, extra personas.
+
+---
+
 ## How This Works
 
 ### Interactive Mode (first run / setup)
 
 When `context/` files don't exist yet, run a structured discovery conversation:
 
-**Phase 1 — Business Expert → `context/business.md`**
+**Phase 1 — Business Expert → `context/business.md` [~2 min]**
 
 Ask these questions one at a time. Be conversational, not interrogative. Synthesize answers into structured markdown.
 
@@ -128,7 +139,9 @@ After gathering answers, write `context/business.md` using this structure:
 [What's accepted, if applicable]
 ```
 
-**Phase 2 — Market Intel → `context/market.md`**
+Tell the user: "Phase 1 done — I know your business. Researching your market next."
+
+**Phase 2 — Market Intel → `context/market.md` [~3 min]**
 
 Use WebSearch to research the competitive landscape. Ask the user:
 
@@ -137,15 +150,21 @@ Use WebSearch to research the competitive landscape. Ask the user:
 3. Any industry trends or shifts you're seeing?
 
 Then research independently with web search:
+**Bounds: 3 web searches max** (competitors, reviews, trends). Read **first 3 results** per search. **Top 3 competitors** for SEO audit.
 - Search for `[business type] [location]` to find local competitors
 - Search for `[competitor name] reviews` to find strengths/weaknesses
 - Search for `[industry] trends 2026` for market dynamics
 
 **Competitor SEO Audit (DataForSEO Labs):**
+**Fast mode: Skip this section entirely.** Only run competitor SEO audit in comprehensive mode.
 
 After identifying the top 3-5 competitors, pull their organic search posture using DataForSEO Labs. This tells you things web search can't: how many keywords they rank for, what pages drive their traffic, and where the gaps are.
 
-**DataForSEO API — Credential Handling:**
+**DataForSEO API — Data Access:**
+
+**Preferred: MCP tools.** If `keyword_search_volume` tool is available, use MCP tools directly (no credentials needed). Falls back to curl + .env if MCP unavailable. See plugin CLAUDE.md "Data Access" for the full fallback chain.
+
+**BYOK fallback (Claude Code only):**
 
 Read credentials from the project `.env` file. Three env vars are available:
 - `DATAFORSEO_API_LOGIN` — email address
@@ -205,9 +224,12 @@ Write `context/market.md`:
 - **Seasonal Patterns:** [if applicable]
 ```
 
-**Phase 3 — North Star Keywords → `context/keywords.md`**
+Tell the user: "Phase 2 done — 3 competitors analyzed. Pulling keyword data."
+
+**Phase 3 — North Star Keywords → `context/keywords.md` [~3 min]**
 
 Based on business.md and market.md, identify 3-6 strategic keyword themes. These are NOT full keyword lists — those come from `/seo` and `/ads`. These are the themes that define what this business should own in search, validated with real data.
+**Bounds: Max 5 geos** for CPC pulls. Top 8-10 keywords per geo.
 
 Ask the user:
 1. What do you want to be known for? If someone Googles one phrase and finds you, what is it?
@@ -215,7 +237,7 @@ Ask the user:
 
 **DataForSEO Validation:**
 
-After identifying themes through conversation, validate them with real metrics before finalizing priority order. Use the same credential handling as Phase 2 (read `.env` for `DATAFORSEO_BASE64`).
+After identifying themes through conversation, validate them with real metrics before finalizing priority order. Use MCP tools if available (`keyword_search_volume`), otherwise fall back to curl + `.env` (same data access pattern as Phase 2).
 
 **Before querying DataForSEO**, read `insights/keyword-research.md` (if it exists). Use canonical forms from the registry instead of guessing. Skip keywords listed as dead ends. This saves API credits and avoids re-discovering what `/seo` or `/ads` already learned.
 
@@ -232,7 +254,7 @@ curl -s -X POST "https://api.dataforseo.com/v3/keywords_data/google_ads/keywords
 
 2. Also pull metrics for any white-space keywords identified from competitor gaps in Phase 2
 
-3. **Geo-specific CPC pull.** If the business has multiple target markets (states, cities, DMAs), pull the same core keywords with `search_volume/live` for each target geo. This shows CPC range and volume differences across markets — critical for budget allocation and beachhead decisions.
+3. **Comprehensive mode only.** **Geo-specific CPC pull.** If the business has multiple target markets (states, cities, DMAs), pull the same core keywords with `search_volume/live` for each target geo. This shows CPC range and volume differences across markets — critical for budget allocation and beachhead decisions.
 
 ```bash
 curl -s -X POST "https://api.dataforseo.com/v3/keywords_data/google_ads/search_volume/live" \
@@ -299,9 +321,12 @@ Priorities reflect real volume, CPC, and competition data — not gut feel alone
 [Any strategic context: seasonal patterns, competitive gaps to exploit, emerging categories, data surprises]
 ```
 
-**Phase 4 — Persona Builder → `context/personas/`**
+Tell the user: "Phase 3 done — keywords validated. Building personas."
+
+**Phase 4 — Persona Builder → `context/personas/` [~2 min]**
 
 After business, market, and keywords are established, build audience personas. Personas are active constraints — every downstream skill reads them to ground output in "for whom?"
+**Bounds: 2 personas** in fast mode. 3-4 in comprehensive.
 
 Ask the user:
 
@@ -371,6 +396,22 @@ When updating, tell the user what changed and why. Don't silently rewrite.
 4. **Ask, don't assume.** If you're not sure about something, ask. Don't fill gaps with generic text.
 5. **Keep it lean.** These files should be scannable in 60 seconds. No filler, no fluff.
 6. **One question at a time.** During interactive setup, ask one question per message. Synthesize as you go.
+
+---
+
+## Done
+
+You are done when these files exist:
+
+| File | Fast | Comprehensive |
+|------|------|---------------|
+| `context/business.md` | Required | Required |
+| `context/market.md` | Required (basic) | Required (+ SEO audit) |
+| `context/keywords.md` | Required (national only) | Required (+ geo CPC) |
+| `context/personas/*.md` | 2 personas | 3-4 personas |
+| `context/personas/INDEX.md` | Required | Required |
+
+Stop. Present completion summary with file list and suggested next skill (/brand). Do not add unrequested deliverables.
 
 ---
 
