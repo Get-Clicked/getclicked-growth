@@ -777,7 +777,7 @@ After generating all page specs, produce a summary brief for the dev/design team
 
 ## Publishing to Webflow
 
-Page specs in `landing/pages/` can be pushed directly to a Webflow CMS collection using the `wf` CLI (built in `founderbee-integrations/`).
+Page specs in `landing/pages/` can be pushed directly to a Webflow CMS collection using the `wf` CLI.
 
 ```bash
 # Push page specs as drafts

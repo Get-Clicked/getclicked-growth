@@ -61,7 +61,7 @@ Before running, check that these exist:
 - `optimize/state.json` — optional (previous run history for trend tracking)
 - `memory/cross-client-patterns.md` — optional (anonymized patterns from other client campaigns — negative categories, copy patterns, geo CPC intel). Read this AFTER per-client insights. Per-client insights override cross-client patterns when they conflict.
 
-**Google Ads credentials:** The `gads` CLI reads credentials from `~/.founderbee/google-ads-credentials.json`. If missing, tell the user to configure credentials first. See `founderbee-integrations/README.md` for setup.
+**Google Ads credentials:** The `gads` CLI reads credentials from `~/.founderbee/google-ads-credentials.json`. If missing, tell the user to configure credentials first.
 
 Read all available context files and insight pattern files before starting. Check each insight file for patterns relevant to this campaign's industry, personas, and keywords. The more /optimize runs that have been completed, the richer the insight files — and the smarter each subsequent analysis becomes.
 
