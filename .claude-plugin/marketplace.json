@@ -6,27 +6,13 @@
     "name": "Founderbee Labs",
     "email": "hello@founderbeelabs.com"
   },
-  "repository": "https://github.com/Get-Clicked/getclicked-growth",
-  "issues": "https://github.com/Get-Clicked/getclicked-growth/issues",
   "plugins": [
     {
       "name": "getclicked-growth",
       "description": "Your AI Growth Officer — a dedicated marketing team that lives in your editor.",
       "source": "./plugins/getclicked-growth",
       "category": "marketing",
-      "homepage": "https://getclicked.ai",
-      "keywords": [
-        "marketing",
-        "google-ads",
-        "seo",
-        "landing-pages",
-        "brand-strategy",
-        "growth",
-        "ppc",
-        "keyword-research",
-        "go-to-market",
-        "experimentation"
-      ]
+      "homepage": "https://getclicked.ai"
     }
   ]
 }
