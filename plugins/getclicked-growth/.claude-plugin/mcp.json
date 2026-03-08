@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "getclicked-research": {
-      "type": "http",
-      "url": "https://research.mcp.getclicked.ai/mcp/"
-    }
-  }
-}
