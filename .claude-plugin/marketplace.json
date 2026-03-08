@@ -6,8 +6,8 @@
     "name": "Founderbee Labs",
     "email": "hello@founderbeelabs.com"
   },
-  "repository": "https://github.com/Get-Clicked/getclicked-agent",
-  "issues": "https://github.com/Get-Clicked/getclicked-agent/issues",
+  "repository": "https://github.com/Get-Clicked/getclicked-growth",
+  "issues": "https://github.com/Get-Clicked/getclicked-growth/issues",
   "plugins": [
     {
       "name": "getclicked-growth",
