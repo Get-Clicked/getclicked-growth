@@ -352,6 +352,11 @@ For each persona, write `context/personas/{slug}.md`:
 - Search queries they'd actually type
 - Platforms they use (Google, social, referral)
 
+## Buying Role (optional, B2B)
+- **Role in purchase:** Decision Maker / Champion / Influencer / End User / Blocker
+- **Reports to:** [budget authority]
+- **Must convince:** [other approvers]
+
 ## Objections
 - Why they hesitate before choosing
 
