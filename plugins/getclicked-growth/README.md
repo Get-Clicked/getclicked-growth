@@ -20,6 +20,18 @@ Build market research, brand strategy, Google Ads campaigns, SEO plans, landing 
 
 ## Getting Started on Cowork
 
+### Install (30 seconds)
+
+1. Open **Cowork** and click **Customize** in the left sidebar
+2. Click **Browse plugins**
+3. Click **Add marketplace** and paste: `Get-Clicked/getclicked-growth`
+4. Find **getclicked-growth** in the list and click **Install**
+5. Start a new conversation and say: **"I need help marketing my business"**
+
+That's it. You're done.
+
+### What's included
+
 Everything works out of the box. DataForSEO (keyword research) and Tavily (web research) are provided automatically via the founderbee-data MCP server — no API keys or `.env` setup needed.
 
 **What's included:** Market research, keyword data, competitor analysis, ad campaigns, SEO strategy, landing pages, go-to-market plans, and experimentation — all powered by real data.
@@ -32,7 +44,10 @@ Everything works out of the box. DataForSEO (keyword research) and Tavily (web r
 
 ## Getting Started on Claude Code
 
-1. **Install the plugin**
+1. **Install the plugin:**
+   ```bash
+   claude plugin install github:Get-Clicked/getclicked-growth
+   ```
 2. **Set up credentials** (see [Setup](#setup) below)
 3. **Say** "I need help marketing my business" — the Growth Officer takes it from there
 

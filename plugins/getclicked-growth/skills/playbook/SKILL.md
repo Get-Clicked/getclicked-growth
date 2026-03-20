@@ -78,6 +78,37 @@ Before starting work, check if Notion is available:
 
 ---
 
+## Notion Output Template
+
+Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/playbook.md`.
+
+```
+Status Badge
+Executive Summary (what this covers, which skills inform it, strategic thesis)
+## How to use this playbook
+Single reference doc. Each worksheet = one strategic question. Review quarterly.
+---
+## 1. The Company — from /context business (who, what, why)
+## 2. The Market — from /context market (landscape, competitors, opportunity)
+## 3. The Customer — from /context personas (who buys, why, how)
+---
+## 4. The Brand — from /brand (positioning, voice, boilerplate, guardrails)
+## 5. The Channels — from /gtm (Bullseye, channel strategy, budget)
+## 6. The Ads — from /ads (campaign structure, keywords, forecast)
+---
+## 7. The Content — from /seo (keyword gaps, content priorities, phases)
+## 8. The Pages — from /landing (page specs, design principles, conversion)
+## 9. The Experiments — from /experiment (active tests, criteria, decisions)
+---
+## Validation roadmap
+90-day plan from /gtm + /experiment: what to test, when, what "winning" looks like.
+## What we don't know yet
+Assumptions, unknowns, things that need real-world data to resolve.
+> Source: /playbook, synthesized from all skill outputs, {date}
+```
+
+---
+
 ## Execution Mode
 
 | Mode | Deliverables |

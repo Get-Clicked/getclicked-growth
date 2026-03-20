@@ -97,6 +97,61 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 | `gtm/messaging.md` | GTM > Messaging page | `notion-update-page` |
 | `gtm/competitive-map.md` | GTM > Competitive Map page | `notion-update-page` |
 
+## Notion Output Template
+
+Follow `docs/notion-style-guide.md`. Every page: status badge, executive summary, H2/H3 only, `---` between major sections, `> Source:` citation at end. Goldens: `docs/golden-examples/gtm-strategy.md`, `docs/golden-examples/gtm-channels.md`.
+
+### Strategy Page (`gtm/strategy.md`)
+```
+Status Badge + Executive Summary (stage, budget, the strategic question)
+## Stage assessment — what's working, what's missing, the one question this answers
+## Positioning summary — from /context + /brand, competitive alternatives, differentiation
+## The [N]-channel strategy — per channel: the play, the loop, budget, link to channel skill
+## 90-day plan — Month 1/2/3 with weekly actions, budget allocation, decision points
+## Key milestones — table: Week | Milestone | Success Metric
+## Metrics framework — table: Metric | Target (90 days) | Current | Channel
+## The big bet — strategic conviction that ties everything together (honest take)
+> Source: /gtm, informed by /context + /brand + /ads + /seo, {date}
+```
+
+### Channels Page (`gtm/channels.md`)
+```
+Status Badge + stage/budget/team context
+## Inner ring — test immediately — per channel: narrative why, DataForSEO table, CAC/volume/time/risk
+## Middle ring — next quarter — table: Channel | Score | Why Not Now | Trigger to Promote
+## Outer ring — not now — table: Channel | Score | Why Not
+## Full scoring matrix — table: 19 channels x 7 dimensions (ICP Fit, Cost, Volume, Time, Scale, Team Fit, Comp. Density)
+> Source: /gtm, Bullseye framework, DataForSEO, {date}
+```
+
+### Messaging Page (`gtm/messaging.md`)
+```
+Status Badge + Executive Summary (core message, persona count)
+## Core narrative — one paragraph capturing what this company does and why it matters
+## Messaging by persona — per persona: Hook | Pain | Promise | Proof
+## Channel-specific messaging — table: Channel | Tone | Key Message | CTA
+> Source: /gtm, informed by /brand + /context personas, {date}
+```
+
+### Competitive Map Page (`gtm/competitive-map.md`)
+```
+Status Badge + Executive Summary (competitors mapped, key positioning gap)
+## Market map — narrative + table: Competitor | Category | Positioning | Overlaps | Key Differentiator
+## Where we win — specific scenarios we beat every alternative
+## Where we lose — honest assessment of competitor advantages
+## White space — the positioning gap nobody owns
+> Source: /gtm, informed by /context market + competitor research, {date}
+```
+
+### Experiments Page (`gtm/experiments.md`)
+```
+Status Badge + Executive Summary (experiment count, top priority)
+## Experiment queue — table: # | Experiment | Channel | Persona | Priority | Status
+## Prioritization rationale — why this order, what we learn from each
+## Dependency map — which experiments inform others, sequencing
+> Source: /gtm, informed by /ads + /seo + channel strategy, {date}
+```
+
 ---
 
 ## How This Works

@@ -62,6 +62,43 @@ Check if Notion is available: read `.active-client`, search for "[Client Name] W
 
 ---
 
+## Notion Output Template
+
+Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/optimize-report.md`.
+
+```
+Status Badge
+Executive Summary (period, spend, headline performance vs. plan, top action)
+
+## Performance vs. plan
+Table: Metric / Plan / Actual / Delta / Verdict (On track / Over / Under per row)
+
+> **Key Finding:** [The one thing that matters most this period — callout primitive]
+
+---
+
+## What moved
+Narrative: what changed since last review and why. A story, not a data dump.
+
+## Waste identified
+Table: Issue / Impact ($X wasted) / Fix / Priority
+
+## Opportunities
+Table: Opportunity / Expected Impact / Effort / Priority
+
+---
+
+## Ranked action items
+Numbered list: **[Action]** — why, expected impact, deadline. Most impactful first.
+
+## The honest take
+Stop reporting, start advising. What's working, what's not, what the client should actually do.
+
+> Source: /optimize, Google Ads live data + /ads original plan, {date}
+```
+
+---
+
 ## Execution Mode
 
 | Mode | Deliverables |

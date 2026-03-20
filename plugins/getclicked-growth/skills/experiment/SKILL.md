@@ -81,6 +81,39 @@ When NOTION_ENABLED, complete all local file writes first. As the final step, sy
 
 ---
 
+## Notion Output Template
+
+Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/experiment.md`.
+
+```
+Status Badge
+Metadata table: Status (Design/Running/Complete) | Type | Owner | Date
+---
+## The bet
+1-2 paragraphs: what we're testing and why it matters.
+## Hypothesis
+**If** [change], **then** [metric] will [direction], **because** [rationale].
+---
+## Target personas
+Table: Name / Role / Pain / Trigger / Key Objection. Link to persona files.
+## Success criteria
+Table: **WIN** / **KILL** / **PROTECT** — each with Metric and Threshold.
+---
+## Conversion funnel
+ASCII diagram: ad → page → CTA → conversion. Per-variant keyword tables.
+## Budget and timeline
+Budget table (Persona / Monthly / Rationale) + timeline (Date / Milestone / Decision).
+## Pre-committed decisions
+Decision tree: what we do if it wins / partially wins / fails. Committed before test.
+---
+## Results
+*Filled post-experiment.* Table: Metric / Target / Actual / Verdict.
+**Why it worked / failed:** narrative. **Learnings → insights/:** file pointers.
+> Source: /experiment, DataForSEO + /ads data, {date}
+```
+
+---
+
 ## Execution Mode
 
 | Mode | Deliverables |

@@ -81,6 +81,63 @@ When NOTION_ENABLED, complete all local file writes first. As the final step, sy
 
 ---
 
+## Notion Output Template
+
+Follow `docs/notion-style-guide.md` for formatting rules, voice, and block primitives. Every page starts with a status badge and executive summary.
+
+### Business Page (`context/business.md`)
+
+1. **Status Badge** -- draft/final + generation date
+2. **Executive Summary** -- who they are, what's interesting, the one insight (2-3 sentences)
+3. **The company** -- narrative paragraph (founding story, what they sell, who buys), not a bulleted fact sheet
+4. **Products and services** -- brief descriptions, pricing if relevant (bullets OK here)
+5. **The audience** -- who buys, why, how they find the company (prose with specifics)
+6. **Value proposition** -- one paragraph, the core promise stated with conviction
+7. **Growth context** -- what's working, what's not, sets up the skill chain
+8. **Source citation**
+
+**Golden example:** `docs/golden-examples/context-business.md`
+
+### Market Page (`context/market.md`)
+
+1. **Status Badge**
+2. **Executive Summary** -- market size/moment + single biggest finding
+3. **Market landscape** -- narrative on dynamics, who's winning, where the white space is
+4. **Competitors** -- narrative framing then table (name, price, strengths, weaknesses, threat level)
+5. **Key Finding callout** -- the one insight that changes the strategy
+6. **Regional breakdown** -- per-geo analysis in toggle sections (comprehensive mode only)
+7. **The opportunity** -- strategic "so what," the paragraph Steph screenshots
+8. **Industry trends** -- 3-5 narrative bullets with "what this means for us"
+9. **Source citation**
+
+**Golden example:** `docs/golden-examples/context-market.md`
+
+### Keywords Page (`context/keywords.md`)
+
+1. **Status Badge**
+2. **Executive Summary** -- total keywords researched, number of themes, headline insight
+3. **Keyword themes** -- per-theme H3 with italic rationale + DataForSEO table (volume, CPC, competition, tier, intent)
+4. **Dead ends** -- keywords investigated and rejected with reasons (prevents re-discovery)
+5. **Patterns and observations** -- interpretation of what data tells us, not a table summary
+6. **Source citation**
+
+**Golden example:** `docs/golden-examples/context-keywords.md`
+
+### Persona Pages (`context/personas/*.md`)
+
+1. **Status Badge**
+2. **Opening line** -- a tension or motivation, not a demographic label
+3. **Who they are** -- demographics + psychographics woven into narrative
+4. **What keeps them up at night** -- top 3-4 pain points in the persona's own words
+5. **How they buy** -- decision process, influences, triggers, research channels
+6. **How to reach them** -- channels, messaging angles, what resonates vs. falls flat
+7. **Value themes** -- Dunford framework table (value theme, features, benefits, proof)
+8. **Keyword signals** -- toggle section with search behavior table (volume, intent, stage)
+
+**Golden example:** `docs/golden-examples/context-personas.md`
+
+---
+
 ## Execution Mode
 
 | Mode | Deliverables |

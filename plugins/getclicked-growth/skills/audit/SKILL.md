@@ -68,18 +68,51 @@ Before starting work, check if Notion is available:
 
 1. Read `.active-client` to get the client name
 2. Use `notion-search` to find a page titled "[Client Name] Workspace"
-3. If found: set NOTION_ENABLED = true and note section page IDs
+3. If found: set NOTION_ENABLED = true and note Audit section page ID
 4. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
 
-When NOTION_ENABLED, complete all local file writes first. As the final step, sync to Notion in a single pass.
+When NOTION_ENABLED, complete all local file writes first. As the final step, sync the Site Review to Notion.
 
 **Output mapping:**
 
 | Local File | Notion Target | Method |
 |-----------|---------------|--------|
-| `audit/report.md` | Audit > Report page | `notion-update-page` |
-| `audit/links.md` | Audit > Links page | `notion-update-page` |
-| `audit/technical-seo.md` | Audit > Technical SEO page | `notion-update-page` |
+| `audit/report.md` | Audit > Site Review page | `notion-update-page` |
+
+The Notion deliverable is a **single page written like a memo** — not a data dump. It reads top to bottom: bottom line, what to fix now, what to fix this week, what can wait. Written in plain language for a marketing lead, not a developer. The local `links.md` and `technical-seo.md` files are the detailed backup for anyone technical who needs to dig in — they do NOT go to Notion.
+
+---
+
+## Notion Output Template
+
+Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/audit-report.md`.
+
+```
+Status Badge
+Executive Summary (overall health grade + top 3 critical issues)
+
+## Site health: [A/B/C/D/F]
+Category scores table: Category / Grade / Critical / Warnings / Passed
+Categories: Technical SEO, Content Quality, Link Health, Mobile/UX, Page Speed.
+
+---
+
+## Critical issues (fix immediately)
+Numbered issues, each with: **Impact** (traffic/conversions/rankings cost), **Evidence** (screenshot or data point), **Fix** (exact steps), **Effort** (Low/Medium/High).
+
+## Warnings (fix this month)
+Toggle sections per issue: <summary> = issue title + one-line impact. Body = full details + fix.
+
+## Opportunities (nice to have)
+Toggle sections, same format as warnings. Lower severity, higher optionality.
+
+---
+
+## Action plan (prioritized)
+Table: # / Action / Category / Impact / Effort / Priority (Do first → Do next → Backlog).
+
+> Source: /audit, site crawl + manual review, {date}
+```
 
 ---
 
@@ -275,58 +308,41 @@ Report layout issues in `audit/report.md` with screenshot references.
 
 ### Step 6: Synthesis → `audit/report.md` [~1 min]
 
-Merge all findings into a single prioritized report.
+Merge all findings into a single memo. **This is the client deliverable.** Write it like a brief from a trusted colleague — not a technical report. No tables, no scores, no jargon. Plain language, specific fixes, priority order.
 
 **Write `audit/report.md`:**
 
 ```markdown
-# Website QA Audit
+# Site Review — [domain]
 
-**Date:** [date]
-**Site:** [URL]
-**Pages audited:** [N]
-**Mode:** [Fast / Comprehensive]
-**Tools used:** [list available tools]
+[date]
 
-## Executive Summary
+**Bottom line:** [1-2 sentences. How does the site look overall? How many things need fixing? What's the biggest risk?]
 
-[2-3 sentences: overall site health, biggest risk, top priority fix]
+## Fix before launch
 
-## Score
+- [Issue in plain English — what's wrong, where, and why it matters. One bullet per issue.]
+- [Be specific: "Your footer Health Plans link sends people to the wrong page" not "incorrect link destination"]
+- [Include the page if it's not sitewide: "On the Clinicians page, the headline says 'The isn't what you signed up for' — missing the word 'This.'"]
 
-| Category | Issues | Worst Severity |
-|----------|--------|---------------|
-| Links | [N] | [Critical/Important/Nice-to-have] |
-| Content | [N] | [Critical/Important/Nice-to-have] |
-| Technical SEO | [N] | [Critical/Important/Nice-to-have] |
-| Responsive | [N or "Skipped"] | [severity] |
+## Fix this week
 
-## Critical (fix before launch)
+- [Less urgent but still visible to visitors or affects SEO]
+- [Same format: what, where, why it matters, what to do]
 
-### [Issue title]
-- **Page:** [URL]
-- **Problem:** [specific description]
-- **Fix:** [specific recommendation]
+## Nice to have
 
-## Important (fix this week)
-
-### [Issue title]
-- **Page:** [URL]
-- **Problem:** [specific description]
-- **Fix:** [specific recommendation]
-
-## Nice-to-Have (backlog)
-
-### [Issue title]
-- **Page:** [URL]
-- **Problem:** [specific description]
-- **Fix:** [specific recommendation]
-
-## Files Generated
-- `audit/links.md` — [N] links checked, [N] issues
-- `audit/technical-seo.md` — [N] pages checked, [N] issues
-- `audit/screenshots/` — [N] captures (or "skipped")
+- [Won't hurt you today but worth doing when you have time]
+- [Keep it short — 1-2 sentences per item max]
 ```
+
+**Voice rules for the report:**
+- Write to a marketing lead, not a developer. She'll forward this to her team.
+- Every bullet is self-contained — no "see above" or "as noted in the links audit."
+- Say what's wrong AND what to do. "Your robots.txt blocks Google from seeing your site. This probably fixes itself when you connect your custom domain — verify after."
+- No severity labels, no issue IDs, no category tags. The sections ARE the priority.
+- No tables. Bullets only.
+- Keep the total report under 30 bullets. If you found 50 issues, group the small ones: "Several pages are missing alt text on images — affects accessibility and image search."
 
 ---
 

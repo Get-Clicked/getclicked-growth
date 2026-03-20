@@ -12,7 +12,7 @@
       "name": "getclicked-growth",
       "description": "Your AI Growth Officer — a dedicated marketing team that lives in your editor.",
       "source": "./plugins/getclicked-growth",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "category": "marketing",
       "homepage": "https://getclicked.ai",
       "repository": "https://github.com/Get-Clicked/getclicked-growth",
