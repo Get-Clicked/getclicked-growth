@@ -5,7 +5,10 @@
   "mcpServers": {
     "getclicked-research": {
       "type": "http",
-      "url": "https://research.mcp.getclicked.ai/mcp/"
+      "url": "https://research.mcp.getclicked.ai/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GETCLICKED_API_KEY}"
+      }
     }
   }
 }

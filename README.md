@@ -6,7 +6,7 @@ Your AI Growth Officer — market research, brand strategy, ad campaigns, SEO, l
 
 The Growth Officer builds and runs your marketing. You set the strategy, it does the work.
 
-It ships with eight skills that cover the full marketing loop:
+It ships with eleven skills that cover the full marketing loop:
 
 - **start** — Guided onboarding. Learns your business, gets you to your first win.
 - **context** — Deep-dives your business, market, competitors, and keywords. Real data from DataForSEO — no guessing.
@@ -16,6 +16,9 @@ It ships with eight skills that cover the full marketing loop:
 - **landing** — Landing page specs matched to your ad groups. Every ad sends traffic to a page built to convert.
 - **optimize** — Pulls live campaign data, finds waste, and ranks improvements by impact.
 - **experiment** — Tests marketing ideas with real hypotheses and success criteria. Learnings compound across sessions.
+- **gtm** — Go-to-market distribution strategy: channel prioritization, experiment designs, 90-day plan.
+- **playbook** — Capstone GTM Prototype: synthesizes everything into a single strategic document.
+- **audit** — Website QA: broken links, content gaps, responsive design, technical SEO.
 
 ## Quick Start
 
@@ -34,32 +37,52 @@ It ships with eight skills that cover the full marketing loop:
    - "Build me a landing page for my ad campaign"
    - "What keywords should I be bidding on?"
 
-## Setup
+## Free Tier
 
-The plugin works out of the box — but real keyword data requires API keys.
+The plugin works immediately — no setup, no API keys. The free tier includes:
 
-### DataForSEO (recommended)
+- **Market research** — competitor analysis, keyword themes, real search data
+- **Brand strategy** — positioning, voice, messaging pillars
+- **Site audit** — broken links, technical SEO, content gaps
 
-Add to your project `.env`:
+That's enough to understand your market and see what needs fixing.
+
+## Upgrade
+
+For unlimited research, Google Ads campaigns, SEO strategy, landing pages, optimization, and experimentation:
+
+→ **[getclicked.ai/upgrade](https://getclicked.ai/upgrade)**
+
+Set `GETCLICKED_API_KEY` in your environment after subscribing.
+
+## Developers: Bring Your Own Keys
+
+If you prefer to use your own API credentials instead of upgrading:
+
+### DataForSEO
 
 ```
 DATAFORSEO_API_LOGIN=your-email
 DATAFORSEO_API_PASSWORD=your-password
 ```
 
-Powers keyword research with real search volume, CPC, and competition data. Every number in your deliverables will be actual pulled data, not estimates.
+Sign up at [dataforseo.com](https://dataforseo.com). Powers keyword research with real search volume, CPC, and competition data.
 
-### Tavily (optional)
+### Tavily
 
 ```
 TAVILY_API_KEY=your-key
 ```
 
-Enables live web research for market analysis and competitor intelligence.
+Get a key at [tavily.com](https://tavily.com). Enables web research for market analysis.
+
+Add these to your project `.env`. Skills will use your keys directly instead of the hosted service.
 
 ### Notion (optional)
 
-Connect Notion for cloud persistence — your work survives across sessions and is shareable with your team:
+Connect Notion for cloud persistence — work survives across sessions:
+
+Add to your project `.mcp.json`:
 
 ```json
 {
@@ -71,8 +94,6 @@ Connect Notion for cloud persistence — your work survives across sessions and 
   }
 }
 ```
-
-Add this to your project `.mcp.json` and authorize when prompted.
 
 ## How It Works
 

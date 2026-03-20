@@ -66,6 +66,26 @@ On Cowork, `WebFetch` may be blocked by network egress restrictions. Use this fa
 
 If all fail, ask the user to paste the page content or adjust their egress settings. Never stop a skill because a single fetch failed — work with what you have.
 
+## Tiering
+
+The hosted MCP server has per-tool daily limits for free users. Paid users (with GETCLICKED_API_KEY) get unlimited access.
+
+**Free limits (per day):**
+- keyword_search_volume: 5
+- keyword_suggestions: 5
+- ranked_keywords: 10
+- serp_competitors: 10
+- web_search: 100
+- web_extract: 100
+
+When a tool call hits the limit, it returns a ToolError. Handle this gracefully:
+1. Tell the user what happened (X of Y calls used today)
+2. Lead with upgrade: "Upgrade for unlimited access at getclicked.ai/upgrade"
+3. Mention BYOK: "Or add your own API keys to .env — see the README"
+4. Offer to save progress: "I'll save where we are. Pick up tomorrow when the quota resets."
+
+Never make the user feel blocked. Always offer a path forward.
+
 ## Notion Integration
 
 If Notion MCP is available (check .mcp.json for a Notion server entry):

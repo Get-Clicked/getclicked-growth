@@ -220,6 +220,14 @@ When you have enough to identify keyword themes, silently pull DataForSEO metric
 
 **Transition:** Once you feel confident about the business, move to the pain point. Don't over-interview — 2-4 questions max. She came here to see results, not fill out a form.
 
+### Post-Onboarding Tier Mention
+
+After presenting the first-read summary and getting confirmation, mention what's available next:
+
+> Your market context and brand foundation are ready. From here I can build ad campaigns, SEO strategy, landing pages, and more. Free tier covers what we just did — deeper skills use more research calls. Upgrade at getclicked.ai/upgrade for unlimited access, or add your own API keys if you prefer.
+
+Keep it brief. One sentence. Don't dwell on it. The user just got value — now they know what's next.
+
 ### Step 6 — Pain Point
 
 Time to figure out what matters most to her. Ask something like:
