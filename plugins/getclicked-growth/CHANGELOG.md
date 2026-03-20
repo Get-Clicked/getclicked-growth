@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.0] - 2026-03-20
+
+### Added
+- Freemium tiering: per-tool daily limits for free users, API key auth for paid users.
+- `Authorization: Bearer ${GETCLICKED_API_KEY}` header in plugin.json for paid tier.
+- PostHog analytics: session_start, tool_call, free_limit_hit, invalid_key events.
+- Tiering section in CLAUDE.md with graceful wall-message handling guidance.
+- Post-onboarding upgrade mention in `/start` skill.
+
+### Changed
+- `RateLimitMiddleware` replaced by `TieringMiddleware` (per-tool limits, API key auth, burst limiting).
+- README rewritten with Free Tier / Upgrade / Developers: BYOK sections. Skill count updated to 11.
+- Server instructions updated with upgrade URL.
+
 ## [0.3.1] - 2026-03-19
 
 ### Added
