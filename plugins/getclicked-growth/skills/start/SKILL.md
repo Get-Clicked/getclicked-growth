@@ -76,12 +76,9 @@ Read `.env` with the Read tool to get the values. Do NOT assume they're exported
 
 Before starting work, check if Notion is available:
 
-1. Read `.active-client` to get the client name
-2. Check if `notion` appears in `.mcp.json`
-3. If available, use `notion-search` to find a page titled "[Client Name] Workspace"
-4. If found: use `notion-fetch` on the workspace page to get section page IDs
-5. Set NOTION_ENABLED = true and note the section page IDs for later
-6. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
+1. Try calling `notion-search` with any query
+2. If it works → Notion is available. Note it for later (don't write yet — need permission first).
+3. If it errors → Notion is not configured. Continue without it.
 
 When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page:
 - For markdown files → `notion-update-page` with the page content
@@ -101,14 +98,12 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 
 ## Mode Detection
 
-On startup, silently check what exists:
+On startup, silently check what exists — do this BEFORE any research or API calls:
 
 1. Check if `context/business.md` exists
-2. Check if Notion MCP is available (look for `notion` in `.mcp.json`)
-3. If Notion available, search for a workspace page matching the business name
-
-**If no context/business.md exists → New User Flow (below)**
-**If context/business.md exists → Returning User Flow (below)**
+2. Try `notion-search` to test Notion availability (note result, don't write anything yet)
+3. If context exists → **Returning User Flow** (skip all research — saves API credits)
+4. If not → **New User Flow** (proceed to auto-research below)
 
 ---
 
@@ -177,25 +172,29 @@ One question. Wait for her answer. Correct anything she flags.
 
 ### Step 4 — Persist
 
-After the first read, save the work before going deeper. How you do this depends on the environment:
+After the first read, save the work before going deeper. Three states:
 
-**If Notion MCP is available (Cowork):**
+**A) Notion is connected (notion-search worked at startup):**
 
-> "This is good stuff — let me save it somewhere you won't lose it. I can write everything to your Notion workspace so it's there next time you open a session. Want to connect your Notion?"
+Ask permission before writing — lead with value, not mechanics:
 
-If she agrees:
-1. Use `notion-search` to check for an existing workspace
-2. If none exists, bootstrap one (create a workspace page with sections for Context, Ads, SEO, etc.)
-3. Write `context/business.md` and `context/market.md` content to the appropriate Notion pages
-4. Set NOTION_ENABLED = true for the rest of the session
+> "I see you've got Notion connected. Mind if I save our work there? That way you can review everything, share it with your team, and we'll remember it all next time you come back."
 
-If she declines or Notion isn't available:
-- Save locally (already done when you wrote the context files)
-- Note: in Cowork, this means the data won't persist between sessions. Mention this once, don't nag.
+- If yes → save context files to Notion, confirm briefly, set NOTION_ENABLED = true
+- If no → work locally, don't mention Notion again this session
 
-**If Claude Code (local files):**
-- Files are already saved locally. No additional action needed.
-- Don't mention Notion at all — it's not relevant.
+**B) Notion is NOT connected, on Cowork (ephemeral):**
+
+After she's seen the first read (she's experienced value), lead with the problem:
+
+> "Quick heads up — Cowork doesn't save files between sessions. Can we connect your Notion? That way I can save everything there so you can review it, give feedback, and we'll pick up right where we left off next time. Takes about 10 seconds in Settings > Connectors."
+
+- If yes → walk her through connecting, then save
+- If no → work locally, mention once at wrap-up that the work won't persist
+
+**C) Notion is NOT connected, on Claude Code:**
+
+Don't mention Notion during the session — local files persist fine. At wrap-up, optional tip only.
 
 **Key rule:** Never block on Notion. If it fails, log it internally and continue. Local files are always the baseline.
 
@@ -219,14 +218,6 @@ When you have enough to identify keyword themes, silently pull DataForSEO metric
 **After pulling DataForSEO data**, check for surprises: keywords that returned 0 volume where you expected demand, or unexpected canonical forms. Append new findings to `insights/keyword-research.md` — canonical forms, dead ends, and geo patterns. This ensures future sessions benefit from what you learned.
 
 **Transition:** Once you feel confident about the business, move to the pain point. Don't over-interview — 2-4 questions max. She came here to see results, not fill out a form.
-
-### Post-Onboarding Tier Mention
-
-After presenting the first-read summary and getting confirmation, mention what's available next:
-
-> Your market context and brand foundation are ready. From here I can build ad campaigns, SEO strategy, landing pages, and more. Free tier covers what we just did — deeper skills use more research calls. Upgrade at getclicked.ai/upgrade for unlimited access, or add your own API keys if you prefer.
-
-Keep it brief. One sentence. Don't dwell on it. The user just got value — now they know what's next.
 
 ### Step 6 — Pain Point
 
@@ -278,11 +269,11 @@ For each possible routing:
 
 **Ad audit:** Follow /ads Step 6 (search term auditor) if she has Google Ads connected. Pull the search term report, identify waste, calculate recoverable spend. Present findings conversationally: "I found $X/month in wasted spend across these terms..." If no Google Ads connected, do a competitive ad landscape analysis using DataForSEO — show what competitors are bidding on and where the gaps are.
 
-**SEO audit:** Follow /seo Phase 1 (site audit) + Phase 2 (keyword research). Scrape her site, check structure, pull keyword data. Present: "Here's where you're ranking, where you're not, and where the opportunity is..."
+**SEO audit:** Pull live rankings for her domain, show her what she ranks for and where the gaps are. Follow /seo to build the SEMrush-killer dashboard — ranked keywords, competitor gaps, actionable opportunities. Present: "Here's your search presence — where you're strong, where you're invisible, and where the money is..."
 
-**GTM strategy:** Follow /gtm Phases 1-3 (stage assessment, channel scoring, experiment design). Present: "Here's where I'd focus your budget and why..."
+**GTM strategy:** Walk her through the 9 decision worksheets from the Revealed GTM framework — who's buying, what Jobs the product does, how it's different, where to catalyze demand. Follow /gtm to produce the channel strategy and 90-day experiment plan. Present: "Here's who's actually buying and the fastest path to finding more of them..."
 
-**Brand positioning:** Follow /brand Phase 1-2 (competitive positioning, voice). Present: "Here's how I think your brand should sound, and here's why..."
+**Brand positioning:** Build the narrative strategy — the problem she solves, who she solves it for, how she sounds. Follow /brand for the Spendesk-style narrative output: positioning, voice, messaging hierarchy. Present: "Here's the story your brand tells, and here's how it should sound everywhere..."
 
 **Landing pages:** WebFetch her current pages, compare to best practices. Present: "I looked at your landing pages — here's what's working and what's not..."
 
@@ -296,15 +287,18 @@ For each possible routing:
 
 Wrap up the session. Save everything and set expectations.
 
-1. **Confirm everything is saved** — if NOTION_ENABLED, confirm Notion is up to date. If local, the files are there.
+1. **Confirm save state** — surface-aware messaging:
+   - If Notion connected and she approved: "Everything's in your Notion workspace — review it anytime, and we'll pick up right where we left off."
+   - If Claude Code (local files): "Your files are saved locally. I'll pick up where we left off next session."
+   - If Cowork, she declined Notion earlier: Don't re-ask. Just note: "Your work is saved for this session. If you want it to persist, you can always connect Notion later in Settings."
+   - If Cowork, Notion was never offered (safety case): Offer it now as the final thing — "If you want to keep this work between sessions, you can connect Notion in Settings > Connectors. Takes 10 seconds."
 
 2. **Tell her what you'd do next** — based on what you delivered and what's still missing. In plain English:
    - If you did an ad audit: "Next time, I'll build out new campaigns based on what we found."
    - If you did SEO: "Next time, I'll put together a content plan to go after those keywords."
    - If you did GTM: "Next time, let's build the campaigns for the channels we picked."
    - If you did brand: "Next time, I'll use this voice to build your ads and content."
-
-3. **Make it easy to come back** — "Just open a new session and I'll pick up where we left off. I'll remember everything."
+   - If Claude Code: "Just open a new session and I'll pick up where we left off."
 
 Don't over-promise. Don't list everything the agent can do. Just give her the next logical step.
 
@@ -328,25 +322,24 @@ Read all available files silently:
 - `experiments/` — any active experiments
 - `insights/` — accumulated learnings
 
-If Notion is available, also check the Notion workspace for any updates made outside the agent.
+Greet her with a quick status that references what was last done — not a generic inventory:
 
-Greet her with a quick status. Warm, not robotic:
-
-> "Hey, welcome back. Here's where we left off: [summary of what exists]. [Status of anything in-flight — e.g., 'Your campaigns are running' or 'We built your brand voice last time.']"
+> "Hey, welcome back. Last time we [specific thing: built your ad campaigns / mapped your search presence / nailed your brand voice]. [One sentence on what's ready or in-flight.]"
 
 Keep it to 2-3 sentences. She doesn't need a full inventory.
 
 ### Step 2 — Suggest Next Step
 
-Based on what exists and what's missing, suggest the highest-impact next move. Use the dependency chain internally but present it in plain English:
+Based on what exists, suggest the NEXT skill in the sequence — not a generic menu. Use the dependency chain internally:
 
-| What exists | What's missing | Suggestion |
-|-------------|---------------|------------|
-| Context only | Brand, channels | "I think we should nail how your brand sounds before I start building campaigns." |
-| Context + brand | Channels | "Foundation's solid. Want me to build your ad campaigns, work on SEO, or figure out which channels deserve your budget?" |
-| Context + brand + ads | Landing pages | "Your campaigns are set up. Want me to build landing pages that match your ad copy?" |
-| Context + brand + ads + landing | Optimization data | "Everything's built. Once your campaigns have some data, I can start optimizing." |
-| Everything | Nothing obvious | "Looks like you're in good shape. What do you want to work on?" |
+| What exists | Next in sequence | How to suggest it |
+|-------------|-----------------|-------------------|
+| Context only | Brand voice | "I've got a good picture of your business. Want me to nail how your brand should sound? That gives us a foundation for everything else." |
+| Context + brand | Ads or SEO (pick based on pain point from last session) | "Your brand voice is locked in. Ready to put it to work? I can build your ad campaigns or map out your search strategy." |
+| Context + brand + ads | Landing pages | "Your campaigns are built. The next thing that'll move the needle is landing pages that match your ad copy." |
+| Context + brand + ads + landing | Optimization | "Everything's built and running. Once you've got a week of data, I can start optimizing." |
+| Context + brand + SEO | GTM or ads | "Your SEO foundation is solid. Want me to figure out which channels deserve your budget, or build ad campaigns?" |
+| Everything built | Experiment or optimize | "You're in great shape. Want to run an experiment on something, or should I look at what's performing?" |
 
 ### Step 3 — Let Her Override
 
@@ -363,99 +356,88 @@ These are the exact structures to use when writing context files during onboardi
 ### context/business.md
 
 ```markdown
-# Business Context
+# [Business Name]
 
-## Business
-- **Name:** [name]
-- **URL:** [url]
-- **Industry:** [industry]
-- **Location:** [address]
-- **Service Area:** [description + radius]
-- **Hours:** [hours]
+[2-3 paragraph narrative: what the business does, who founded it, what makes it different. Write like a sharp analyst briefing a new CMO — not a form.]
 
-## Products & Services
-[Bulleted list of offerings with brief descriptions]
+**URL:** [url]
+**Location:** [city, state] | **Service area:** [description]
 
-## Audience
-- **Primary:** [who they are]
-- **Demographics:** [age, income, location patterns]
-- **Pain Points:** [what problems they're solving]
-- **How They Search:** [behavioral signals — what they type into Google]
+## What They Sell
 
-## Value Proposition
-[2-3 sentences: why customers choose this business over alternatives]
+[Narrative descriptions of products/services. Each offering gets a sentence or two — what it is, who it's for, why it matters. Tables only if there are pricing tiers that genuinely need columnar layout.]
 
-## Insurance / Payment
-[What's accepted, if applicable]
+## Who Buys
+
+[Prose description of the audience. Paint the picture: who they are, what's happening in their life when they come looking, what they type into Google, what they're afraid of getting wrong. This should read like a persona brief, not a demographics dump.]
+
+## Why They Win
+
+[Paragraph on the value proposition — what makes customers choose this business over alternatives. Specific, not generic. "They win on X because Y" not "high quality service."]
 ```
 
 ### context/market.md
 
 ```markdown
-# Market Intelligence
+# Market Landscape: [Industry/Category]
 
-## Competitors
+[Opening paragraph: the shape of this market. Who are the players, how does competition work, what's changing. Set the scene for someone who's never looked at this space.]
 
-| # | Competitor | Domain | Location | Strengths | Weaknesses | Why They Compete |
-|---|-----------|--------|----------|-----------|------------|-----------------|
-| 1 | [name] | [url] | [loc] | [strengths] | [weaknesses] | [reason] |
+## Competitive Set
 
-## Competitor SEO Posture
+| Competitor | Domain | What They Do Well | Where They're Weak |
+|-----------|--------|-------------------|-------------------|
+| [name] | [url] | [specific strengths] | [specific gaps] |
 
-| Domain | Ranked Keywords | Top Pages | Organic Strategy |
-|--------|----------------|-----------|-----------------|
-| competitor1.com | [total_count] | [top 3 traffic pages] | [blog / service pages / location pages / programmatic] |
+## Search Landscape
 
-### Keyword Gap Analysis
-- **Competitor-owned, we should target:** [terms competitors rank for that align with our themes]
-- **White space (nobody ranks well):** [valuable terms with weak competition across the set]
+| Domain | Ranked Keywords | Organic Strategy | Top Traffic Pages |
+|--------|----------------|-----------------|-------------------|
+| [competitor] | [total_count] | [blog / service pages / location pages] | [top 3 pages] |
 
-## Competitor Gaps (Opportunities)
-[Bulleted list — what competitors are NOT doing that this business could own]
+**Key finding:** [Bold insight from the competitive analysis — the one thing that matters most. e.g., "Nobody in this market ranks well for [category] — that's wide open."]
 
-## Industry Trends
-[2-4 bullet points on market dynamics relevant to this business]
+**Gaps to exploit:** [What competitors are NOT doing that this business could own. Prose, not bullets.]
 
-## Market Context
-- **Market Size:** [from published research, census data, or industry reports — cite source. If no reliable data, write "Not yet researched" instead of estimating.]
-- **Key Dynamics:** [consolidation, fragmentation, digital shift, etc.]
-- **Seasonal Patterns:** [if applicable]
+## Market Dynamics
+
+[Narrative on industry trends, market size (cite sources or mark "Not yet researched"), seasonal patterns, and anything else that shapes strategy. Write like a market brief, not a checklist.]
 ```
 
 ### context/keywords.md
 
 ```markdown
-# North Star Keyword Themes
+# Keyword Themes
 
 ## Strategic Themes
 
-| Theme | Core Terms | Strategic Intent |
-|-------|-----------|-----------------|
-| [Theme 1] | [3-5 core terms] | [Why own this category] |
-| [Theme 2] | [3-5 core terms] | [Why own this category] |
-| [Theme 3] | [3-5 core terms] | [Why own this category] |
+Each theme represents a category worth owning — not just individual keywords.
 
-## DataForSEO Metrics (National)
+| Theme | Core Terms | Why This Matters |
+|-------|-----------|-----------------|
+| [Theme 1] | [3-5 terms] | [One sentence: strategic rationale for owning this category] |
+| [Theme 2] | [3-5 terms] | [One sentence: strategic rationale] |
+| [Theme 3] | [3-5 terms] | [One sentence: strategic rationale] |
+
+## DataForSEO Metrics
 
 | Keyword | Volume | CPC Low | CPC High | Competition | Comp Index |
 |---------|--------|---------|----------|-------------|------------|
 | [term] | [vol] | [low] | [high] | [LOW/MEDIUM/HIGH] | [0-100] |
 
-## Target Market
-- **Location:** [city, state]
-- **DMA:** [DMA name if known] (code: [code])
-- **Radius:** [service area radius]
-- **DataForSEO Location:** [exact location string used in API calls]
+**Target market:** [city, state] | **DataForSEO location:** [exact string used in API calls]
 
-## Priority Order (Data-Informed)
-1. [Highest priority theme — why + data justification]
-2. [Second priority — why + data justification]
-3. [Third priority — why + data justification]
+## Priority Order
 
-Priorities reflect real volume, CPC, and competition data — not gut feel alone. Where data contradicts initial assumptions, note what changed and why.
+1. **[Theme name]** — [Why it's #1. Cite the data: volume, competition level, strategic fit.]
+2. **[Theme name]** — [Why #2. What the data says.]
+3. **[Theme name]** — [Why #3.]
 
-## Notes
-[Any strategic context: seasonal patterns, competitive gaps to exploit, emerging categories, data surprises]
+Priorities reflect real volume, CPC, and competition data — not gut feel. Where data contradicted initial assumptions, note what changed.
+
+## Patterns and Observations
+
+[What surprised you. What the data revealed that wasn't obvious. Dead ends worth noting. Geo-specific patterns. This section compounds across sessions — append, don't overwrite.]
 ```
 
 ---

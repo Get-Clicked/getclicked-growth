@@ -14,11 +14,11 @@ Build market research, brand strategy, Google Ads campaigns, SEO plans, landing 
 | `/context` | Business facts, market research, competitor analysis, keyword themes, personas | ~8 min |
 | `/brand` | Positioning, voice, messaging pillars, guardrails | ~5 min |
 | `/ads` | Google Ads campaigns — keywords, ad copy, negatives, budget, export files | ~10 min |
-| `/seo` | Organic strategy — keyword research, site audit, content ideas | ~8 min |
+| `/seo` | SEMrush-killer dashboard — live rankings, keyword gaps, competitor analysis, prioritized actions | ~8 min |
 | `/landing` | Landing page specs matched to ad groups with conversion optimization | ~8 min |
 | `/optimize` | Live campaign analysis — plan vs actual, search term audit, ranked actions | ~8 min |
 | `/experiment` | Hypothesis-driven marketing with success criteria and lifecycle tracking | ~5 min |
-| `/gtm` | Go-to-market distribution strategy with channel prioritization and 90-day plan | ~8 min |
+| `/gtm` | Revealed GTM Prototype — 9 decision worksheets, JTBD-based validation roadmap | ~10 min |
 | `/audit` | Full website audit — technical SEO, content quality, link analysis, screenshots | ~10 min |
 | `/playbook` | Capstone GTM Prototype — synthesizes all skill outputs into 9 Revealed worksheets + validation roadmap | ~12 min |
 
@@ -88,26 +88,46 @@ Get a key at [getclicked.ai/upgrade](https://getclicked.ai/upgrade).
 
 ### Optional: Notion (cloud persistence)
 
-For Cowork users or anyone who wants deliverables saved to Notion:
+Save your deliverables to Notion so they persist across sessions and can be shared with your team.
 
-1. Add a Notion MCP server to your `.mcp.json`:
-   ```json
-   {
-     "mcpServers": {
-       "notion": {
-         "command": "npx",
-         "args": ["-y", "@anthropic/notion-mcp-server"],
-         "env": {
-           "NOTION_API_KEY": "your_notion_integration_token"
-         }
-       }
-     }
-   }
-   ```
-2. Create a Notion integration at [notion.so/my-integrations](https://www.notion.so/my-integrations)
-3. Share your workspace pages with the integration
+**Claude Code users:**
 
-Without Notion, all output writes to local files (fully functional, git-versioned).
+Add the hosted Notion MCP server to your `.mcp.json` (zero-config — OAuth popup on first use):
+```json
+{
+  "mcpServers": {
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    }
+  }
+}
+```
+First time you run a skill, you'll see an OAuth popup in your browser. Authorize Notion and you're done. No API keys to manage.
+
+**Cowork users:**
+
+Run `/mcp` in chat to connect Notion. If that doesn't work, add the Notion MCP server manually via Settings > MCP Servers with the URL `https://mcp.notion.com/mcp`.
+
+**Fallback (if hosted OAuth doesn't work):**
+
+Create an integration token at [notion.so/my-integrations](https://www.notion.so/my-integrations), then:
+```json
+{
+  "mcpServers": {
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/notion-mcp-server"],
+      "env": {
+        "NOTION_API_KEY": "your_token_here"
+      }
+    }
+  }
+}
+```
+Share your workspace pages with the integration for access.
+
+**Without Notion:** All output writes to local files (fully functional, git-versioned). On Cowork, local files are lost between sessions — Notion is recommended.
 
 ### Optional: Google Ads (live optimization)
 
@@ -188,8 +208,9 @@ ads/
   export-*.csv         # Google Ads Editor import files
 
 seo/
+  dashboard.md         # SEMrush-killer — rankings, gaps, actions
   keywords.csv         # Organic keywords with tiers + content mapping
-  audit.md             # Technical + content + local SEO audit
+  audit.md             # Technical + content SEO audit
   content-ideas.csv    # Content strategy mapped to keywords
 
 landing/
@@ -198,11 +219,10 @@ landing/
   brief.md             # Dev/design handoff summary
 
 gtm/
-  channels.md          # Channel prioritization + scoring
-  experiments.md       # Channel validation experiments
-  90-day-plan.md       # Phased execution plan
-  messaging.md         # Channel-specific messaging
-  playbook.md          # Revealed GTM Prototype (capstone)
+  prototype.md         # GTM Prototype — 9 Revealed decision worksheets
+  validation-roadmap.md # Testing plan — value testing → demand testing → build
+  messaging.md         # Demand generation narrative + channel messaging
+  playbook.md          # Capstone synthesis of all skill outputs
 
 audit/
   report.md            # Full website audit report

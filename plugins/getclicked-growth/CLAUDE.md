@@ -88,7 +88,7 @@ Never make the user feel blocked. Always offer a path forward.
 
 ## Notion Integration
 
-If Notion MCP is available (check .mcp.json for a Notion server entry):
+If Notion MCP is available (check by trying `notion-search` — works on both Claude Code and Cowork):
 - Dual-write all skill outputs: local files AND corresponding Notion pages.
 - On first run, search for a "[Client Name] Workspace" page in Notion.
 - If found, write skill outputs to the matching sections within that workspace.
