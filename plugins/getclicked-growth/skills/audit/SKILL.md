@@ -85,31 +85,36 @@ The Notion deliverable is a **single page written like a memo** — not a data d
 
 ## Notion Output Template
 
+**Write narrative, not spreadsheets.** Write like an expert walking someone through what they found, not a spreadsheet of findings. Each issue is a story: what's wrong, why it matters, and exactly how to fix it. Tables only for genuinely tabular data (category score summary, final action plan).
+
 Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/audit-report.md`.
 
 ```
 Status Badge
-Executive Summary (overall health grade + top 3 critical issues)
+Executive Summary (prose: overall health grade, the 2-3 things that matter most, honest assessment)
 
 ## Site health: [A/B/C/D/F]
-Category scores table: Category / Grade / Critical / Warnings / Passed
+Category scores table: Category / Grade / Critical / Warnings / Passed (genuinely tabular — keep as summary scorecard)
 Categories: Technical SEO, Content Quality, Link Health, Mobile/UX, Page Speed.
 
 ---
 
 ## Critical issues (fix immediately)
-Numbered issues, each with: **Impact** (traffic/conversions/rankings cost), **Evidence** (screenshot or data point), **Fix** (exact steps), **Effort** (Low/Medium/High).
+Each finding is narrative — NOT a table row. For each issue, write three paragraphs:
+- **Impact:** What this costs you in traffic, conversions, or rankings. Be specific — "This broken link on your pricing page means ~15% of visitors who click 'View Plans' hit a dead end."
+- **Evidence:** What you found, where you found it, the data that proves it. Reference screenshots if available.
+- **Fix:** Exact steps to resolve, written for a marketing lead who'll forward this to a developer.
 
 ## Warnings (fix this month)
-Toggle sections per issue: <summary> = issue title + one-line impact. Body = full details + fix.
+Same narrative format as critical issues, but briefer — one paragraph per finding covering impact + fix. Toggle sections: summary line = issue + one-sentence impact.
 
 ## Opportunities (nice to have)
-Toggle sections, same format as warnings. Lower severity, higher optionality.
+Brief narrative paragraphs. Lower severity, higher optionality. "When you have time" energy.
 
 ---
 
 ## Action plan (prioritized)
-Table: # / Action / Category / Impact / Effort / Priority (Do first → Do next → Backlog).
+Table: # / Action / Category / Impact / Effort / Priority (genuinely tabular — keep as the wrap-up checklist. Do first / Do next / Backlog.)
 
 > Source: /audit, site crawl + manual review, {date}
 ```

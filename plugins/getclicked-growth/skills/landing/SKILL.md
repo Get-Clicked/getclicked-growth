@@ -111,6 +111,8 @@ When NOTION_ENABLED, complete all local file writes first. As the final step, sy
 
 Use these templates when writing to Notion. Follow the [Notion Style Guide](../../docs/notion-style-guide.md) for formatting, voice, and block primitives.
 
+**Write narrative, not spreadsheets.** Tables only when the data IS genuinely tabular (page inventory mappings, ad copy alignment checks). Everything else is prose — a strategist briefing the build team, not a template with blanks to fill.
+
 ### Brief Page (`landing/brief.md`)
 
 ```
@@ -119,16 +121,12 @@ Use these templates when writing to Notion. Follow the [Notion Style Guide](../.
 [Executive summary: campaign name, number of pages, strategy in one sentence.]
 
 ## Strategy
-[One paragraph: one page per ad group, message match is everything, dedicated pages convert 116% better than homepage traffic.]
+
+[Write this as a story, not a bullet list. Explain the core conviction: one page per ad group, because message match is everything. Dedicated landing pages convert 116% better than homepage traffic — that's not a suggestion, it's the single highest-leverage change in paid search. Walk through the logic: the ad makes a specific promise, the page delivers on that exact promise, and the visitor never has to wonder if they're in the right place. Every page is built to do one thing — convert the traffic the ad is sending.]
 
 ## Design principles
-- One CTA, three placements (hero, after benefits, bottom)
-- Message match: H1 echoes ad headline, primary keyword in H1, ad offer above fold
-- Outcome over feature: benefits, not specs
-- Mobile-first: CTA within 600px, click-to-call, 44px inputs
-- 5th-7th grade reading level
-- No navigation: zero exit routes
-- 3 form fields max (no phone)
+
+**Every page follows the same non-negotiable constraints.** One CTA label used in three placements (hero, after benefits, bottom) — single-CTA pages convert 13.5% vs 11.9% for multi-CTA. **Message match is the #1 lever:** the H1 echoes the ad headline word-for-word, the primary keyword appears in the H1, and whatever the ad promised is visible above the fold. We write for **outcomes, not features** — benefits the customer feels, not specs they have to interpret. **Mobile-first is mandatory** (83% of landing page visits): CTA within 600px of viewport top, click-to-call for local, 44px minimum input height. Copy is written at a **5th-7th grade reading level** (2x conversion lift over college-level copy). **Zero navigation** — no menu, no footer links, no exit routes except the CTA. **Three form fields maximum** — name, email, and one qualifying question. Never a phone field (-32% conversion rate drop).
 
 ## Page template
 Every page follows this section order (validated by CRO research):
@@ -178,55 +176,88 @@ Every page follows this section order (validated by CRO research):
 ## Content blocks
 
 ### 1. Hero
-- **Headline:** [Echoes ad headline — primary keyword + location + differentiator]
-- **Subheadline:** [Agitates problem in persona's words, hints at solution]
-- **CTA Button:** [First-person action verb + outcome, e.g., "Get My Free Quote"]
-- **Image Direction:** [Outcome or real team — never stock]
+
+[Write draft copy directly — don't describe what should go here, write it.]
+
+**Headline:** "[Actual draft headline — echoes top ad headline, includes primary keyword + location + differentiator]"
+
+**Subheadline:** "[Actual draft subheadline — agitates the problem in the persona's own words, hints at the solution. This is the line that makes them stay.]"
+
+**CTA Button:** "[First-person action verb + outcome, e.g., 'Get My Free Quote']"
+
+**Image direction:** [Outcome shot or real team photo — never stock. Describe the specific scene: what's in the frame, what emotion it conveys, why it reinforces the headline.]
 
 ### 2. Micro-trust bar
-| Signal | Content |
-|--------|---------|
-| Reviews | "[N] 5-Star Google Reviews" |
-| Credential | "[Specific license/certification]" |
-| Experience | "[N] Years Serving [Location]" |
-| Guarantee | "[Specific guarantee]" |
+
+[Four trust signals in a horizontal bar. Every signal uses a specific number — no vague claims.]
+
+**Reviews:** "[N] 5-Star Google Reviews" | **Credential:** "[Specific license/certification]" | **Experience:** "[N] Years Serving [Location]" | **Guarantee:** "[Specific guarantee from business.md]"
 
 ### 3. Problem + Agitation (PAS)
-**The problem:** [Persona's exact words — what they're dealing with]
-**The agitation:** [Cost of inaction — time, money, peace of mind]
-**The pivot:** [Bridge from pain to relief — one sentence]
+
+[This section is already narrative by nature — keep it that way. Write it as connected prose, not labeled fields.]
+
+**The problem:** [Write in the persona's voice — what they're actually dealing with, using their words from the persona file. Two sentences that make them nod.]
+
+**The agitation:** [Show the cost of doing nothing. Be specific about what they lose — time, money, peace of mind, reputation. Make inaction feel expensive.]
+
+**The pivot:** [One sentence that bridges from pain to relief. This is the turn — "That's exactly why..." or "There's a better way."]
 
 ### 4. Solution + Benefits
-[How the service solves it — concrete, not abstract.]
-- **Outcome 1:** [One sentence]
-- **Outcome 2:** [One sentence]
-- **Outcome 3:** [One sentence]
-- **CTA Button:** [Same label as hero — exact same text]
+
+[Write the solution as a short narrative paragraph — how the service solves the problem in concrete terms, not abstractions. Then three specific outcomes (not features) as bold statements with one-sentence explanations.]
+
+**[Outcome 1 as a bold statement.]** [One sentence explaining what this means for the customer.]
+
+**[Outcome 2 as a bold statement.]** [One sentence explaining what this means for the customer.]
+
+**[Outcome 3 as a bold statement.]** [One sentence explaining what this means for the customer.]
+
+**CTA Button:** "[Same label as hero — exact same text]"
 
 ### 5. How it works
-| Step | Title | Description |
-|------|-------|-------------|
-| 1 | [Action] | [Reduce anxiety, show competence] |
-| 2 | [Action] | [Build confidence] |
-| 3 | [The outcome] | [What they actually want] |
+
+[Write as three narrative steps. Each step is a bold title followed by one sentence. Step 3 is always the outcome they actually want — the thing they're buying, not the process.]
+
+**Step 1: [Action verb].** [One sentence that reduces anxiety and shows competence without jargon.]
+
+**Step 2: [Action verb].** [One sentence that builds confidence in the process.]
+
+**Step 3: [The outcome].** [One sentence describing what they actually get — the result, not the deliverable.]
 
 ### 6. Social proof
-- **Testimonial 1:** "[Specific quote with concrete detail]" — [Name], [City]
-- **Testimonial 2:** "[Specific quote with concrete detail]" — [Name], [City]
-- **Supporting stat:** [Exact number from business.md]
+
+[Write as narrative with quoted testimonials embedded. Each testimonial uses a real name, city, and includes a concrete detail — not generic praise.]
+
+"[Specific quote with a concrete detail — a number, a before/after, a specific moment]" — **[Name]**, [City]
+
+"[Specific quote with a concrete detail]" — **[Name]**, [City]
+
+[Supporting stat from business.md — write it as a sentence: "Over [N] customers served in [Location] since [Year]."]
 
 ### 7. Objection handling (FAQ)
-| Question | Answer |
-|----------|--------|
-| [Persona fear #1] | [Direct answer] |
-| [Persona fear #2] | [Direct answer] |
-| How much does [service] cost? | [Real pricing from business.md] |
-| [Persona fear #3] | [Direct answer] |
+
+[Write as conversational Q&A pairs. Each question is a real fear from the persona file. Answers are direct, honest, and specific — not corporate hedging. Price question is mandatory with real pricing from business.md. Apply FAQPage schema to this section.]
+
+**"[Persona fear #1, written as they'd actually ask it]?"**
+[Direct, honest answer. One to two sentences. No hedging.]
+
+**"[Persona fear #2]?"**
+[Direct answer.]
+
+**"How much does [service] cost?"**
+[Real pricing from business.md. If variable, give a range with what determines the price. Never "contact us for pricing."]
+
+**"[Persona fear #3]?"**
+[Direct answer.]
 
 ### 8. Final CTA
-- **Headline:** [Urgency or value restatement]
-- **CTA Button:** [Same label as hero and mid-page]
-- **Supporting text:** [Risk removal — guarantee, no obligation, free]
+
+**"[Urgency or value restatement as a headline — make it feel like the natural conclusion to everything above.]"**
+
+**CTA Button:** "[Same label as hero and mid-page — consistency builds trust]"
+
+[One sentence of risk removal: guarantee, no obligation, free consultation — whatever removes the last barrier.]
 
 ### 9. Footer
 Phone (click-to-call) | Address | Hours — from business.md. **Zero navigation links.**

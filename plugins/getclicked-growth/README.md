@@ -6,6 +6,8 @@ Build market research, brand strategy, Google Ads campaigns, SEO plans, landing 
 
 ## What You Get
 
+11 skills, from onboarding to full GTM synthesis:
+
 | Skill | What It Does | Time (fast) |
 |-------|-------------|-------------|
 | `/start` | Guided onboarding for new users | ~3 min |
@@ -17,6 +19,8 @@ Build market research, brand strategy, Google Ads campaigns, SEO plans, landing 
 | `/optimize` | Live campaign analysis — plan vs actual, search term audit, ranked actions | ~8 min |
 | `/experiment` | Hypothesis-driven marketing with success criteria and lifecycle tracking | ~5 min |
 | `/gtm` | Go-to-market distribution strategy with channel prioritization and 90-day plan | ~8 min |
+| `/audit` | Full website audit — technical SEO, content quality, link analysis, screenshots | ~10 min |
+| `/playbook` | Capstone GTM Prototype — synthesizes all skill outputs into 9 Revealed worksheets + validation roadmap | ~12 min |
 
 ## Getting Started on Cowork
 
@@ -32,7 +36,7 @@ That's it. You're done.
 
 ### What's included
 
-Everything works out of the box. DataForSEO (keyword research) and Tavily (web research) are provided automatically via the founderbee-data MCP server — no API keys or `.env` setup needed.
+Everything works out of the box. DataForSEO (keyword research) and Tavily (web research) are provided automatically via the hosted MCP server — no API keys or `.env` setup needed.
 
 **What's included:** Market research, keyword data, competitor analysis, ad campaigns, SEO strategy, landing pages, go-to-market plans, and experimentation — all powered by real data.
 
@@ -57,24 +61,30 @@ The agent auto-chains dependencies. If you ask for ads but don't have context ye
 
 ## Setup
 
-### Required (Claude Code only): DataForSEO
+### Required (Claude Code only): DataForSEO + Tavily
+
+On **Cowork**, both services are provided automatically via the hosted MCP server — no API keys or `.env` setup needed.
+
+On **Claude Code**, bring your own keys:
 
 1. Sign up at [dataforseo.com](https://dataforseo.com) — free trial includes API credits
-2. Create a `.env` file in your project root:
+2. Get an API key at [tavily.com](https://tavily.com) — free tier available
+3. Create a `.env` file in your project root:
    ```
    DATAFORSEO_API_LOGIN=your@email.com
    DATAFORSEO_API_PASSWORD=your_api_password
-   ```
-
-### Required (Claude Code only): Tavily
-
-1. Get an API key at [tavily.com](https://tavily.com) — free tier available
-2. Add to your `.env`:
-   ```
    TAVILY_API_KEY=tvly-your_key_here
    ```
 
-*On Cowork, both services are provided automatically — skip these steps.*
+### Optional: Paid Tier (unlimited access)
+
+Free users get daily call limits on keyword and competitor tools. For unlimited access, add your key to `.env`:
+
+```
+GETCLICKED_API_KEY=your_key_here
+```
+
+Get a key at [getclicked.ai/upgrade](https://getclicked.ai/upgrade).
 
 ### Optional: Notion (cloud persistence)
 
@@ -127,7 +137,9 @@ Notion: connected (or "not connected — optional")
     |
     +-- /seo
     |
-    +-- /gtm
+    +-- /gtm --> /playbook (capstone)
+    |
+    +-- /audit (standalone — just needs a URL)
     |
     +-- /experiment (learning layer — feeds insights back to all skills)
 ```
@@ -184,6 +196,19 @@ landing/
   audit.md             # Existing page scores
   pages/*.md           # One page spec per ad group
   brief.md             # Dev/design handoff summary
+
+gtm/
+  channels.md          # Channel prioritization + scoring
+  experiments.md       # Channel validation experiments
+  90-day-plan.md       # Phased execution plan
+  messaging.md         # Channel-specific messaging
+  playbook.md          # Revealed GTM Prototype (capstone)
+
+audit/
+  report.md            # Full website audit report
+  links.md             # Link analysis
+  technical-seo.md     # Technical SEO findings
+  screenshots/         # Visual evidence
 
 optimize/
   report.md            # Performance analysis + ranked actions

@@ -85,54 +85,64 @@ When NOTION_ENABLED, complete all local file writes first. As the final step, sy
 
 Follow `docs/notion-style-guide.md` for formatting rules, voice, and block primitives. Every page starts with a status badge and executive summary.
 
+**Write narrative, not spreadsheets.** The default format is prose — paragraphs that read like a strategy memo, not a database export. Tables earn their place only when the data IS genuinely tabular (keyword volumes, pricing tiers, competitor metrics grids). Everything else is narrative. Tone model: the Spendesk positioning doc — story-first, personality, conviction. If a section could be a paragraph, it must be a paragraph.
+
 ### Business Page (`context/business.md`)
 
+This page reads like an investment memo, not a fact sheet. Someone should be able to read it top to bottom and understand the business, the opportunity, and the tension — without scanning a single bullet list.
+
 1. **Status Badge** -- draft/final + generation date
-2. **Executive Summary** -- who they are, what's interesting, the one insight (2-3 sentences)
-3. **The company** -- narrative paragraph (founding story, what they sell, who buys), not a bulleted fact sheet
-4. **Products and services** -- brief descriptions, pricing if relevant (bullets OK here)
-5. **The audience** -- who buys, why, how they find the company (prose with specifics)
-6. **Value proposition** -- one paragraph, the core promise stated with conviction
-7. **Growth context** -- what's working, what's not, sets up the skill chain
+2. **Executive Summary** -- who they are, what's interesting, the one insight. Two to three sentences with personality. This is the paragraph the CEO reads.
+3. **The company** -- a narrative paragraph. Tell the founding story, what they sell, who buys it, and why it matters. Write it the way you'd brief a new colleague over coffee — not as a form with fields. If there's something surprising about the company (an unusual origin, a contrarian bet, a market they stumbled into), lead with that.
+4. **Products and services** -- brief prose descriptions of what they offer. A pricing table is fine here if there are discrete tiers — that's genuinely tabular data. But "what we sell and why it matters" is narrative, not bullets.
+5. **The audience** -- a paragraph about who buys and why. What's happening in their life that makes them a customer? How do they find the company? Write about real people, not demographic labels.
+6. **Value proposition** -- one paragraph, stated with conviction. Not "Company X provides solutions for..." but the actual promise, the way the founder would say it at a dinner party.
+7. **Growth context** -- tell the story of where they are. What's working, what's stalled, what they've tried. This is the setup for the entire skill chain — write it as narrative so it reads as context, not a status report.
 8. **Source citation**
 
 **Golden example:** `docs/golden-examples/context-business.md`
 
 ### Market Page (`context/market.md`)
 
+This page reads like a strategy brief. Open with the market moment — what's happening right now that makes this interesting — not a header and a table.
+
 1. **Status Badge**
-2. **Executive Summary** -- market size/moment + single biggest finding
-3. **Market landscape** -- narrative on dynamics, who's winning, where the white space is
-4. **Competitors** -- narrative framing then table (name, price, strengths, weaknesses, threat level)
-5. **Key Finding callout** -- the one insight that changes the strategy
-6. **Regional breakdown** -- per-geo analysis in toggle sections (comprehensive mode only)
-7. **The opportunity** -- strategic "so what," the paragraph Steph screenshots
-8. **Industry trends** -- 3-5 narrative bullets with "what this means for us"
+2. **Executive Summary** -- the market moment + the single biggest finding. Write it as a story hook: "The X market is doing Y, and that means Z."
+3. **Market landscape** -- narrative on dynamics, who's winning, where the white space is. Write this as connected prose, not a list of observations. Each paragraph should build on the previous one. Bold key insights inline within the narrative — don't break them out into callout blocks.
+4. **Competitors** -- open with a narrative paragraph that frames the competitive landscape (who matters, who's noise, what the pattern is). THEN a summary table (name, price, strengths, weaknesses, threat level) — the table earns its space here because competitor comparison IS genuinely tabular data. After the table, a paragraph interpreting what the pattern means.
+5. **Key findings** -- bold inline within the narrative above, not in separate callout blocks. The insight should land in context, not floating in a box.
+6. **Regional breakdown** -- toggle sections for per-geo analysis (comprehensive mode only). Each region gets a narrative paragraph, not a table. Numbers appear inline.
+7. **The opportunity** -- the strategic "so what" paragraph. This is the one Steph screenshots and sends to her CEO. Write it with conviction — what the data says, what it means, and what to do about it.
+8. **Industry trends** -- three to five narrative paragraphs (not bullets), each connecting a trend to "what this means for us" in the same breath.
 9. **Source citation**
 
 **Golden example:** `docs/golden-examples/context-market.md`
 
 ### Keywords Page (`context/keywords.md`)
 
+Tables ARE the right format here — keyword data is genuinely tabular. Volume, CPC, and competition belong in columns. But the page should not be ONLY tables.
+
 1. **Status Badge**
-2. **Executive Summary** -- total keywords researched, number of themes, headline insight
-3. **Keyword themes** -- per-theme H3 with italic rationale + DataForSEO table (volume, CPC, competition, tier, intent)
-4. **Dead ends** -- keywords investigated and rejected with reasons (prevents re-discovery)
-5. **Patterns and observations** -- interpretation of what data tells us, not a table summary
+2. **Executive Summary** -- total keywords researched, number of themes, headline insight. Write as a narrative sentence, not a metric dump.
+3. **Keyword themes** -- each theme gets an H3 with a narrative sentence or two explaining WHY this theme matters before the DataForSEO table (volume, CPC, competition, tier, intent). The table earns its space — but it needs the "so what" paragraph above it to have meaning.
+4. **Dead ends** -- keywords investigated and rejected. A brief narrative paragraph explaining the pattern of what didn't work (not just a list of terms).
+5. **Patterns and observations** -- narrative prose interpreting what the data tells us. This is where you connect the dots: what themes are underpriced, where competition clusters, what gaps exist. Not a table summary — a strategist's read on the numbers.
 6. **Source citation**
 
 **Golden example:** `docs/golden-examples/context-keywords.md`
 
 ### Persona Pages (`context/personas/*.md`)
 
+Each persona is a CHARACTER, not a demographic spec sheet. Write them the way a novelist would sketch a protagonist — with tension, motivation, and voice. The reader should feel like they know this person after two paragraphs.
+
 1. **Status Badge**
-2. **Opening line** -- a tension or motivation, not a demographic label
-3. **Who they are** -- demographics + psychographics woven into narrative
-4. **What keeps them up at night** -- top 3-4 pain points in the persona's own words
-5. **How they buy** -- decision process, influences, triggers, research channels
-6. **How to reach them** -- channels, messaging angles, what resonates vs. falls flat
-7. **Value themes** -- Dunford framework table (value theme, features, benefits, proof)
-8. **Keyword signals** -- toggle section with search behavior table (volume, intent, stage)
+2. **Opening line** -- a tension, a motivation, or a moment in their life. Not "Female, 35-45, household income $120K." Something like: "She's the one who stays late because she doesn't trust anyone else to get it right."
+3. **Who they are** -- a narrative paragraph weaving demographics and psychographics together. Age and income appear naturally within the story of who this person is, not as bullet points.
+4. **What keeps them up at night** -- three to four pain points written in the persona's own voice. Prose paragraphs, not a bulleted list. Write it as they'd describe it to a friend — frustrated, specific, human.
+5. **How they buy** -- narrative about their decision process. What triggers the search, who influences the decision, what makes them pull the trigger vs. keep browsing. Write it as a journey, not a flowchart.
+6. **How to reach them** -- channels, messaging angles, what resonates vs. falls flat. Prose with specifics, not a channel-by-channel matrix.
+7. **Value themes** -- Dunford framework table (value theme, features, benefits, proof). The table earns its place here — it's a structured framework.
+8. **Keyword signals** -- toggle section. Open with a narrative sentence about their search behavior, then a table (volume, intent, stage) for the specific terms. The table is genuinely tabular data; the context around it is narrative.
 
 **Golden example:** `docs/golden-examples/context-personas.md`
 

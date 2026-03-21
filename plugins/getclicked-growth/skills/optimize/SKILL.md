@@ -64,35 +64,34 @@ Check if Notion is available: read `.active-client`, search for "[Client Name] W
 
 ## Notion Output Template
 
+**Write narrative, not spreadsheets.** Write like a performance analyst who has opinions, not a dashboard that displays numbers. Tables only for genuinely tabular data (plan vs. actual metrics). Everything else is prose — tell the story of what happened and what to do about it.
+
 Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/optimize-report.md`.
 
 ```
 Status Badge
-Executive Summary (period, spend, headline performance vs. plan, top action)
+Executive Summary (prose: period, spend, headline verdict, the one action that matters most)
 
 ## Performance vs. plan
-Table: Metric / Plan / Actual / Delta / Verdict (On track / Over / Under per row)
+Table: Metric / Plan / Actual / Delta / Verdict (genuinely tabular — keep). This is the one table that earns its place.
 
 > **Key Finding:** [The one thing that matters most this period — callout primitive]
 
 ---
 
 ## What moved
-Narrative: what changed since last review and why. A story, not a data dump.
+Narrative: tell the story of what changed since last review. Not "CPC increased 15%" — instead "CPC climbed 15% because the new competitor in [market] is bidding aggressively on our top 3 keywords. Quality Score on [group] dropped from 7 to 5 after the landing page change." Connect cause to effect. This section should read like a briefing, not a changelog.
 
-## Waste identified
-Table: Issue / Impact ($X wasted) / Fix / Priority
-
-## Opportunities
-Table: Opportunity / Expected Impact / Effort / Priority
+## Waste and opportunities
+Narrative paragraphs with specific numbers woven in. For waste: "We burned $347 on [search terms] that have nothing to do with our ICP — adding these as negatives saves ~$400/month." For opportunities: "Three search terms are converting at 2x our average but aren't in our keyword list — adding them as exact match could capture $X more pipeline." Each waste/opportunity gets its own paragraph with the dollar impact stated in prose, not a table row.
 
 ---
 
-## Ranked action items
-Numbered list: **[Action]** — why, expected impact, deadline. Most impactful first.
+## What to do next
+Narrative: ranked by impact, written as direct advice. Each action is a paragraph: what to do, why it matters, what the expected impact is, and when to do it. Most impactful first. "First, pause [keywords] — they've spent $X with zero conversions over 30 days. Second, add [terms] as exact match — they're already converting." This reads like a memo from your strategist, not a task list.
 
 ## The honest take
-Stop reporting, start advising. What's working, what's not, what the client should actually do.
+The closing paragraph. Stop reporting, start advising. What's actually working, what's not, and what the client should do — even if it's uncomfortable. Written with conviction.
 
 > Source: /optimize, Google Ads live data + /ads original plan, {date}
 ```

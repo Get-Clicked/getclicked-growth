@@ -83,32 +83,34 @@ When NOTION_ENABLED, complete all local file writes first. As the final step, sy
 
 ## Notion Output Template
 
+**Write narrative, not spreadsheets.** Write like a growth strategist who has a thesis, not a template that fills in blanks. Tables only for genuinely tabular data (success criteria thresholds, keyword metrics, results). Everything else is prose with conviction.
+
 Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/experiment.md`.
 
 ```
 Status Badge
-Metadata table: Status (Design/Running/Complete) | Type | Owner | Date
+Metadata table: Status (Design/Running/Complete) | Type | Owner | Date (genuinely tabular — keep)
 ---
 ## The bet
-1-2 paragraphs: what we're testing and why it matters.
+Narrative: 1-2 paragraphs telling the story of what we're testing and why it matters NOW. Not a summary — a strategic argument. What's the opportunity, what's the risk of not testing, what do we believe that others don't?
 ## Hypothesis
-**If** [change], **then** [metric] will [direction], **because** [rationale].
+One bold structured sentence: **If** [change], **then** [metric] will [direction], **because** [rationale]. This is the sharpest sentence in the document.
 ---
 ## Target personas
-Table: Name / Role / Pain / Trigger / Key Objection. Link to persona files.
+Character cards, not demographic tables. One H3 per persona: a narrative paragraph covering who they are, what drives them, why THIS experiment matters to THEM, and what objection we need to overcome. Link to persona file. Written like you're introducing a character in a story.
 ## Success criteria
-Table: **WIN** / **KILL** / **PROTECT** — each with Metric and Threshold.
+Table: **WIN** / **KILL** / **PROTECT** — each with Metric and Threshold (genuinely tabular — keep). These are pre-committed numbers, not aspirations.
 ---
 ## Conversion funnel
-ASCII diagram: ad → page → CTA → conversion. Per-variant keyword tables.
+Narrative or ASCII diagram walking through the path: ad → page → CTA → conversion. Explain the logic of each step — why this sequence, what could leak. Per-variant keyword tables stay (genuinely tabular).
 ## Budget and timeline
-Budget table (Persona / Monthly / Rationale) + timeline (Date / Milestone / Decision).
+Narrative: how much we're spending, why that amount is enough to get signal, how it's allocated across personas and why. State the total, the per-persona split, and the test duration in prose. One small summary table if helpful, but the reasoning is the point.
 ## Pre-committed decisions
-Decision tree: what we do if it wins / partially wins / fails. Committed before test.
+Narrative decision tree: what we do if it wins, partially wins, or fails. Written as commitments — "If X, we will Y" — not options to consider later. This section prevents post-hoc rationalization.
 ---
 ## Results
-*Filled post-experiment.* Table: Metric / Target / Actual / Verdict.
-**Why it worked / failed:** narrative. **Learnings → insights/:** file pointers.
+*Filled post-experiment.* Table: Metric / Target / Actual / Verdict (genuinely tabular — keep).
+**Why it worked / failed:** narrative — the honest story, not a data summary. **Learnings → insights/:** file pointers.
 > Source: /experiment, DataForSEO + /ads data, {date}
 ```
 

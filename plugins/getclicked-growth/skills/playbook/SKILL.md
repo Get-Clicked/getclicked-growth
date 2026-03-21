@@ -80,30 +80,41 @@ Before starting work, check if Notion is available:
 
 ## Notion Output Template
 
+**Write narrative, not spreadsheets.** Each worksheet is a condensed narrative section synthesized from upstream skill output — not a table summarizing tables. Write like you're briefing a board: opinionated, concise, and anchored in decisions. Tables only for genuinely tabular data (decision maker matrices, risk registers, collateral checklists).
+
 Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/playbook.md`.
 
 ```
 Status Badge
-Executive Summary (what this covers, which skills inform it, strategic thesis)
+Executive Summary (prose: what this covers, which skills inform it, the strategic thesis in one sentence)
 ## How to use this playbook
-Single reference doc. Each worksheet = one strategic question. Review quarterly.
+One paragraph: single reference doc, each worksheet answers one strategic question, review quarterly. Not a bulleted instruction list.
 ---
-## 1. The Company — from /context business (who, what, why)
-## 2. The Market — from /context market (landscape, competitors, opportunity)
-## 3. The Customer — from /context personas (who buys, why, how)
+## 1. The Company
+Narrative from /context business: who we are, what we do, why it matters. Written as a story, not a fact sheet. The reader should understand the business in 30 seconds.
+## 2. The Market
+Narrative from /context market: the landscape, who's out there, where the opportunity is. Written as strategic analysis — "The market is... competitors are doing X... the gap is Y."
+## 3. The Customer
+Narrative from /context personas: who buys, why they buy, how they decide. Each persona as a character sketch — motivations, fears, triggers. NOT demographic tables.
 ---
-## 4. The Brand — from /brand (positioning, voice, boilerplate, guardrails)
-## 5. The Channels — from /gtm (Bullseye, channel strategy, budget)
-## 6. The Ads — from /ads (campaign structure, keywords, forecast)
+## 4. The Brand
+Narrative from /brand: positioning as a story (competitive alternatives → our difference → who it's for), voice as character traits, guardrails as convictions. "We Are / We Are NOT" as prose, not a table.
+## 5. The Channels
+Narrative from /gtm: which channels and why, written as strategic argument. Bullseye summary in prose — "We're betting on X, Y, Z because..." Budget allocation woven into the narrative.
+## 6. The Ads
+Narrative from /ads: the campaign structure as a strategy story — which keywords, which messaging angles, what we expect. Keyword/forecast tables only where genuinely tabular.
 ---
-## 7. The Content — from /seo (keyword gaps, content priorities, phases)
-## 8. The Pages — from /landing (page specs, design principles, conversion)
-## 9. The Experiments — from /experiment (active tests, criteria, decisions)
+## 7. The Content
+Narrative from /seo: what content to create and why, keyword gaps as opportunities told in prose, content priorities as a phased plan in narrative form.
+## 8. The Pages
+Narrative from /landing: the conversion story — how pages connect to ads, what each page needs to do, design principles as convictions. Page specs as brief narrative, not spec sheets.
+## 9. The Experiments
+Narrative from /experiment: what we're testing and why, written as hypotheses with stakes. Active test details in prose. Success criteria table stays (genuinely tabular).
 ---
 ## Validation roadmap
-90-day plan from /gtm + /experiment: what to test, when, what "winning" looks like.
+Narrative with milestones: what to test first, what gates what, what "winning" looks like at each phase. Written as a story of how we'll know this is working — not a Gantt chart in markdown. Phase 1/2/3 as narrative paragraphs with concrete milestones.
 ## What we don't know yet
-Assumptions, unknowns, things that need real-world data to resolve.
+Honest prose: assumptions we're making, unknowns that could change the plan, things that need real-world data. Written with intellectual honesty — "We're assuming X, but if Y, then Z." This section builds trust.
 > Source: /playbook, synthesized from all skill outputs, {date}
 ```
 

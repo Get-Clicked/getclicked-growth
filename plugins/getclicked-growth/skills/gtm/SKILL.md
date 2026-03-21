@@ -99,56 +99,62 @@ When NOTION_ENABLED, after writing each local file, also write the content to th
 
 ## Notion Output Template
 
+**Write narrative, not spreadsheets.** Write like a strategist who has opinions, not a template that fills in blanks. Tables only for genuinely tabular data (scoring matrices, milestones, metrics). Everything else is prose with conviction.
+
 Follow `docs/notion-style-guide.md`. Every page: status badge, executive summary, H2/H3 only, `---` between major sections, `> Source:` citation at end. Goldens: `docs/golden-examples/gtm-strategy.md`, `docs/golden-examples/gtm-channels.md`.
 
 ### Strategy Page (`gtm/strategy.md`)
 ```
-Status Badge + Executive Summary (stage, budget, the strategic question)
-## Stage assessment — what's working, what's missing, the one question this answers
-## Positioning summary — from /context + /brand, competitive alternatives, differentiation
-## The [N]-channel strategy — per channel: the play, the loop, budget, link to channel skill
-## 90-day plan — Month 1/2/3 with weekly actions, budget allocation, decision points
-## Key milestones — table: Week | Milestone | Success Metric
-## Metrics framework — table: Metric | Target (90 days) | Current | Channel
-## The big bet — strategic conviction that ties everything together (honest take)
+Status Badge + Executive Summary (prose: stage, budget, the strategic question)
+## Stage assessment — narrative: where the business is, what's working/missing, the one question this answers. Brief-to-CEO format.
+## Positioning summary — narrative: competitive alternatives, differentiation, who this is for. Story, not feature comparison.
+## The [N]-channel strategy — one H3 per channel as narrative paragraph: the play, the loop, why this channel, budget, link to skill. NOT a table.
+## 90-day plan — narrative by month: weekly actions woven in, budget in-line, decision points. Checkboxes for milestones.
+## Key milestones — table: Week | Milestone | Success Metric (genuinely tabular — keep)
+## Metrics framework — table: Metric | Target (90 days) | Current | Channel (genuinely tabular — keep)
+## The big bet — one conviction paragraph. What you'd bet on and why. Direct advice, not hedged.
 > Source: /gtm, informed by /context + /brand + /ads + /seo, {date}
 ```
 
 ### Channels Page (`gtm/channels.md`)
 ```
-Status Badge + stage/budget/team context
-## Inner ring — test immediately — per channel: narrative why, DataForSEO table, CAC/volume/time/risk
-## Middle ring — next quarter — table: Channel | Score | Why Not Now | Trigger to Promote
-## Outer ring — not now — table: Channel | Score | Why Not
-## Full scoring matrix — table: 19 channels x 7 dimensions (ICP Fit, Cost, Volume, Time, Scale, Team Fit, Comp. Density)
+Status Badge + stage/budget/team context (prose)
+## Inner ring — test immediately — one H3 per channel as narrative: why, data, risk, CAC/volume. DataForSEO table under narrative (tabular). Reads like a pitch, not a spec sheet.
+## Middle ring — next quarter — table: Channel | Score | Why Not Now | Trigger to Promote (keep)
+## Outer ring — not now — table: Channel | Score | Why Not (keep)
+## Full scoring matrix — table: 19 channels x 7 dimensions (genuinely tabular — keep)
 > Source: /gtm, Bullseye framework, DataForSEO, {date}
 ```
 
 ### Messaging Page (`gtm/messaging.md`)
 ```
-Status Badge + Executive Summary (core message, persona count)
-## Core narrative — one paragraph capturing what this company does and why it matters
-## Messaging by persona — per persona: Hook | Pain | Promise | Proof
-## Channel-specific messaging — table: Channel | Tone | Key Message | CTA
+Status Badge + Executive Summary (prose: core message, who it's for, how many personas)
+## Core narrative
+One paragraph capturing what this company does and why it matters. Written like the opening of a pitch deck — not a positioning statement template.
+## Messaging by persona
+One H3 per persona. Each is a narrative paragraph: who they are, what hooks them, what pain to lead with, what promise lands, what proof converts them. Written as character studies, not demographic tables.
+## Channel-specific messaging — table: Channel | Tone | Key Message | CTA (genuinely tabular — keep)
 > Source: /gtm, informed by /brand + /context personas, {date}
 ```
 
 ### Competitive Map Page (`gtm/competitive-map.md`)
 ```
-Status Badge + Executive Summary (competitors mapped, key positioning gap)
-## Market map — narrative + table: Competitor | Category | Positioning | Overlaps | Key Differentiator
-## Where we win — specific scenarios we beat every alternative
-## Where we lose — honest assessment of competitor advantages
-## White space — the positioning gap nobody owns
+Status Badge + Executive Summary (prose: competitors mapped, the positioning gap)
+## The landscape — narrative: who's out there, how they position, where they overlap. One summary table: Competitor | Channels | Differentiator (keep).
+## Where we win — narrative with conviction: "We win when..." not "Potential advantages include..."
+## Where we lose — honest prose: real competitor advantages, no hedging.
+## White space — narrative: the positioning gap nobody owns and why we can claim it.
 > Source: /gtm, informed by /context market + competitor research, {date}
 ```
 
 ### Experiments Page (`gtm/experiments.md`)
 ```
-Status Badge + Executive Summary (experiment count, top priority)
-## Experiment queue — table: # | Experiment | Channel | Persona | Priority | Status
-## Prioritization rationale — why this order, what we learn from each
-## Dependency map — which experiments inform others, sequencing
+Status Badge + Executive Summary (prose: experiment count, top priority, what we're trying to learn)
+## Experiment queue — table: # | Experiment | Channel | Persona | Priority | Status (genuinely tabular — keep)
+## Prioritization rationale
+Narrative: why this order, what each experiment teaches us, and how they sequence. Written as strategic reasoning, not a numbered list.
+## Dependency map
+Narrative: which experiments inform others, what gates what, sequencing logic.
 > Source: /gtm, informed by /ads + /seo + channel strategy, {date}
 ```
 
