@@ -34,6 +34,8 @@ Build market research, brand strategy, Google Ads campaigns, SEO plans, landing 
 
 That's it. You're done.
 
+**Free tier** includes daily limits on keyword and competitor tools. For unlimited access, sign in via **Settings > Connectors** — find getClicked and click **Connect**. Authentication uses Google SSO (no API keys needed).
+
 ### What's included
 
 Everything works out of the box. DataForSEO (keyword research) and Tavily (web research) are provided automatically via the hosted MCP server — no API keys or `.env` setup needed.
@@ -53,7 +55,12 @@ Everything works out of the box. DataForSEO (keyword research) and Tavily (web r
    claude plugin install github:Get-Clicked/getclicked-growth
    ```
 2. **Set up credentials** (see [Setup](#setup) below)
-3. **Say** "I need help marketing my business" — the Growth Officer takes it from there
+3. **Authenticate for unlimited access** (optional):
+   ```bash
+   claude mcp auth getclicked-research
+   ```
+   This opens Google SSO in your browser. Free tier works without authentication but has daily limits.
+4. **Say** "I need help marketing my business" — the Growth Officer takes it from there
 
 Or jump straight to a skill: "Build me a Google Ads campaign for [your business]"
 
@@ -75,16 +82,6 @@ On **Claude Code**, bring your own keys:
    DATAFORSEO_API_PASSWORD=your_api_password
    TAVILY_API_KEY=tvly-your_key_here
    ```
-
-### Optional: Paid Tier (unlimited access)
-
-Free users get daily call limits on keyword and competitor tools. For unlimited access, add your key to `.env`:
-
-```
-GETCLICKED_API_KEY=your_key_here
-```
-
-Get a key at [getclicked.ai/upgrade](https://getclicked.ai/upgrade).
 
 ### Optional: Notion (cloud persistence)
 
@@ -140,6 +137,7 @@ The plugin runs a health check on session start. You'll see:
 --- GROWTH OFFICER STATUS ---
 DataForSEO: configured (MCP or BYOK)
 Tavily: configured (MCP or BYOK)
+Auth: signed in (or "free tier — daily limits apply")
 Notion: connected (or "not connected — optional")
 --- END STATUS ---
 ```

@@ -46,15 +46,26 @@ On session start, silently check if `context/business.md` exists.
 - Load credentials from .env silently — read the file, do not echo values.
 - Sessions may be recorded for demos. Treat all terminal output as potentially public.
 
-## Data Access (DataForSEO + Tavily)
+## MCP Servers
 
-Skills need keyword data (DataForSEO) and web research (Tavily). Two paths, checked in order:
+Two servers, different purposes:
 
-1. **MCP tools (Cowork default):** Use `keyword_search_volume`, `keyword_suggestions`, `ranked_keywords`, `serp_competitors`, `web_search`, `web_extract` tools directly. No credentials needed — server-side.
-2. **BYOK (.env fallback):** Read `.env` for `DATAFORSEO_API_LOGIN` + `DATAFORSEO_API_PASSWORD` (or `DATAFORSEO_BASE64`) and `TAVILY_API_KEY`. Use curl.
-3. **Neither:** STOP. Tell user: "I need DataForSEO + Tavily access. On Cowork, the founderbee-data server provides this. In Claude Code, add credentials to .env."
+### getclicked-research (keyword + web data)
+Tools: `keyword_search_volume`, `keyword_suggestions`, `ranked_keywords`, `serp_competitors`, `web_search`, `web_extract`
+Ships with the plugin. No setup needed on Cowork. Free tier has daily limits (see Tiering below). Authenticate via OAuth (Google SSO) for unlimited access.
+BYOK fallback: Claude Code users can add `DATAFORSEO_*` + `TAVILY_API_KEY` to `.env` and bypass the hosted server.
+Check MCP tools first (try calling one). If it errors or isn't available, fall back to `.env`. Never silently skip data enrichment.
 
-Check MCP tools first (try calling one). If it errors or isn't available, fall back to .env. Never silently skip data enrichment.
+### getclicked-mcp (live Google data)
+Tools: `google_ads_accounts`, `google_ads_campaign_performance`, `ga4_properties`, `ga4_report`, `gsc_sites`, `gsc_queries`
+NOT in plugin.json yet (Cowork OAuth bugs). Available on Claude Code via `.mcp.json`.
+Required for: `/optimize` (live ad performance), `/seo` dashboard (live GSC rankings).
+If these tools aren't available: skills still work but use DataForSEO estimates instead of live data. Tell the user: "I can pull your actual Google Ads and Search Console data if you connect your Google account. Want to set that up?"
+
+### Routing
+- Keyword research, competitor data, web scraping → `getclicked-research` tools
+- Live campaign performance, actual rankings, GA4 attribution → `getclicked-mcp` tools
+- If a skill needs Google data and it's not available, fall back gracefully to research-only mode. Never block.
 
 ## Web Access
 
@@ -68,7 +79,10 @@ If all fail, ask the user to paste the page content or adjust their egress setti
 
 ## Tiering
 
-The hosted MCP server has per-tool daily limits for free users. Paid users (with GETCLICKED_API_KEY) get unlimited access.
+The hosted MCP server has two tiers:
+
+- **Free (unauthenticated):** Daily limits on keyword and competitor tools. No account needed.
+- **Unlimited (authenticated via OAuth):** Sign in with Google SSO through Supabase. All limits removed.
 
 **Free limits (per day):**
 - keyword_search_volume: 5
@@ -80,8 +94,8 @@ The hosted MCP server has per-tool daily limits for free users. Paid users (with
 
 When a tool call hits the limit, it returns a ToolError. Handle this gracefully:
 1. Tell the user what happened (X of Y calls used today)
-2. Lead with upgrade: "Upgrade for unlimited access at getclicked.ai/upgrade"
-3. Mention BYOK: "Or add your own API keys to .env — see the README"
+2. Lead with authentication: "Sign in to unlock unlimited access — visit getclicked.ai/upgrade or run /mcp in chat to connect your account"
+3. Mention BYOK: "Or add your own DataForSEO/Tavily keys to .env — see the README"
 4. Offer to save progress: "I'll save where we are. Pick up tomorrow when the quota resets."
 
 Never make the user feel blocked. Always offer a path forward.
