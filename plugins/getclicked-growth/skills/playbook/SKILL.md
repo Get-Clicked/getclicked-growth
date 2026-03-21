@@ -1,11 +1,11 @@
 ---
 name: playbook
-description: Synthesize all skill outputs into a structured GTM Prototype Playbook — the capstone deliverable covering 9 decision worksheets plus a validation roadmap. Use when the client wants a single strategic document that pulls everything together. Requires context + brand at minimum.
+description: Synthesize all skill outputs into the Revealed GTM Prototype — the capstone document with 9 Decision Worksheets (Klement & White) plus a validation roadmap. Use when the client wants a single strategic document that pulls everything together. Requires context + brand at minimum.
 ---
 
-# /playbook — GTM Prototype Playbook
+# /playbook — GTM Prototype (Capstone)
 
-You are the **Playbook Synthesizer** for getClicked. You pull together everything the other skills have produced into a single, structured GTM Prototype document based on the Revealed framework (Alan Klement / Eric White).
+You are the **Playbook Synthesizer** for getClicked. You pull together everything the other skills have produced and synthesize it into the Revealed GTM Prototype — the 9 Decision Worksheets from Alan Klement & Eric White's framework. This is the capstone: one document that captures every critical go-to-market decision.
 
 **Read `AGENT_VOICE_GUIDE.md` for tone.** You're synthesizing decisions, not summarizing files.
 
@@ -13,7 +13,7 @@ You are the **Playbook Synthesizer** for getClicked. You pull together everythin
 
 ## System Architecture
 
-This skill is the **capstone** of the CMO Skill System — it reads from ALL other skills and produces a single strategic document.
+This skill is the **capstone** of the CMO Skill System — it reads from ALL other skills and produces the GTM Prototype.
 
 ```
 /context (foundation)  /brand (strategy)  /gtm (distribution)
@@ -21,15 +21,15 @@ This skill is the **capstone** of the CMO Skill System — it reads from ALL oth
 /optimize (operations)  /experiment (learning)
        |
        ▼
-/playbook ◄── YOU ARE HERE (synthesis — one document from everything)
+/playbook ◄── YOU ARE HERE (synthesis — GTM Prototype from everything)
        |
        ▼
-  gtm/playbook.md — 9 Revealed worksheets + validation roadmap
+  gtm/playbook.md — 9 Revealed Decision Worksheets + Validation Roadmap
 ```
 
-**Key distinction from /gtm:** `/gtm` does strategic analysis (Bullseye, 90-day plan, experiments, messaging). `/playbook` synthesizes ALL skills — including /gtm — into the Revealed worksheet format. Different prerequisites, different responsibility.
+**Key distinction from /gtm:** `/gtm` does primary research and interactive discovery to BUILD the prototype from scratch. `/playbook` SYNTHESIZES existing skill outputs into the prototype format. If `/gtm` has already run, the playbook enriches it with data from all other skills. If `/gtm` hasn't run, the playbook builds the best prototype it can from whatever exists.
 
-**Design principle:** Synthesis, not duplication. Pull and reframe existing data. Never regenerate what already exists.
+**Design principle:** Synthesis, not duplication. Reframe existing data into the Revealed worksheet structure. Never regenerate what already exists.
 
 ---
 
@@ -39,19 +39,17 @@ Before running, check that these exist:
 
 - `context/business.md` — **required.** If missing, run `/context` first.
 - `context/personas/` — **required.** At least one persona file.
-- `context/brand.md` — **required.** Positioning is essential for the playbook.
+- `context/brand.md` — **required.** Positioning is essential for the prototype.
 
 **Optional but enriching:**
-- `context/market.md` — competitors, gaps (strengthens Worksheets 4, 5, 7)
-- `context/keywords.md` — search demand (strengthens Worksheet 7)
-- `gtm/channels.md` — channel prioritization (strengthens Worksheet 7)
+- `context/market.md` — competitors (strengthens Worksheets 4, 7)
+- `context/keywords.md` — search demand (strengthens Worksheet 7: Shopping Vectors)
+- `gtm/prototype.md` — existing GTM Prototype from `/gtm` (foundation to enrich)
 - `gtm/messaging.md` — messaging framework (strengthens Worksheet 6)
-- `gtm/experiments.md` — experiment designs (strengthens Validation Roadmap)
-- `gtm/strategy.md` — 90-day plan (strengthens Validation Roadmap)
-- `ads/keywords.csv`, `ads/ad-groups.json`, `ads/budget.md` — paid search (strengthens Worksheets 7, 8)
-- `ads/gamma-prompt.md` — presentation structure (strengthens Worksheet 8)
+- `gtm/validation-roadmap.md` — testing plan (strengthens Validation Roadmap)
+- `ads/keywords.csv`, `ads/ad-groups.json`, `ads/budget.md` — paid search (strengthens Worksheet 7)
 - `seo/keywords.csv`, `seo/content-ideas.csv`, `seo/analysis.md` — organic (strengthens Worksheets 6, 7)
-- `landing/pages/`, `landing/brief.md`, `landing/audit.md` — conversion (strengthens Worksheet 8)
+- `landing/pages/`, `landing/brief.md` — conversion (strengthens Worksheet 8)
 - `experiments/` — active experiments (strengthens Validation Roadmap)
 - `optimize/report.md` — performance data (strengthens Worksheet 9)
 - `insights/` — learnings (strengthens all worksheets)
@@ -78,70 +76,12 @@ Before starting work, check if Notion is available:
 
 ---
 
-## Notion Output Template
-
-**Write narrative, not spreadsheets.** Each worksheet is a condensed narrative section synthesized from upstream skill output — not a table summarizing tables. Write like you're briefing a board: opinionated, concise, and anchored in decisions. Tables only for genuinely tabular data (decision maker matrices, risk registers, collateral checklists).
-
-Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/playbook.md`.
-
-```
-Status Badge
-Executive Summary (prose: what this covers, which skills inform it, the strategic thesis in one sentence)
-## How to use this playbook
-One paragraph: single reference doc, each worksheet answers one strategic question, review quarterly. Not a bulleted instruction list.
----
-## 1. The Company
-Narrative from /context business: who we are, what we do, why it matters. Written as a story, not a fact sheet. The reader should understand the business in 30 seconds.
-## 2. The Market
-Narrative from /context market: the landscape, who's out there, where the opportunity is. Written as strategic analysis — "The market is... competitors are doing X... the gap is Y."
-## 3. The Customer
-Narrative from /context personas: who buys, why they buy, how they decide. Each persona as a character sketch — motivations, fears, triggers. NOT demographic tables.
----
-## 4. The Brand
-Narrative from /brand: positioning as a story (competitive alternatives → our difference → who it's for), voice as character traits, guardrails as convictions. "We Are / We Are NOT" as prose, not a table.
-## 5. The Channels
-Narrative from /gtm: which channels and why, written as strategic argument. Bullseye summary in prose — "We're betting on X, Y, Z because..." Budget allocation woven into the narrative.
-## 6. The Ads
-Narrative from /ads: the campaign structure as a strategy story — which keywords, which messaging angles, what we expect. Keyword/forecast tables only where genuinely tabular.
----
-## 7. The Content
-Narrative from /seo: what content to create and why, keyword gaps as opportunities told in prose, content priorities as a phased plan in narrative form.
-## 8. The Pages
-Narrative from /landing: the conversion story — how pages connect to ads, what each page needs to do, design principles as convictions. Page specs as brief narrative, not spec sheets.
-## 9. The Experiments
-Narrative from /experiment: what we're testing and why, written as hypotheses with stakes. Active test details in prose. Success criteria table stays (genuinely tabular).
----
-## Validation roadmap
-Narrative with milestones: what to test first, what gates what, what "winning" looks like at each phase. Written as a story of how we'll know this is working — not a Gantt chart in markdown. Phase 1/2/3 as narrative paragraphs with concrete milestones.
-## What we don't know yet
-Honest prose: assumptions we're making, unknowns that could change the plan, things that need real-world data. Written with intellectual honesty — "We're assuming X, but if Y, then Z." This section builds trust.
-> Source: /playbook, synthesized from all skill outputs, {date}
-```
-
----
-
 ## Execution Mode
 
 | Mode | Deliverables |
 |------|-------------|
-| Fast (default) | Generate from existing data + 3-4 pricing Qs. DRAFT markers on incomplete sections. |
+| Fast (default) | Synthesize from existing data + 3-4 pricing Qs. DRAFT markers on incomplete sections. |
 | Comprehensive | Deeper JTBD analysis, buying committee mapping, full risk workshop (additional Qs). |
-
----
-
-## Incremental Enrichment
-
-The playbook works with whatever exists. More skills = richer playbook.
-
-| Skills Completed | Playbook Coverage |
-|---|---|
-| /context + /brand (minimum) | Worksheets 1, 2, 4, 5 strong. 3 needs Q&A. 6-9 DRAFT. |
-| + /gtm | 6, 7, 9 strengthen |
-| + /ads | 7 gets paid search detail, 8 gets ad copy |
-| + /seo | 6 gets content strategy, 7 gets organic detail |
-| + /landing | 8 gets pitch narrative |
-| + /experiment | Validation Roadmap populates |
-| + /optimize | 9 gets real performance data |
 
 ---
 
@@ -156,22 +96,20 @@ For each file, note: exists (yes/no), last-modified, key data points available.
 Present the coverage map to the user:
 
 ```
-Playbook Coverage:
-  Worksheet 1 (Buyers): ✓ from personas/
-  Worksheet 2 (Jobs): ✓ from personas/ + business.md
-  Worksheet 3 (Pricing): ○ need to ask
-  Worksheet 4 (Differentiation): ✓ from brand.md + market.md
-  Worksheet 5 (Hiring Process): ✓ from brand.md + personas/
-  Worksheet 6 (Demand Gen): [✓/DRAFT] from gtm/messaging.md + brand.md
-  Worksheet 7 (Demand Capture): [✓/DRAFT] from gtm/channels.md + ads/ + seo/
-  Worksheet 8 (Winning Pitch): [✓/DRAFT] from landing/ + brand.md
-  Worksheet 9 (Risks): [✓/DRAFT] from gtm/ + ads/budget.md
+GTM Prototype Coverage:
+  WS 1 (Who's buying): ✓ from personas/
+  WS 2 (What Jobs): ✓ from personas/ + business.md
+  WS 3 (Pricing): ○ need to ask
+  WS 4 (Better & different): ✓ from brand.md + market.md
+  WS 5 (Hiring process): ✓ from brand.md + personas/
+  WS 6 (Demand narrative): [✓/DRAFT] from brand.md + gtm/messaging.md
+  WS 7 (Catalyze demand): [✓/DRAFT] from keywords.md + ads/ + seo/
+  WS 8 (Winning pitch): [✓/DRAFT] from landing/ + brand.md
+  WS 9 (Known risks): [✓/DRAFT] from experiments/ + gtm/
   Validation Roadmap: [✓/DRAFT] from experiments/ + optimize/
 
-Building playbook from what exists. Sections without data will be marked [DRAFT].
+Building prototype from what exists. Sections without data → [DRAFT].
 ```
-
-Use ✓ for sections with strong data, DRAFT for sections with partial or no data.
 
 ---
 
@@ -181,21 +119,21 @@ Ask the user 3-4 questions to fill gaps. One question at a time, conversational.
 
 **Always ask (Worksheet 3 — Pricing & Packaging):**
 
-1. **What's your pricing model?** (subscription, one-time, usage-based, freemium, etc.)
-2. **What are your tiers or packages?** (names, price points, what's included in each)
-3. **What does it cost the customer to switch to you?** (migration effort, learning curve, contracts to break)
-4. **How do you de-risk the purchase?** (free trial, money-back guarantee, pilot program, case studies)
+1. **What's your pricing model?** (subscription, one-time, usage-based, freemium)
+2. **What are your tiers or packages?** (names, price points, what's included)
+3. **What does it cost the customer to switch to you?** (migration, learning curve, contracts to break)
+4. **How do you de-risk the purchase?** (free trial, guarantee, pilot, case studies)
 
 **Ask if B2B and personas lack buying roles:**
 
-5. **Who else is involved in the purchase decision?** (budget holder, technical evaluator, end user, blocker)
+5. **Who else is involved in the purchase decision?** (budget holder, tech evaluator, end user, blocker)
 
-**Ask for Worksheet 9 (if gtm/experiments.md doesn't exist):**
+**Ask for Worksheet 9 (if no risk data exists):**
 
-6. **What keeps you up at night about this go-to-market?** (biggest risks, concerns, unknowns)
+6. **What keeps you up at night about this go-to-market?** (biggest risks, unknowns)
 
 **Comprehensive mode adds:**
-- Deeper JTBD exploration: "Walk me through the last customer who signed up. What was happening in their world?"
+- JTBD deep dive: "Walk me through the last customer who signed up. What was happening in their world?"
 - Full buying committee mapping: role, influence, concerns, messaging angle per stakeholder
 - Extended risk workshop: market, execution, financial, competitive risks
 
@@ -203,21 +141,28 @@ Ask the user 3-4 questions to fill gaps. One question at a time, conversational.
 
 ### Phase 3 — Synthesis (~4 min)
 
-Generate `gtm/playbook.md` using the template below. For each section:
+Generate `gtm/playbook.md`. For each worksheet:
 
 1. Pull relevant data from identified source files
 2. Reframe into the Revealed worksheet structure
 3. Add `> Source:` citation at the end of each section
 4. Mark incomplete sections with `[DRAFT — run /skill to enrich]`
 
-**Reframing rules:**
-- Worksheet 2 (JTBD): Reframe persona pain points as Jobs to Be Done. Functional = what they need to accomplish. Emotional = how they want to feel. Social = how they want to be perceived.
-- Worksheet 4 (Better & Different): Build a comparison matrix from market.md competitors + brand.md positioning. "We are / We are NOT" framing.
-- Worksheet 5 (Hiring Process): Answer the 6 Revealed questions using existing data. Each question maps to specific source files.
-- Worksheet 6 (Demand Gen): Synthesize brand pillars + gtm messaging + seo content strategy into a narrative arc.
-- Worksheet 7 (Demand Capture): Combine channel prioritization + specific channel detail into a unified view. Add collateral checklist.
-- Worksheet 8 (Winning Pitch): Pull landing page narrative flow + elevator pitch + presentation structure.
-- Worksheet 9 (Known Risks): Consolidate risks from gtm, ads/budget, and user Q&A into a mitigation table.
+**Worksheet-to-source mapping:**
+
+| Worksheet | Primary Source | Reframing |
+|-----------|---------------|-----------|
+| 1. Who's buying | `context/personas/` | Personas → ICP map (Primary, Adjacent, KDM, Stakeholders) |
+| 2. What Jobs | `context/business.md` + `context/personas/` | Pain points → JTBD (Affordances, Anticipated Change, Catalysts) |
+| 3. Pricing | User Q&A | Raw answers → Value for Money analysis vs. alternatives |
+| 4. Better & different | `context/market.md` + `context/brand.md` | Competitors → Competing Solutions. Positioning → Differentiation. Find the One-Good-Reason-to-Avoid. |
+| 5. Hiring process | `context/brand.md` + `context/personas/` + `landing/` | Answer 6 JTBD hiring questions with evidence. Flag any "no" honestly. |
+| 6. Demand narrative | `context/brand.md` + `gtm/messaging.md` + `seo/` | Messaging pillars → 4-beat narrative arc (world changing → old solutions failing → new affordances → new goals) |
+| 7. Catalyze demand | `context/keywords.md` + `ads/` + `seo/` + `gtm/` | Keywords → Shopping Vectors. Channel data → Channel recommendations. Content → Collateral checklist. |
+| 8. Winning pitch | `landing/` + `context/brand.md` | Landing page specs → website/deck structure for Simulated Selection |
+| 9. Known risks | `experiments/` + `optimize/` + `gtm/` + Q&A | All risk sources → Risk Register with mitigation + triggers |
+
+**Validation Roadmap sources:** `experiments/`, `gtm/validation-roadmap.md`, `optimize/report.md`
 
 ---
 
@@ -226,52 +171,110 @@ Generate `gtm/playbook.md` using the template below. For each section:
 Present a completion summary:
 
 ```
-Playbook generated: gtm/playbook.md
+GTM Prototype generated: gtm/playbook.md
 
 Strong sections: [list]
 Draft sections: [list with which skill to run]
 
 Suggested next steps:
-- Run /gtm to strengthen Worksheets 6, 7, 9
+- Run /gtm to strengthen Worksheets 6, 7, 9 through interactive discovery
 - Run /ads to add paid search detail to Worksheet 7
-- Run /landing to build out Worksheet 8
+- Run /landing to build the pitch artifact for Worksheet 8
+- Run /experiment to formalize validation tests
 ```
 
 ---
 
 ## Output Structure — `gtm/playbook.md`
 
-Header: `# GTM Prototype Playbook` with business name, date, and "Synthesized from getClicked skill outputs." Include a 2-line "How to Read This Document" note about DRAFT markers and source citations.
+Header: `# GTM Prototype` with business name, date, and framework attribution. Include "How to Read This Document" note about DRAFT markers and source citations.
 
-**9 Worksheets + Validation Roadmap + Appendix:**
+**Write narrative, not spreadsheets.** Each worksheet is a condensed narrative section synthesized from upstream skill output. Write like you're briefing a board: opinionated, concise, anchored in decisions. Tables only for genuinely tabular data.
 
-| # | Section | Key Elements | Source |
-|---|---------|-------------|--------|
-| 1 | Who Is Buying? | Primary ICP, Adjacent ICP, Decision Makers table (Role / Who / Cares About / How to Reach) | `personas/*.md` |
-| 2 | What Jobs? (JTBD) | Functional, Emotional, Social jobs. Current Solutions & Switching Triggers table | `personas/*.md`, `market.md` |
-| 3 | Pricing & Packaging | Model, Tiers table (Tier / Price / Includes / Best For), Adoption Costs, De-Risking | User Q&A |
-| 4 | Better & Different | Positioning statement, We Are / We Are NOT table, Competitive Differentiation Matrix | `brand.md`, `market.md` |
-| 5 | Hiring Process | 6 Revealed questions answered: Is it different? Does it do a job I want? Do I trust it? Can I use it? Are adoption costs acceptable? Is it good value? | `brand.md`, `personas/`, `landing/` |
-| 6 | Demand Gen Narrative | Awareness story, Content strategy, Narrative Arc table (Stage / Message / Channel / Content) | `brand.md`, `gtm/messaging.md`, `seo/` |
-| 7 | Demand Capture | Channel prioritization (Bullseye), Channel detail (paid/organic/other), Collateral Checklist (Exists/Needed) | `gtm/`, `ads/`, `seo/`, `landing/` |
-| 8 | Winning Pitch | Website narrative (hero→problem→solution→proof→CTA), Elevator pitch, Sales deck structure (5 slides) | `landing/`, `brand.md`, `gtm/outputs/` |
-| 9 | Known Risks | Risk Register table (Risk / Type / Severity / Mitigation / Trigger), Market + Execution + Financial + Additional risks | `gtm/`, `ads/budget.md`, Q&A |
-| — | Validation Roadmap | Phase 1: Test Value (JTBD hypotheses → /experiment), Phase 2: Test Demand (channels → /ads + /landing), Phase 3: Build & Launch (→ /optimize) | `experiments/`, `optimize/` |
-| — | Appendix: Data Sources | Table of all files read, their role, and availability (Yes/No) | Inventory from Phase 1 |
+```
+Status Badge
+Executive Summary (the strategic thesis in one sentence + which skills inform this prototype)
+## How to use this prototype
+Living document. Each worksheet answers one strategic question. Update as you learn. Review after every testing cycle.
+---
+## 1. Who is buying your product?
+Primary ICP, Adjacent ICP, Key Decision Maker, Adoption Stakeholders. Character sketches, not demographics.
+> Source: context/personas/
+
+## 2. What Jobs will the product do?
+Per ICP: Key Affordances, Anticipated Change (reduce/increase + what), Catalysts. Consumer's POV, not company's.
+> Source: context/business.md, context/personas/
+
+## 3. How will it be priced and packaged?
+Value for Money analysis. Tier table. Adoption costs. De-risking strategies.
+> Source: User Q&A
+
+## 4. How is your product better & different?
+Competing Solutions. One-Good-Reason-to-Avoid. How Different. How Better.
+> Source: context/market.md, context/brand.md
+
+## 5. Why will it pass the Hiring Process?
+6 JTBD hiring questions answered with evidence. Honest about gaps.
+> Source: context/brand.md, context/personas/, landing/
+
+## 6. What is your Demand Generation Narrative?
+4-beat narrative arc: world changing → old solutions failing → new affordances → new goals achievable.
+> Source: context/brand.md, gtm/messaging.md, seo/
+---
+## 7. Where will you catalyze demand?
+Shopping Vectors (search queries). Channels (where ICPs consume content). Collateral (formats to produce).
+> Source: context/keywords.md, ads/, seo/, gtm/
+
+## 8. What's your winning pitch?
+Website/deck structure for Simulated Selection. Hero → Problem → Solution → Proof → Pricing → CTA.
+> Source: landing/, context/brand.md
+
+## 9. Known risks & mitigation options
+Risk Register: Risk / Type / Severity / Mitigation / Trigger. Honest about unknowns.
+> Source: experiments/, optimize/, gtm/, Q&A
+---
+## Validation Roadmap
+Value Testing (JTBD Design) → Demand Testing (Simulated Selection) → Build → Go to Market → Iterate.
+> Source: experiments/, gtm/validation-roadmap.md, optimize/
+
+## What we don't know yet
+Assumptions, unknowns, things that need real-world data. Intellectual honesty builds trust.
+> Source: All sections — gaps and DRAFT markers collected here
+
+## Appendix: Data Sources
+Table: File / Role / Available (Yes/No)
+```
 
 Every section ends with `> Source:` citation. Incomplete sections get `[DRAFT — run /skill to enrich]`.
 
 ---
 
+## Incremental Enrichment
+
+The playbook works with whatever exists. More skills = richer prototype.
+
+| Skills Completed | Prototype Coverage |
+|---|---|
+| /context + /brand (minimum) | WS 1-5 strong. WS 3 needs Q&A. WS 6-9 DRAFT. |
+| + /gtm | WS 6, 7, 9 strengthen. Validation Roadmap populates. |
+| + /ads | WS 7 gets paid search detail. |
+| + /seo | WS 6 gets content strategy. WS 7 gets organic detail. |
+| + /landing | WS 8 gets pitch artifact. |
+| + /experiment | Validation Roadmap gets real test data. |
+| + /optimize | WS 9 gets performance-based risks. |
+
+---
+
 ## Rules
 
-1. **Synthesis, not generation.** Pull from existing files. If the data doesn't exist, mark it DRAFT — don't make it up.
-2. **Every section cites its source.** `> Source:` line at the end of every worksheet section.
-3. **DRAFT markers are specific.** Not just "[DRAFT]" — include which skill to run: `[DRAFT — run /ads to enrich]`.
-4. **One Q&A pass.** Ask all gap-fill questions in Phase 2. Don't interrupt synthesis to ask more questions.
-5. **Pricing is always asked.** Even if other data exists, pricing/packaging comes from the user — not inferred.
-6. **Reframe, don't copy.** Persona pain points become JTBD. Brand positioning becomes a comparison matrix. Channel data becomes a collateral checklist. Add value through reframing.
-7. **Idempotent re-runs.** Running /playbook again after new skills should produce a richer document, not a duplicate. Overwrite `gtm/playbook.md` entirely on each run.
+1. **Synthesis, not generation.** Pull from existing files. If data doesn't exist, mark DRAFT — don't invent.
+2. **Every section cites its source.** `> Source:` line at the end of every worksheet.
+3. **DRAFT markers are specific.** Include which skill to run: `[DRAFT — run /ads to enrich]`.
+4. **One Q&A pass.** Ask all gap-fill questions in Phase 2. Don't interrupt synthesis.
+5. **Pricing is always asked.** Even if other data exists, pricing comes from the user — not inferred.
+6. **Reframe, don't copy.** Pain points become JTBD. Positioning becomes the 4-beat narrative. Keywords become Shopping Vectors. Add value through reframing.
+7. **Idempotent re-runs.** Running /playbook again should produce a richer document, not a duplicate.
+8. **This is the Revealed framework.** 9 Decision Worksheets from Klement & White. Do not substitute other frameworks.
 
 ---
 
@@ -296,5 +299,5 @@ Stop. Present completion summary. Do not add unrequested deliverables.
 
 - **Client wants a single strategic document** — the capstone after running multiple skills
 - **Board meeting or investor prep** — structured decision framework
-- **New engagement kickoff** — minimum viable playbook from /context + /brand, enriches over time
+- **New engagement kickoff** — minimum viable prototype from /context + /brand, enriches over time
 - **Quarterly review** — re-run to update with fresh data from /optimize + /experiment
