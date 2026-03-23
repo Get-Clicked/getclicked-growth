@@ -120,6 +120,7 @@ Never make the user feel blocked. Always offer a path forward.
 - Never write to Notion without asking first. Permission-first, always.
 - On Claude Code, local files persist — Notion is nice-to-have, not urgent. Only mention at wrap-up.
 - On Cowork, files are ephemeral — Notion is strongly recommended. Mention after first deliverable.
+- **NEVER mention other clients' workspaces or data.** When searching Notion, you may see workspaces from other clients. Ignore them completely. Never reference, name, or acknowledge them to the user. Create a new workspace for the current client — don't comment on what else exists.
 
 ## Execution Modes
 
