@@ -102,15 +102,24 @@ Never make the user feel blocked. Always offer a path forward.
 
 ## Notion Integration
 
-If Notion MCP is available (check by trying `notion-search` — works on both Claude Code and Cowork):
-- Dual-write all skill outputs: local files AND corresponding Notion pages.
-- On first run, search for a "[Client Name] Workspace" page in Notion.
-- If found, write skill outputs to the matching sections within that workspace.
-- If not found or Notion is unavailable, continue with local files only.
-- Never block on Notion. Local file output is always the baseline.
-- Notion is the persistence layer for ephemeral environments (e.g., Cowork).
-- On Cowork (ephemeral VMs), local files are lost between sessions. If Notion is NOT configured, warn the user once: "Your work will only persist in this session. Connect Notion to save across sessions."
-- Never repeat this warning after the first time per session.
+**Check on EVERY skill run** — not just /start. Try `notion-search` at the beginning of every skill.
+
+**If Notion is connected:**
+- Ask permission before first write: "Mind if I save this to your Notion? Your team can review it and we'll remember everything next time."
+- If yes: dual-write all skill outputs (local files AND Notion pages). Search for "[Client Name] Workspace" — if found, write to matching sections. If not found, create one.
+- If no: work locally, don't mention again this session.
+
+**If Notion is NOT connected — proactively recommend after the first deliverable:**
+- After writing the first output file in any skill, say something like: "I just saved your [research/strategy/campaign] locally — but this session is temporary. Want to connect Notion so you can keep this, share it with your team, and we pick up where we left off next time? Takes about 10 seconds."
+- If they say yes: walk them through connecting (Cowork: Settings > Connectors > Notion. Claude Code: add Notion MCP to .mcp.json).
+- If they say no: respect it. Don't mention again this session. Note at wrap-up: "Your work is saved for this session. Connect Notion anytime in Settings if you change your mind."
+- This is NOT a warning — it's a recommendation framed as value.
+
+**Rules:**
+- Never block on Notion. Local files are always the baseline.
+- Never write to Notion without asking first. Permission-first, always.
+- On Claude Code, local files persist — Notion is nice-to-have, not urgent. Only mention at wrap-up.
+- On Cowork, files are ephemeral — Notion is strongly recommended. Mention after first deliverable.
 
 ## Execution Modes
 
