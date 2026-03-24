@@ -55,7 +55,7 @@ ads/ad-groups.json → ads/negatives.json → ads/budget.md → ads/forecast.md 
 ## Prerequisites
 
 **Required:** `context/business.md`, `context/keywords.md` (if missing → run `/context` first).
-**Optional:** `context/brand.md` (voice), `context/market.md` (competition), `context/personas/` (intent-matched copy), `insights/` (past learnings), `memory/cross-client-patterns.md` (cross-client intel; per-client overrides).
+**Optional:** `context/brand.md` (voice), `context/market.md` (competition), `context/personas/` (intent-matched copy), `insights/` (past learnings), `memory/cross-client-patterns.md` (cross-client intel; per-client overrides), `compete/` (competitor paid keywords + ad copy inform campaign strategy).
 Read all available files before starting.
 
 ---
@@ -230,6 +230,10 @@ Fast skips: forecast projections, campaign settings, client presentation, search
 ## Workflow
 
 Run these sub-agents in order. Each builds on the previous output.
+
+### Competitive Intelligence
+
+If `compete/gaps.md` exists, read Keyword Gaps (Paid) for keywords competitors bid on that we should target. Read Ad Copy Intelligence for messaging themes to differentiate against. This data supplements DataForSEO keyword expansion and gives ad copy a competitive edge.
 
 ### 1. Keyword Researcher → `ads/keywords.csv` [~3 min]
 

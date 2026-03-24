@@ -79,8 +79,9 @@ Before running, check that these exist:
 - `insights/` — optional (past conversion learnings: what CTAs worked? What page elements converted?)
 - `seo/content-ideas.csv` — optional (avoid duplicating content `/seo` already planned)
 - `memory/cross-client-patterns.md` — optional (anonymized patterns from other client campaigns — landing page patterns, copy patterns). Read this AFTER per-client insights. Per-client insights override cross-client patterns when they conflict.
+- `compete/` — optional (competitor landing page analysis informs page specs)
 
-Read all available context, persona, insight, and cross-client pattern files before starting.
+Read all available context, persona, insight, competitive intelligence, and cross-client pattern files before starting.
 
 ---
 
@@ -308,6 +309,10 @@ Fast skips: geo pages, variants, lower-priority ad group pages.
 ## Workflow
 
 Run these sub-agents in order. Each builds on the previous output.
+
+### Competitive Intelligence
+
+If `compete/{domain}/landing-pages.md` exists, read competitor page structure and conversion patterns. Spec pages that beat them on specific elements — if a competitor leads with social proof, lead with a stronger trust bar; if they bury pricing, make yours transparent above the fold.
 
 ### 1. Page Auditor → `landing/audit.md` [~2 min]
 

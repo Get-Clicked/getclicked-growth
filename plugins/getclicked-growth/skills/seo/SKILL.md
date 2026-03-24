@@ -62,8 +62,9 @@ Before running, check that these exist:
 - `context/brand.md` — optional (for voice alignment in content planning)
 - `context/personas/` — optional but valuable (match content ideas to audience segments)
 - `insights/` — optional (past performance insights inform keyword and content strategy)
+- `compete/` — optional (competitor organic data supplements ranked_keywords calls)
 
-Read all available context, persona, and insight files before starting.
+Read all available context, persona, insight, and competitive intelligence files before starting.
 
 ---
 
@@ -118,6 +119,10 @@ In fast mode, announce: "Building your SEO dashboard — rankings, gaps, and act
 ---
 
 ## Workflow
+
+### Competitive Intelligence
+
+If `compete/{domain}/organic-keywords.csv` exists for competitors, use it instead of re-calling `ranked_keywords` — saves API credits and provides richer data. The `/compete` skill pulls more comprehensive organic data than the per-competitor calls in Step 1, so prefer it when available.
 
 ### Step 1 — Pull Current Rankings [~2 min]
 

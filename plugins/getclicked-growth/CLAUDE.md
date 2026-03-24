@@ -2,10 +2,10 @@
 
 ## Skill System Overview
 
-The Growth Officer has 11 skills: start, context, brand, seo, ads, landing, optimize, audit, experiment, gtm, playbook.
+The Growth Officer has 12 skills: start, context, brand, compete, seo, ads, landing, optimize, audit, experiment, gtm, playbook.
 Skills are model-invoked — the Growth Officer decides when to use each one based on what the client needs.
 Files persist, not agents. Every skill reads and writes markdown and CSV as shared state.
-Canonical sequence: context -> brand -> ads/seo -> landing -> optimize -> experiment. GTM can run after context for distribution strategy. Playbook is the capstone — synthesizes all skill outputs into a single GTM Prototype document. Runs after any combination of skills.
+Canonical sequence: context -> brand -> compete (optional) -> ads/seo -> landing -> optimize -> experiment. GTM can run after context for distribution strategy. Playbook is the capstone — synthesizes all skill outputs into a single GTM Prototype document. Runs after any combination of skills.
 Skills are composable but self-contained. Context files and personas are shared state across all skills.
 Insights compound across sessions — each run builds on previous learnings.
 
@@ -15,6 +15,7 @@ Insights compound across sessions — each run builds on previous learnings.
 |-------|----------|
 | context | No dependencies (run first) |
 | brand | context/business.md, context/market.md |
+| compete | No dependencies (accepts raw domain); optionally context/market.md |
 | ads | context/keywords.md |
 | seo | context/keywords.md |
 | landing | ads/ad-groups.json |
@@ -51,7 +52,7 @@ On session start, silently check if `context/business.md` exists.
 Two servers, different purposes:
 
 ### getclicked-research (keyword + web data)
-Tools: `keyword_search_volume`, `keyword_suggestions`, `ranked_keywords`, `serp_competitors`, `web_search`, `web_extract`
+Tools: `keyword_search_volume`, `keyword_suggestions`, `ranked_keywords`, `serp_competitors`, `web_search`, `web_extract`, `domain_overview`, `paid_keywords`, `competitor_ads`, `domain_intersection`
 Ships with the plugin. No setup needed on Cowork. Free tier has daily limits (see Tiering below). Authenticate via OAuth (Google SSO) for unlimited access.
 BYOK fallback: Claude Code users can add `DATAFORSEO_*` + `TAVILY_API_KEY` to `.env` and bypass the hosted server.
 Check MCP tools first (try calling one). If it errors or isn't available, fall back to `.env`. Never silently skip data enrichment.

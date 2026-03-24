@@ -6,13 +6,14 @@ Build market research, brand strategy, Google Ads campaigns, SEO plans, landing 
 
 ## What You Get
 
-11 skills, from onboarding to full GTM synthesis:
+12 skills, from onboarding to full GTM synthesis:
 
 | Skill | What It Does | Time (fast) |
 |-------|-------------|-------------|
 | `/start` | Guided onboarding for new users | ~3 min |
 | `/context` | Business facts, market research, competitor analysis, keyword themes, personas | ~8 min |
 | `/brand` | Positioning, voice, messaging pillars, guardrails | ~5 min |
+| `/compete` | Competitive intelligence — organic rankings, paid keywords, ad copy, gaps analysis | ~8 min |
 | `/ads` | Google Ads campaigns — keywords, ad copy, negatives, budget, export files | ~10 min |
 | `/seo` | SEMrush-killer dashboard — live rankings, keyword gaps, competitor analysis, prioritized actions | ~8 min |
 | `/landing` | Landing page specs matched to ad groups with conversion optimization | ~8 min |
@@ -151,6 +152,8 @@ Notion: connected (or "not connected — optional")
     |
 /brand (strategy)
     |
+/compete (competitive intelligence -- optional, feeds into all channels)
+    |
     +-- /ads --> /landing --> /optimize
     |
     +-- /seo
@@ -197,6 +200,16 @@ context/
   keywords.md          # North star themes + DataForSEO metrics
   brand.md             # Positioning, voice, messaging
   personas/            # Audience personas (one file each)
+
+compete/
+  {domain-slug}/
+    overview.md          # Traffic, keyword counts, positioning summary
+    organic-keywords.csv # Organic rankings (top 100)
+    paid-keywords.csv    # Paid keywords (top 100)
+    ad-copy.md           # Actual ad copy grouped by theme (comprehensive)
+    landing-pages.md     # Landing page analysis (comprehensive)
+  gaps.md              # Synthesized gaps for downstream skills
+  compete-report.md    # CEO-ready competitive narrative report
 
 ads/
   keywords.csv         # Paid keywords with match types, bids, metrics

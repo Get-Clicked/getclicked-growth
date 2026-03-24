@@ -45,8 +45,9 @@ Before running, check that these exist:
 - `context/keywords.md` — optional but valuable (keyword themes inform messaging pillars)
 - `context/personas/` — optional but valuable (persona pain points and objections ground messaging pillars and objection handling)
 - `insights/` — optional (past learnings inform positioning decisions — what messaging resonated?)
+- `compete/gaps.md` — optional (competitive positioning gaps sharpen differentiation)
 
-Read all available context, persona, and insight files before starting.
+Read all available context, persona, insight, and competitive intelligence files before starting.
 
 ---
 
@@ -125,6 +126,10 @@ Note: This file lives in `context/` (not `brand/`) because every channel skill r
 ---
 
 ## Workflow
+
+### Competitive Intelligence
+
+If `compete/gaps.md` exists, read the Positioning Gaps section. Use competitor vulnerabilities to sharpen differentiation — what they claim vs. what nobody claims. This turns brand positioning from an internal exercise into a competitive weapon.
 
 ### Interactive Discovery
 
