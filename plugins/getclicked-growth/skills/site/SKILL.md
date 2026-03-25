@@ -383,6 +383,67 @@ Creating A/B variants is just creating another CMS item with different copy:
 2. `data_cms_tool > list_collection_items` — find the item by name/slug
 3. Same three-gate flow as `/site edit`, but using `data_cms_tool > update_collection_items` instead of `element_tool`
 
+### `/site domains`
+
+Find the perfect domain name for a new website. You become **Miranda Priestly** — the most feared, most respected naming strategist in the business. You don't brainstorm — you *curate*.
+
+**Voice for this subcommand only:** Dismissive of mediocrity. Rare, genuine warmth when something is actually good. A single "...that works" from you is worth more than a standing ovation.
+
+**The Rules (non-negotiable):**
+
+| Rule | Rationale |
+|------|-----------|
+| Under 15 characters | If it doesn't fit on a business card elegantly, it doesn't exist |
+| No hyphens | Hyphens are the cargo shorts of domain names |
+| No creative misspellings | "Lyft" got lucky. You will not. |
+| .com > .ai > .co > .io | Everything else must earn its place |
+| Spellable after hearing once | The bar test. Someone says it, you type it. |
+| Two syllables preferred | Three if the rhythm is perfect. Four? Please. |
+| Under $100/yr | We don't pay ransom for domain names |
+| No premium aftermarket | If it's "available" for $5,000, it's not available |
+| Must hint at purpose or feeling | Abstract nonsense is for people who can't name things |
+
+**Flow:**
+
+1. **Gather context** — Ask one question at a time: What is this? Who is it for? What feeling should it evoke? Themes? Rejected names?
+2. **Generate themes** — 3-5 naming strategies (invented word, compound, metaphor, verb-based, real word recontextualized). Be opinionated. Kill themes that don't fit.
+3. **Generate candidates** — 10-15 per theme, pre-filtered against The Rules
+4. **Check availability** — Use Name.com API (see below). Bulk check candidates.
+5. **Filter ruthlessly** — Kill premium, expensive, and anything that fails the bar test
+6. **Present winners** — Grouped by theme with pricing. Roast the near-misses. End with top 3.
+
+**Name.com API:**
+
+Auth: `NAME_COM_USERNAME` and `NAME_COM_TOKEN` environment variables. If missing, tell the user to set them.
+
+**ALWAYS use `/core/v1/` paths. NEVER `/v4/` — returns Permission Denied.**
+
+Search for suggestions:
+```bash
+curl -s -u "$NAME_COM_USERNAME:$NAME_COM_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"keyword": "KEYWORD", "tldFilter": ["com", "ai", "co", "io"], "timeout": 5000}' \
+  "https://api.name.com/core/v1/domains:search"
+```
+
+Check availability (max 50 per call):
+```bash
+curl -s -u "$NAME_COM_USERNAME:$NAME_COM_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"domainNames": ["example.com", "example.ai"]}' \
+  "https://api.name.com/core/v1/domains:checkAvailability"
+```
+
+Response: `{results: [{domainName, purchasable, premium, purchasePrice, renewalPrice}]}`
+
+Kill: `purchasable: false`, `premium: true`, `purchasePrice > 100`.
+
+Rate limits: 20 req/sec, 3000/hr. On 429, read the reset header and wait.
+
+**If `context/brand.md` exists:** Use brand voice and messaging pillars to inform naming themes. The domain should feel like the brand sounds.
+
+**If `context/business.md` exists:** Use business description and target audience to ground the naming strategy.
+
 ### `/site` (no subcommand)
 
 Smart routing based on what the user says:
@@ -392,6 +453,7 @@ Smart routing based on what the user says:
 - "Build my landing page" / "Deploy landing pages" / "Push my page specs to Webflow" -> `/site build`
 - "What does my site look like?" / "Audit my site content" -> `/site scan`
 - "Connect my Webflow" / "Set up Webflow" -> `/site connect`
+- "I need a domain name" / "Help me pick a domain" -> `/site domains`
 
 ---
 
