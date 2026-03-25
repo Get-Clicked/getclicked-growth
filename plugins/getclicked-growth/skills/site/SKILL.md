@@ -297,12 +297,99 @@ Create new CMS items (new pages from templates):
 6. **Gate 2 (Stage):** `data_cms_tool > create_collection_items` as drafts
 7. **Gate 3 (Publish):** `data_cms_tool > publish_collection_items`
 
+### `/site build`
+
+Deploy landing pages from `/landing` specs to Webflow via CMS. This is the bridge between strategy (what to say) and execution (getting it on the site).
+
+**Prerequisites:**
+- `landing/pages/*.md` — at least one landing page spec. If missing: "Run `/landing` first to create your page specs."
+- A Webflow CMS collection for landing pages. If it doesn't exist, the agent helps create one.
+- A Webflow page template bound to that collection. User sets this up in the Designer.
+
+**First-time setup (once per site):**
+
+1. **Check for a landing page collection.** `data_cms_tool > get_collection_list` — look for a collection that could hold landing pages (by name or fields). If none exists:
+
+2. **Guide collection creation.** Tell the user:
+   > "I need a CMS collection to hold your landing pages. Here's what to do in the Webflow Designer:
+   > 1. Create a new CMS Collection called 'Landing Pages'
+   > 2. I'll add the fields for you — let me know when the collection exists."
+
+   Once the user confirms, `data_cms_tool > get_collection_list` to find the new collection, then `data_cms_tool > create_collection_static_field` to add fields.
+
+   **Which fields to create depends on the page template.** Ask the user: "What sections does your landing page template have? I'll create matching CMS fields." Then create PlainText fields for headings/CTAs and RichText fields for body sections.
+
+   Common fields for a PAS landing page:
+   - `hero-headline` (PlainText) — maps to H1
+   - `hero-subheadline` (PlainText) — maps to subhead
+   - `cta-text` (PlainText) — maps to button text
+   - `problem` (RichText) — PAS problem + agitation
+   - `solution` (RichText) — solution + benefits
+   - `social-proof` (RichText) — testimonials
+   - `faq` (RichText) — objection handling
+   - `meta-title` (PlainText) — SEO title
+   - `meta-description` (PlainText) — SEO description
+
+   But **don't assume this schema** — derive fields from what the user's template actually needs.
+
+3. **Guide template binding.** Tell the user:
+   > "Now connect the CMS fields to your page template elements:
+   > - Bind `hero-headline` to your H1 element
+   > - Bind `hero-subheadline` to your subheading
+   > - Bind `cta-text` to your button text
+   > - [etc. for each field]
+   >
+   > Let me know when you're done and I'll populate the content."
+
+**Each landing page (after setup):**
+
+1. Read the `/landing` spec for the target page
+2. `data_cms_tool > get_collection_details` — read the collection field schema
+3. Map spec content to collection fields:
+   - Match by field name/slug (e.g., `hero-headline` ← spec's Hero Headline)
+   - If a field has no matching spec content, leave it empty
+   - If a spec section has no matching field, flag it: "Your template doesn't have a field for [section]. You may want to add one."
+4. **Gate 1 (Brainstorm):** Present the mapping:
+
+```
+| CMS Field | Content from /landing spec |
+|-----------|---------------------------|
+| hero-headline | "Portland Emergency Plumber — There in 30 Minutes" |
+| hero-subheadline | "When a pipe bursts at 2AM, Portland calls us." |
+| cta-text | "Get My Free Quote" |
+| problem | [first 50 chars]... |
+| meta-title | "Emergency Plumbing Portland — 24/7 Service" |
+```
+
+5. User reviews and approves (or edits)
+6. **Gate 2 (Stage):** `data_cms_tool > create_collection_items` as draft
+7. User previews the page in Webflow
+8. **Gate 3 (Publish):** `data_cms_tool > publish_collection_items`
+
+**Variants (for experiments):**
+
+Creating A/B variants is just creating another CMS item with different copy:
+
+1. User says "create a variant with a different headline"
+2. Agent reads the original CMS item
+3. **Gate 1:** Proposes 2-3 headline alternatives (grounded in keyword data + brand voice)
+4. User picks one
+5. **Gate 2:** `data_cms_tool > create_collection_items` — new item with the variant copy, everything else identical
+6. Agent records the variant in `experiments/` for tracking via `/experiment`
+
+**Updating existing landing pages:**
+
+1. User says "update the headline on the plumbing landing page"
+2. `data_cms_tool > list_collection_items` — find the item by name/slug
+3. Same three-gate flow as `/site edit`, but using `data_cms_tool > update_collection_items` instead of `element_tool`
+
 ### `/site` (no subcommand)
 
 Smart routing based on what the user says:
 - "Update the headline on..." / "Change the text..." -> `/site edit`
 - "Fix my SEO" / "Update meta descriptions" -> `/site seo`
 - "Create a new blog post" / "Add a service page" -> `/site create`
+- "Build my landing page" / "Deploy landing pages" / "Push my page specs to Webflow" -> `/site build`
 - "What does my site look like?" / "Audit my site content" -> `/site scan`
 - "Connect my Webflow" / "Set up Webflow" -> `/site connect`
 
@@ -414,6 +501,8 @@ For `/site scan`, the default reads metadata for all pages and full elements for
 
 **`/site create`** is done when the CMS item is created as a draft or published.
 
+**`/site build`** is done when landing page CMS items are created from `/landing` specs. First-time setup is done when the collection exists and the user confirms field binding.
+
 Stop. Present completion summary. Do not add unrequested deliverables.
 
 ---
@@ -422,8 +511,9 @@ Stop. Present completion summary. Do not add unrequested deliverables.
 
 - **User wants to edit their website:** "Update my homepage headline," "Fix the text on my about page," "Change the CTA"
 - **User wants to fix SEO:** "My meta descriptions are empty," "Fix my SEO titles," "Update OG tags"
-- **After `/landing` produces page specs:** Push validated landing page content to the live CMS
+- **After `/landing` produces page specs:** "Build my landing pages," "Deploy the page specs to Webflow" -> `/site build`
 - **After `/seo` identifies gaps:** Fix metadata issues the SEO audit found
 - **User wants a content inventory:** "What's on my site right now?" "Audit my site content"
 - **New CMS content needed:** "Create a new blog post," "Add a new service page"
+- **Landing page variants for A/B testing:** "Create a variant with a different headline" -> `/site build` variant flow
 - **Partial runs:** "Just fix the SEO on my homepage," "Only update the headline on /services"
