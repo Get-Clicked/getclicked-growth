@@ -314,6 +314,141 @@ Tell the user: "Competitive intelligence complete. [Summary of biggest finding].
 
 ---
 
+## `/compete copypaste` — Steal Their Playbook
+
+The nuclear option. Research a competitor, then build the whole campaign — ads, landing pages, experiment — in one shot. Copy what works, make it better.
+
+**Prerequisites:**
+- `context/business.md` — required. We need to know who YOU are to make the copy yours.
+- `context/brand.md` — strongly recommended. Without brand voice, the copy will be generic.
+- Webflow MCP connected — required for landing page deployment via `/site build`.
+
+**The flow:**
+
+### Step 1: Research the target [~5 min]
+
+Run Phase 2 + Phase 3 (comprehensive) on the single competitor domain. We need everything — organic, paid, ad copy, landing pages. No fast mode here.
+
+"Researching [competitor]. Pulling their organic rankings, paid keywords, ad copy, and landing pages. ~5 minutes."
+
+### Step 2: Show the playbook [~2 min]
+
+Present a summary of what we're going to copy-paste:
+
+> **Here's what [competitor] is running:**
+>
+> **Paid keywords** (top 5 by spend):
+> | Keyword | CPC | Volume | Their ad headline |
+> |---------|-----|--------|-------------------|
+>
+> **Their landing page structure:**
+> [Section-by-section breakdown of their top landing page]
+>
+> **Their weaknesses I'll exploit:**
+> - [weakness 1 — how we'll beat it]
+> - [weakness 2 — how we'll beat it]
+>
+> **What I'll build for you:**
+> - [N] ad groups targeting their top paid keywords
+> - [N] landing page(s) that beat theirs on [specific elements]
+> - Framed as experiment EXP-[NNN] so we track performance
+>
+> **Ready to build it?**
+
+Wait for user approval before proceeding.
+
+### Step 3: Build the ads [~3 min]
+
+Using `/ads` logic (not invoking the skill — running the workflow inline):
+
+1. Take the competitor's top paid keywords from `compete/{slug}/paid-keywords.csv`
+2. Group into ad groups by theme (same logic as `/ads` keyword grouping)
+3. Write ad copy that:
+   - Targets the same keywords
+   - Addresses the competitor's weaknesses (from the landing page analysis)
+   - Uses the client's brand voice (from `context/brand.md`)
+   - Follows all `/ads` copy rules (30-char headlines, 90-char descriptions, message match)
+4. Write to `ads/ad-groups.json` and `ads/export-*.csv`
+
+**Key difference from normal `/ads`:** We're not doing fresh keyword research. We're taking THEIR keywords and writing BETTER copy. The research is already done — they did it for us.
+
+### Step 4: Spec the landing pages [~3 min]
+
+Using `/landing` logic inline:
+
+1. Read the competitor's landing page teardown from `compete/{slug}/landing-pages.md`
+2. For each ad group, spec a landing page that:
+   - Matches the ad copy (message match = non-negotiable)
+   - Beats the competitor on their specific weaknesses
+   - Follows PAS framework and all `/landing` CRO rules
+   - Uses the client's brand voice, trust signals, and business facts
+3. Write to `landing/pages/*.md`
+
+### Step 5: Deploy [~2 min]
+
+Using `/site build` logic:
+
+1. If a landing page CMS collection exists: create items from the specs
+2. If not: guide the user through first-time setup (create collection, bind fields)
+3. Create CMS items as drafts
+
+### Step 6: Frame as experiment [~1 min]
+
+Create an experiment file:
+
+```markdown
+# EXP-[NNN]: Copy-Paste [Competitor Name]
+
+**Hypothesis:** Targeting [competitor]'s top paid keywords with stronger landing pages
+(beating them on [specific weaknesses]) will generate [qualified leads/conversions]
+at a lower CPA than their estimated ${CPC} average.
+
+**Source:** /compete copypaste — competitor intelligence from {date}
+
+**What we copied:**
+- Their top [N] paid keywords (${total_spend}/mo estimated)
+- Their landing page structure (improved: [specific improvements])
+
+**What we improved:**
+- [Weakness 1] → [Our improvement]
+- [Weakness 2] → [Our improvement]
+- [Weakness 3] → [Our improvement]
+
+**Success criteria:**
+- CTR > [competitor's estimated CTR or industry benchmark]
+- CPA < ${competitor's estimated CPA}
+- Landing page CVR > [industry benchmark]
+
+**Duration:** 2 weeks
+**Budget:** ${recommended based on competitor keyword CPCs}
+
+**Status:** Draft — ads and landing pages staged, not published
+```
+
+Write to `experiments/EXP-NNN-copypaste-{competitor-slug}.md`
+
+### Step 7: Review and launch
+
+Present everything:
+
+> **Your copy-paste campaign is ready:**
+>
+> - **Ads:** [N] ad groups, [N] keywords, [N] ads → `ads/ad-groups.json`
+> - **Landing pages:** [N] pages staged in Webflow CMS (draft)
+> - **Experiment:** EXP-[NNN] tracking against [competitor]
+>
+> **To go live:**
+> 1. Review the ads in `ads/export-keywords.csv` and `ads/export-ads.csv`
+> 2. Preview the landing pages in Webflow
+> 3. Say "publish" to push landing pages live
+> 4. Import the ad CSVs to Google Ads (or I can push them if Google MCP is connected)
+>
+> **Estimated monthly spend:** ${range based on competitor keyword CPCs}
+
+**The agent never auto-publishes.** Everything stays staged until the user explicitly approves.
+
+---
+
 ## Done
 
 You are done when these files exist:
@@ -328,7 +463,9 @@ You are done when these files exist:
 | `compete/gaps.md` | Required | Required |
 | `compete/compete-report.md` | Required | Required |
 
-Stop. Present completion summary highlighting: competitors researched, total organic/paid keywords found, biggest vulnerability per competitor, top 3 exploitable gaps. Suggest next skill based on findings — `/brand` if positioning gaps dominate, `/ads` if paid keyword gaps are rich, `/seo` if organic gaps are the story, `/landing` if competitor landing pages revealed clear weaknesses. Do not add unrequested deliverables.
+**`/compete copypaste`** is done when ads, landing page specs, CMS items, and experiment file all exist. Present the launch summary and wait for user to approve publishing.
+
+For regular `/compete`: Stop. Present completion summary highlighting: competitors researched, total organic/paid keywords found, biggest vulnerability per competitor, top 3 exploitable gaps. Suggest next skill based on findings — `/brand` if positioning gaps dominate, `/ads` if paid keyword gaps are rich, `/seo` if organic gaps are the story, `/landing` if competitor landing pages revealed clear weaknesses. Do not add unrequested deliverables.
 
 ---
 
@@ -340,3 +477,4 @@ Stop. Present completion summary highlighting: competitors researched, total org
 - **New market entry** — understand the landscape before building anything
 - **Pitch prep** — CEO-ready report for board meetings or investor conversations
 - **Quarterly refresh** — re-run to track competitive movement over time
+- **Copy-paste a competitor:** "Copy what [competitor] is doing" / "Steal their playbook" / "Run ads like [competitor]" -> `/compete copypaste`
