@@ -2,7 +2,7 @@
 
 ## Skill System Overview
 
-The Growth Officer has 12 skills: start, context, brand, compete, seo, ads, landing, optimize, audit, experiment, gtm, playbook.
+The Growth Officer has 13 skills: start, context, brand, compete, seo, ads, landing, optimize, audit, experiment, gtm, playbook, site.
 Skills are model-invoked — the Growth Officer decides when to use each one based on what the client needs.
 Files persist, not agents. Every skill reads and writes markdown and CSV as shared state.
 Canonical sequence: context -> brand -> compete (optional) -> ads/seo -> landing -> optimize -> experiment. GTM can run after context for distribution strategy. Playbook is the capstone — synthesizes all skill outputs into a single GTM Prototype document. Runs after any combination of skills.
@@ -24,6 +24,7 @@ Insights compound across sessions — each run builds on previous learnings.
 | gtm | context/business.md, context/market.md, context/keywords.md |
 | playbook | context/business.md, context/personas/, context/brand.md |
 | audit | No dependencies (just a URL) |
+| site | No dependencies (Webflow MCP connector required); optionally all context/brand/seo/ads/landing |
 | start | No dependencies (onboarding flow) |
 
 If a required file is missing, run the upstream skill first. Do not proceed with stale or absent inputs.
@@ -148,3 +149,14 @@ When running fast, announce what's skipped: "Running fast — [core deliverables
 - Sync to Notion as a single pass at the end.
 - Never interleave Notion writes with local work.
 - Report "Synced N/M files to Notion" in completion summary.
+
+## Shared State Maintenance
+
+Skills write files that other skills read. Keep this state clean:
+
+- **`insights/keyword-research.md`** — append new learnings (dead ends, canonical forms, geo patterns) after every DataForSEO call. Read before calling to avoid re-pulling known data.
+- **`insights/copy-patterns.md`** — append what messaging works/doesn't after /optimize and /experiment runs.
+- **`insights/negative-patterns.md`** — append proven negative keyword categories after /ads and /optimize.
+- **`compete/gaps.md`** — updated by /compete, read by /brand, /ads, /seo, /landing when present.
+- **`context/` files** — the foundation. If a skill reveals something new about the business (e.g., /brand discovers a positioning angle), offer to update context files. Always ask first.
+- After every skill run, check: did I learn something that should be in `insights/`? If yes, append it. Don't wait to be asked.
