@@ -104,25 +104,80 @@ Never make the user feel blocked. Always offer a path forward.
 
 ## Notion Integration
 
-**Check on EVERY skill run** — not just /start. Try `notion-search` at the beginning of every skill.
+### Workspace Registry (Primary Method)
 
-**If Notion is connected:**
+On every skill run, check for `context/notion-workspace.json` first. This file is the source of truth for Notion page IDs — it eliminates the need to search Notion on every run.
+
+```json
+{
+  "client": "client-name",
+  "workspace_id": "uuid",
+  "pages": {
+    "business": { "id": "uuid", "title": "...", "url": "..." },
+    "compete": { "id": "uuid", "title": "...", "url": "..." },
+    ...
+  }
+}
+```
+
+**How skills use the registry:**
+1. Read `context/notion-workspace.json` — if it exists, you have all page IDs. No searching needed.
+2. To write to a page: use `notion-update-page` with the `id` from the registry. Use `update_content` (search-and-replace) instead of `replace_content` to avoid child page deletion errors.
+3. To create a new page: create it under the workspace, then **add it to the registry** so future skills can find it.
+4. After any Notion write, update `last_synced` in the registry.
+
+**When the registry doesn't exist (first run / new client):**
+1. Try `notion-search` for "[Client Name] Workspace"
+2. If found: use `notion-fetch` to get child page IDs, build the registry file
+3. If not found: create the workspace using the standard template (see below), build the registry
+4. Save to `context/notion-workspace.json`
+
+### Standard Workspace Template
+
+When creating a new workspace, use this two-column layout:
+
+```
+Research (left column):
+  - Business & Market (context/business.md + context/market.md)
+  - Competitive Intelligence (compete/compete-report.md)
+  - [Market Name] Market (context/markets/*.md) — one per market
+  - Personas (context/personas/*.md)
+  - Brand Direction (context/brand.md)
+  - Keywords (context/keywords.md)
+
+Execution (right column):
+  - Campaign Plan (ads/ + experiments/)
+  - Landing Page Specs (landing/)
+  - SEO Strategy (seo/)
+  - GTM (gtm/)
+```
+
+### Writing to Notion — Best Practices
+
+**Prefer `update_content` over `replace_content`.** The `replace_content` command fails if child pages exist and you don't reference every one by URL. `update_content` does search-and-replace on specific sections — safer and more predictable.
+
+**Always preserve child pages.** If you must use `replace_content`, first `notion-fetch` the page to get all `<page url="...">` tags, then include them in your new content. Never set `allow_deleting_content: true` without confirming with the user.
+
+**Batch writes at the end.** Complete ALL local file output first. Sync to Notion as a single pass at the end of each skill. Never interleave Notion writes with local work. Report "Synced N/M files to Notion" in completion summary.
+
+### First-Time Notion Setup
+
+**If Notion is connected but no workspace exists:**
 - Ask permission before first write: "Mind if I save this to your Notion? Your team can review it and we'll remember everything next time."
-- If yes: dual-write all skill outputs (local files AND Notion pages). Search for "[Client Name] Workspace" — if found, write to matching sections. If not found, create one.
+- If yes: create workspace using standard template, build registry, dual-write going forward.
 - If no: work locally, don't mention again this session.
 
 **If Notion is NOT connected — proactively recommend after the first deliverable:**
 - After writing the first output file in any skill, say something like: "I just saved your [research/strategy/campaign] locally — but this session is temporary. Want to connect Notion so you can keep this, share it with your team, and we pick up where we left off next time? Takes about 10 seconds."
 - If they say yes: walk them through connecting (Cowork: Settings > Connectors > Notion. Claude Code: add Notion MCP to .mcp.json).
-- If they say no: respect it. Don't mention again this session. Note at wrap-up: "Your work is saved for this session. Connect Notion anytime in Settings if you change your mind."
-- This is NOT a warning — it's a recommendation framed as value.
+- If they say no: respect it. Don't mention again this session.
 
-**Rules:**
+### Rules
 - Never block on Notion. Local files are always the baseline.
 - Never write to Notion without asking first. Permission-first, always.
 - On Claude Code, local files persist — Notion is nice-to-have, not urgent. Only mention at wrap-up.
 - On Cowork, files are ephemeral — Notion is strongly recommended. Mention after first deliverable.
-- **NEVER mention other clients' workspaces or data.** When searching Notion, you may see workspaces from other clients. Ignore them completely. Never reference, name, or acknowledge them to the user. Create a new workspace for the current client — don't comment on what else exists.
+- **NEVER mention other clients' workspaces or data.** When searching Notion, you may see workspaces from other clients. Ignore them completely.
 
 ## Execution Modes
 

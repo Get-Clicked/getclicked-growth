@@ -190,7 +190,7 @@ keyword,our_position,their_position,competitor,volume
 - {pattern}: {which competitors use it, what works}
 ```
 
-**Write `compete/compete-report.md`** — the primary deliverable. CEO-ready narrative. See Notion Output Template below for structure.
+**Write `compete/compete-report.md`** — the primary deliverable. This is a **Team-Ready Report**: written so a non-technical leadership team (CEO, VP Marketing, board members) can read it cold, understand the competitive landscape, and make decisions from it. No jargon without explanation, no raw data without interpretation. Every section should pass the "forward to the exec team" test.
 
 Tell the user: "Competitive intelligence complete. [Summary of biggest finding]."
 
@@ -200,7 +200,9 @@ Tell the user: "Competitive intelligence complete. [Summary of biggest finding].
 
 **Write narrative, not spreadsheets.** The report reads like an intelligence briefing from a strategist who has done this a hundred times.
 
-### Compete Report (`compete/compete-report.md` -> Competitive Intel section page)
+### Compete Report — Team-Ready (`compete/compete-report.md` -> Competitive Intel section page)
+
+This report is an explicit **Team-Ready Report** deliverable: designed to be forwarded to a non-technical leadership team (CEO, VP Marketing, board, investors) without editing. Write for a reader who has never seen the data. Every metric gets interpretation. Every section ends with "so what."
 
 ```markdown
 # Competitive Intelligence Report
@@ -244,6 +246,15 @@ Tell the user: "Competitive intelligence complete. [Summary of biggest finding].
 **Ad copy analysis (comprehensive):** [What messages do they lead with? What's their voice — clinical, friendly, urgent? What CTAs convert? Where is their copy lazy or generic?]
 
 **Landing page analysis (comprehensive):** [Page structure, messaging hierarchy, trust signals. What do they do well? Where do they lose the visitor?]
+
+**Their SEO strategy:** [Analyze the competitor's SEO infrastructure pattern. What architectural play are they running? Common patterns to look for:
+- **Glossary play** — thousands of pages targeting generic terms to build domain authority (e.g., 24K+ pages of health term definitions)
+- **Content hub** — topical clusters around core themes with pillar pages and internal linking
+- **Programmatic pages** — template-driven pages at scale (city pages, comparison pages, tool pages)
+- **Blog-first** — traditional content marketing with regular publishing cadence
+- **Product-led SEO** — ranking on product/feature pages rather than content
+
+Identify the pattern, quantify the scale (how many pages, what percentage of their traffic comes from it), and assess whether it's worth replicating or countering.]
 
 **The vulnerability:** [Every competitor has one. What is it for this one? A keyword cluster they ignore? A positioning gap? Weak landing pages? Slow site? This is the actionable takeaway.]
 
@@ -305,6 +316,7 @@ Tell the user: "Competitive intelligence complete. [Summary of biggest finding].
 
 1. **Confirm targets before pulling data.** Each domain costs API credits. Never silently research 5 competitors when the user mentioned 1.
 2. **Real metrics are required.** DataForSEO data via MCP tools or .env credentials. Never estimate traffic, keyword counts, or CPC. If neither path works, stop and tell the user.
+   - **Keyword data source:** Keyword volumes and suggestions come from **DataForSEO Labs** (`dataforseo_labs/google/keyword_suggestions/live`), not the Google Ads API. The standard `keyword_search_volume` endpoint returns nulls without a linked Google Ads account. The Labs endpoint works without one. This is already handled server-side — just know that volume data is DataForSEO Labs-sourced when citing sources.
 3. **Narrative first, tables second.** The compete-report.md is an intelligence briefing, not a spreadsheet export. Tables earn their place only when the data IS genuinely tabular.
 4. **Every competitor gets a vulnerability.** Don't just describe what they do — identify where they're weak. That's the whole point of competitive intelligence.
 5. **gaps.md is machine-readable.** Downstream skills parse it. Keep the format consistent. CSV-style sections with clear headers.
@@ -382,7 +394,24 @@ Using `/landing` logic inline:
    - Beats the competitor on their specific weaknesses
    - Follows PAS framework and all `/landing` CRO rules
    - Uses the client's brand voice, trust signals, and business facts
-3. Write to `landing/pages/*.md`
+3. Include a **Competitive Positioning Table** in each landing page spec — element-by-element comparison showing how our page beats theirs:
+
+```markdown
+## Competitive Positioning
+
+| Page Element | Their Page | Our Page | Why Ours Wins |
+|-------------|-----------|---------|---------------|
+| Headline | "{their headline}" | "{our headline}" | {specific advantage — clearer value prop, addresses pain directly, etc.} |
+| Social proof | {what they show} | {what we show} | {why ours is stronger} |
+| CTA | "{their CTA}" | "{our CTA}" | {why ours converts better} |
+| Trust signals | {their trust signals} | {our trust signals} | {credibility advantage} |
+| Form fields | {N fields, what they ask} | {N fields, what we ask} | {friction reduction} |
+| Page load | {observations} | {target} | {speed advantage} |
+```
+
+This table serves two purposes: it forces rigorous element-by-element analysis during spec writing, and it gives the client a clear visual of WHY each decision was made.
+
+4. Write to `landing/pages/*.md`
 
 ### Step 5: Deploy [~2 min]
 
@@ -461,7 +490,7 @@ You are done when these files exist:
 | `compete/{slug}/ad-copy.md` (per competitor) | Skipped | Required |
 | `compete/{slug}/landing-pages.md` (per competitor) | Skipped | Required |
 | `compete/gaps.md` | Required | Required |
-| `compete/compete-report.md` | Required | Required |
+| `compete/compete-report.md` (team-ready) | Required | Required |
 
 **`/compete copypaste`** is done when ads, landing page specs, CMS items, and experiment file all exist. Present the launch summary and wait for user to approve publishing.
 
