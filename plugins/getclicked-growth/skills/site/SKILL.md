@@ -444,6 +444,62 @@ Rate limits: 20 req/sec, 3000/hr. On 429, read the reset header and wait.
 
 **If `context/business.md` exists:** Use business description and target audience to ground the naming strategy.
 
+### `/site design`
+
+**Trigger:** "Design my landing page" / "Which Relume components?" / "Help me pick a layout" / "Map my page spec to components"
+
+Takes a landing page spec from `landing/pages/*.md` and maps each section to a specific Relume Library component, producing a design brief you can build from in Webflow.
+
+**Prerequisites:**
+- Landing page spec exists in `landing/pages/`
+- Context on whether this is for Google Ads traffic (changes component selection)
+
+**Workflow:**
+
+1. **Read the page spec** — identify each content section (hero, trust bar, problem, benefits, how it works, FAQ, CTA, etc.)
+
+2. **Determine the page type:**
+   - **Google Ads landing page** → optimize for speed, message match, single CTA, no nav. Use the Google Ads Landing Page Checklist from `/landing` skill.
+   - **Organic/SEO page** → can include nav, richer layouts, more sections
+   - **Hybrid** → landing page structure but also indexable for SEO
+
+3. **Map sections to Relume components** using these verified defaults:
+
+   | Section Type | Default Component | When to Override |
+   |-------------|-------------------|-----------------|
+   | Hero (local/healthcare/senior) | **Header 1** (split: text left, image right) | Use Header 3 if video testimonial. Header 26 if SaaS/product screenshot. |
+   | Hero (lead gen / email capture) | **Header 2** (split with form) | For younger audiences or content-gated offers |
+   | Trust bar | **Logo 1** (horizontal row, no heading) | Use Logo 4 if you want a heading like "Trusted by..." |
+   | Problem / narrative text | **Layout 1** (Feature Sections, text-focused) | Dark background for contrast. Text only, remove image. |
+   | Benefits (3 items) | **Stats 1** (3 stat blocks in a row) | Repurpose numbers as benefit headlines |
+   | How it works (3 steps) | **Layout 2** (Feature Sections, alternating) | Use as numbered vertical stack |
+   | Qualifying checklist | **Layout 1** (Feature Sections, text-focused) | Bulleted list, no image |
+   | Testimonials (1 quote) | **Testimonial 1** (single large quote, centered) | Pre-launch or single case study |
+   | Testimonials (3+ quotes) | **Testimonial 2** (card grid) | Avoid carousels — they add JS and users don't interact |
+   | FAQ | **FAQ 1** (centered accordion) | Always use accordion. Apply FAQPage schema. |
+   | Final CTA | **CTA 3** (centered text + button) | Dark background to anchor the page |
+   | Footer (landing page) | **Custom minimal** | One line: phone + address + hours. Zero nav. |
+   | Footer (full page) | **Footer 1** | Standard site footer with links |
+
+4. **Output the design brief** — a section-by-section table with:
+   - Relume component name and preview URL
+   - Content to drop in (from the landing page spec)
+   - Modifications needed (remove second button, swap image, change background, etc.)
+   - Mobile behavior (what stacks, what hides, CTA position)
+
+5. **Run the Google Ads checklist** if the page is for ads traffic — verify above-fold requirements, page speed considerations, schema needs.
+
+**Component selection principles:**
+- **Lightest weight wins.** No "Uncommon" or "Interactions" tagged components for ads landing pages — they add JS that kills page speed.
+- **White/light backgrounds for text sections.** Dark backgrounds only for Problem and Final CTA sections (contrast bookends).
+- **Split layouts for heroes.** Left-aligned text gets read first (F-pattern). Image right.
+- **No carousels.** Static content only. Users don't interact with carousels on landing pages.
+- **3 items max per row.** Benefits, steps, features — three is the magic number. More than three dilutes impact.
+
+**Output file:** `landing/design/{slug}-design-brief.md`
+
+---
+
 ### `/site` (no subcommand)
 
 Smart routing based on what the user says:
@@ -451,6 +507,7 @@ Smart routing based on what the user says:
 - "Fix my SEO" / "Update meta descriptions" -> `/site seo`
 - "Create a new blog post" / "Add a service page" -> `/site create`
 - "Build my landing page" / "Deploy landing pages" / "Push my page specs to Webflow" -> `/site build`
+- "Design my landing page" / "Which Relume components?" -> `/site design`
 - "What does my site look like?" / "Audit my site content" -> `/site scan`
 - "Connect my Webflow" / "Set up Webflow" -> `/site connect`
 - "I need a domain name" / "Help me pick a domain" -> `/site domains`

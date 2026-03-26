@@ -549,6 +549,85 @@ Write `landing/brief.md`: Page inventory table (page, ad group, persona, intent,
 
 ---
 
+## Google Ads Landing Page Checklist
+
+When the landing page is specifically for Google Ads traffic (not organic/SEO), these additional requirements apply. Google's Quality Score directly impacts CPC — a bad landing page experience makes your ads more expensive.
+
+**Sources:** Google Ads documentation, CXL Institute, Unbounce benchmark data (2025), Herd Marketing research.
+
+### Above-Fold Requirements (Mobile First)
+- [ ] **H1 contains the primary keyword** from the ad group (message match = Quality Score)
+- [ ] **CTA button visible** on 375px mobile screen without scrolling
+- [ ] **Trust signal visible** without scrolling (e.g., "Covered by Medicare — $0")
+- [ ] **Subheadline reinforces the ad's promise** — visitor confirms they're in the right place within 2 seconds
+
+### Page Speed (Quality Score Factor)
+- [ ] **Mobile PageSpeed score 90+** (Google PageSpeed Insights)
+- [ ] **Hero image < 200KB** (WebP format)
+- [ ] **No animations or interaction-heavy components** — they add JS weight and slow LCP
+- [ ] **No background video** — thumbnail + modal if video is needed
+- [ ] **Zero redirects** between ad click URL and landing page
+- [ ] **LCP < 2.5 seconds** on mobile
+
+### Conversion Architecture
+- [ ] **Single CTA label**, repeated in 3 placements (hero, mid-page, bottom)
+- [ ] **No navigation** — zero menu links, zero footer links, zero exit routes except CTA
+- [ ] **Click-to-call primary on mobile** for local/healthcare/senior audiences (65+ answer their phone)
+- [ ] **No form on landing page** if booking flow requires HIPAA — CTA links to compliant booking app
+- [ ] **3 form fields max** if form is on-page — never include phone field (-32% conversion)
+- [ ] **44px minimum touch targets** on all buttons and inputs (mobile accessibility)
+- [ ] **Body text 18-20px** for readability (especially 65+ audiences)
+
+### Schema & Tracking
+- [ ] **FAQPage schema** on the FAQ section (structured data improves ad relevance signals)
+- [ ] **LocalBusiness schema** if local business (address, hours, phone)
+- [ ] **UTM parameters preserved** through to conversion page
+- [ ] **Conversion tracking** — GA4 events for page_view, cta_click, phone_click, form_submit
+- [ ] **Google Ads conversion** set on booking confirmation page
+
+### Message Match Verification
+Every landing page serving Google Ads traffic must include an ad copy alignment table. For each ad group pointing to this page, verify:
+
+| Check | What to Compare |
+|-------|----------------|
+| Ad headline → Page H1 | Primary keyword appears in both |
+| Ad description → Subheadline | Promise made in ad is visible above fold |
+| Ad CTA → Page CTA | Same action verb and outcome |
+| Display URL → Actual URL | Path matches expectation |
+| Offer in ad → Offer on page | If ad says "free" or "$0", it's above fold on the page |
+
+---
+
+## Relume Component Recommendations
+
+When building landing pages in Webflow using the Relume Library, use these verified components. Recommendations are based on visual inspection of the Relume library (March 2026) and optimized for Google Ads conversion.
+
+**Principle:** Choose the lightest-weight component that achieves the layout. Avoid "Uncommon" or "Interactions" tagged components — they add JavaScript weight that hurts page speed and Quality Score.
+
+### Recommended Stack (top to bottom)
+
+| Section | Relume Component | Why |
+|---------|-----------------|-----|
+| Hero | **Header 1** | Split layout: headline + CTA left, image right. White bg. CTA above fold. Lightweight. Left-aligned text matches F-pattern eye tracking. Stacks cleanly on mobile (text first, image below). |
+| Trust Bar | **Logo 1** | Horizontal row, no heading. Repurpose logo slots for trust signal icons (Medicare, credential, location, guarantee). Minimal weight. |
+| Problem / Agitation | **Layout 1** (Feature Sections) | Split two-column. Use text-only (remove image placeholder). Dark background for contrast from hero. |
+| Benefits | **Stats 1** | 3 stat blocks in a row. Repurpose numbers as benefit headlines with supporting text below. Light background. |
+| How It Works | **Layout 2** (Feature Sections) | Split two-column, alternating sides. Use as numbered 3-step vertical stack. |
+| Who It's For | **Layout 1** (Feature Sections) | Bulleted checklist variant. Text only, no image. Self-qualifying section. |
+| Social Proof | **Testimonial 1** (single quote) or **Testimonial 2** (card grid) | Single quote for pre-launch (market validation). Card grid once you have 3+ testimonials. Avoid carousels — users don't interact, and they add JS. |
+| FAQ | **FAQ 1** | Centered heading + accordion. Clean expand/collapse. Apply FAQPage schema. |
+| Final CTA | **CTA 3** | Centered text + single button. No image. Dark background to anchor the page. |
+| Footer | **Custom (minimal)** | One line: phone (click-to-call) + address + hours. No nav links, no social icons. |
+
+### When NOT to use these defaults
+
+- **If the page has a video testimonial:** Use Header 3 (split with video placeholder) for hero instead of Header 1
+- **If you have 5+ testimonials:** Use Testimonial 2/3 (card grid) instead of Testimonial 1 (single quote)
+- **If the page is for a SaaS/product (not local service):** Header 26 (centered) may work better — product screenshot below headline
+- **If the audience is younger (< 40):** Form-based hero (Header 2) with email capture can work. For 65+ audiences, always use click-to-call/phone CTA.
+
+---
+
 ## Publishing to Webflow
 
 Push page specs to Webflow CMS: `wf pages push --landing-dir ./landing/pages/ --publish --open --webflow-domain example.webflow.io`. Parser extracts Hero Headline, Subheadline, CTA from markdown. Push is idempotent (updates by slug match). Keep hero subheadlines under 120 chars (Webflow field limit).
