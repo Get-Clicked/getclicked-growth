@@ -41,13 +41,14 @@ This skill is part of the **CMO Skill System** — a set of composable Claude Co
 
 ## What You Own
 
-Three files + one directory in `context/`:
+Three files, one JSON, and one directory in `context/`:
 
 | File | Contents |
 |------|----------|
 | `context/business.md` | Product/service, audience, value prop, location, service area, hours, insurance |
 | `context/market.md` | Competitors, industry trends, gaps, benchmarks, market dynamics + competitor SEO posture (DataForSEO Labs) |
 | `context/keywords.md` | North star keyword themes + core terms, validated with DataForSEO metrics (volume, CPC, competition) |
+| `context/brand-identity.json` | Visual brand identity extracted from the client's website — colors, fonts, logo URL, image style |
 | `context/personas/` | Audience personas — one file per persona + INDEX.md quick reference |
 
 **You do NOT own:** brand voice, positioning decisions, detailed keyword lists with metrics, content strategy, ad copy. Those are downstream skills.
@@ -170,14 +171,17 @@ When `context/` files don't exist yet, run a structured discovery conversation:
 Ask these questions one at a time. Be conversational, not interrogative. Synthesize answers into structured markdown.
 
 1. What's the business URL? (scrape it with WebFetch for initial context)
-2. What products or services do you offer? (confirm/correct what you scraped)
-3. Who is your ideal customer? (demographics, psychographics, pain points)
-4. What's the primary value proposition — why do customers choose you over alternatives?
-5. Where are you located? What's your service area / radius?
-6. What hours do you operate? Any special availability (same-day, walk-ins, after-hours)?
-7. What insurance / payment methods do you accept? (if applicable to industry)
+2. **Extract visual brand identity** (see "Visual Brand Extraction" below — do this silently while the user answers other questions)
+3. What products or services do you offer? (confirm/correct what you scraped)
+4. Who is your ideal customer? (demographics, psychographics, pain points)
+5. What's the primary value proposition — why do customers choose you over alternatives?
+6. Where are you located? What's your service area / radius?
+7. What hours do you operate? Any special availability (same-day, walk-ins, after-hours)?
+8. What insurance / payment methods do you accept? (if applicable to industry)
 
-After gathering answers, write `context/business.md` using this structure:
+After gathering answers, write `context/business.md` AND `context/brand-identity.json` (see below).
+
+Write `context/business.md` using this structure:
 
 ```markdown
 # Business Context
@@ -460,6 +464,151 @@ When updating, tell the user what changed and why. Don't silently rewrite.
 
 ---
 
+## Visual Brand Extraction → `context/brand-identity.json`
+
+**When:** During Phase 1, after getting the business URL. Run this silently — don't ask the user about colors or fonts. Just extract what exists.
+
+**Why:** Downstream skills (`/landing`, `/site design`, `/brand`) need the visual identity to generate on-brand content. Without this, every landing page mockup and design brief requires manually inspecting CSS.
+
+**How:** Use Chrome DevTools MCP (if available) or fall back to WebFetch + CSS analysis.
+
+### Method 1: Chrome DevTools (preferred — gets computed styles)
+
+1. Open the client's website with `new_page`
+2. Run `evaluate_script` to extract:
+
+```javascript
+() => {
+  const body = getComputedStyle(document.body);
+  const h1 = document.querySelector('h1, h2');
+  const h1s = h1 ? getComputedStyle(h1) : null;
+  const p = document.querySelector('p');
+  const ps = p ? getComputedStyle(p) : null;
+
+  // Find the primary CTA button
+  const btns = document.querySelectorAll('a, button');
+  let btnData = null;
+  btns.forEach(btn => {
+    const s = getComputedStyle(btn);
+    if (s.backgroundColor !== 'rgba(0, 0, 0, 0)' && !btnData) {
+      btnData = {
+        bg: s.backgroundColor,
+        color: s.color,
+        radius: s.borderRadius,
+        font: s.fontFamily.substring(0, 80),
+        weight: s.fontWeight,
+        size: s.fontSize
+      };
+    }
+  });
+
+  // Collect unique colors from the page
+  const colors = new Set();
+  document.querySelectorAll('*').forEach(el => {
+    const s = getComputedStyle(el);
+    if (s.backgroundColor !== 'rgba(0, 0, 0, 0)') colors.add(s.backgroundColor);
+    colors.add(s.color);
+  });
+
+  // Find logo
+  const logo = document.querySelector('img[alt*="logo" i], img[src*="logo" i], header img, nav img');
+  const logoUrl = logo ? logo.src : null;
+
+  // Analyze image style
+  const images = document.querySelectorAll('img');
+  const imageTypes = { photos: 0, illustrations: 0, icons: 0, screenshots: 0 };
+  images.forEach(img => {
+    const src = (img.src || '').toLowerCase();
+    const alt = (img.alt || '').toLowerCase();
+    if (src.includes('icon') || src.includes('.svg') || img.width < 100) imageTypes.icons++;
+    else if (src.includes('illustration') || src.includes('vector')) imageTypes.illustrations++;
+    else if (src.includes('screenshot') || src.includes('product') || src.includes('demo')) imageTypes.screenshots++;
+    else imageTypes.photos++;
+  });
+
+  return {
+    pageBg: body.backgroundColor,
+    bodyFont: body.fontFamily.substring(0, 100),
+    bodyColor: body.color,
+    headingFont: h1s ? h1s.fontFamily.substring(0, 100) : null,
+    headingColor: h1s ? h1s.color : null,
+    headingWeight: h1s ? h1s.fontWeight : null,
+    textColor: ps ? ps.color : null,
+    textFont: ps ? ps.fontFamily.substring(0, 100) : null,
+    button: btnData,
+    logoUrl: logoUrl,
+    uniqueColors: Array.from(colors).slice(0, 20),
+    imageStyle: imageTypes
+  };
+}
+```
+
+3. Take a screenshot for reference: `take_screenshot` with `fullPage: true`, save to `context/brand-screenshot.jpg`
+
+### Method 2: WebFetch fallback (no Chrome DevTools)
+
+1. Scrape the site with `web_extract`
+2. Look for: inline styles, CSS custom properties (--color-*), Google Fonts links, logo img tags
+3. Less precise but still captures font families and logo URL
+
+### Output: `context/brand-identity.json`
+
+```json
+{
+  "extracted_from": "https://example.com",
+  "extracted_date": "2026-03-26",
+  "colors": {
+    "primary": "#DF722A",
+    "primary_rgb": "rgb(223, 114, 42)",
+    "text": "#2E3348",
+    "background": "#FAFAFA",
+    "accent": "#748C6E",
+    "all_colors": ["rgb(223, 114, 42)", "rgb(46, 51, 72)", "..."]
+  },
+  "typography": {
+    "heading_font": "Onest, ui-sans-serif, system-ui, sans-serif",
+    "heading_weight": "700",
+    "body_font": "Plus Jakarta Sans, ui-sans-serif, system-ui, sans-serif",
+    "body_weight": "400"
+  },
+  "button": {
+    "background": "#DF722A",
+    "color": "#FFFFFF",
+    "border_radius": "8px",
+    "padding": "16px 32px",
+    "font_size": "16px"
+  },
+  "logo": {
+    "url": "https://example.com/logo.svg",
+    "format": "svg"
+  },
+  "image_style": {
+    "dominant": "photos",
+    "photos": 8,
+    "illustrations": 0,
+    "icons": 4,
+    "screenshots": 2,
+    "notes": "Primarily community/landscape photography. No stock. No illustrations."
+  }
+}
+```
+
+### How downstream skills use this
+
+- **`/landing` + `/site design`:** Read `brand-identity.json` for CSS variables when generating mockups or Webflow design briefs
+- **`/brand`:** References extracted identity when defining voice — visual style informs verbal style (e.g., warm photography → warm tone)
+- **`/site edit`:** Applies the right colors when writing new page content
+- **`/ads`:** Knows the brand color for display ad references
+
+**Rules:**
+- Extract silently during Phase 1 — don't ask the user about colors
+- Store raw RGB/hex values — let downstream skills interpret
+- Note the image style (photos vs. illustrations vs. screenshots) — this guides hero image direction in landing pages
+- If the site is a bare placeholder (mostly "Coming soon"), note that and extract what exists. Don't invent a brand identity.
+- Update `brand-identity.json` whenever the site changes significantly
+
+---
+
 ## Rules
 
 1. **Facts only.** Context is what the business IS, not what it should say or how it should market. Brand strategy is `/brand`'s job.
@@ -478,6 +627,7 @@ You are done when these files exist:
 | File | Fast | Comprehensive |
 |------|------|---------------|
 | `context/business.md` | Required | Required |
+| `context/brand-identity.json` | Required (auto-extracted) | Required (auto-extracted) |
 | `context/market.md` | Required (basic) | Required (+ SEO audit) |
 | `context/keywords.md` | Required (national only) | Required (+ geo CPC) |
 | `context/personas/*.md` | 2 personas | 3-4 personas |
