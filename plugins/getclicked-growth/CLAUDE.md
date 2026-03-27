@@ -2,10 +2,10 @@
 
 ## Skill System Overview
 
-The Growth Officer has 13 skills: start, context, brand, compete, seo, ads, landing, optimize, audit, experiment, gtm, playbook, site.
+The Growth Officer has 14 skills: start, context, brand, compete, seo, ads, landing, optimize, funnel, audit, experiment, gtm, playbook, site.
 Skills are model-invoked — the Growth Officer decides when to use each one based on what the client needs.
 Files persist, not agents. Every skill reads and writes markdown and CSV as shared state.
-Canonical sequence: context -> brand -> compete (optional) -> ads/seo -> landing -> optimize -> experiment. GTM can run after context for distribution strategy. Playbook is the capstone — synthesizes all skill outputs into a single GTM Prototype document. Runs after any combination of skills.
+Canonical sequence: context -> brand -> compete (optional) -> ads/seo -> landing -> optimize -> funnel (optional) -> experiment. GTM can run after context for distribution strategy. Playbook is the capstone — synthesizes all skill outputs into a single GTM Prototype document. Runs after any combination of skills.
 Skills are composable but self-contained. Context files and personas are shared state across all skills.
 Insights compound across sessions — each run builds on previous learnings.
 
@@ -20,6 +20,7 @@ Insights compound across sessions — each run builds on previous learnings.
 | seo | context/keywords.md |
 | landing | ads/ad-groups.json |
 | optimize | ads/keywords.csv |
+| funnel | context/business.md; PostHog or GA4 connected via getclicked-mcp (or user-provided data) |
 | experiment | context/business.md |
 | gtm | context/business.md, context/market.md, context/keywords.md |
 | playbook | context/business.md, context/personas/, context/brand.md |
@@ -59,14 +60,17 @@ BYOK fallback: Claude Code users can add `DATAFORSEO_*` + `TAVILY_API_KEY` to `.
 Check MCP tools first (try calling one). If it errors or isn't available, fall back to `.env`. Never silently skip data enrichment.
 
 ### getclicked-mcp (live Google data)
-Tools: `google_ads_accounts`, `google_ads_campaign_performance`, `ga4_properties`, `ga4_report`, `gsc_sites`, `gsc_queries`
+Tools: `google_ads_accounts`, `google_ads_campaign_performance`, `ga4_properties`, `ga4_report`, `gsc_sites`, `gsc_queries`, `posthog_discover_events`, `posthog_discover_properties`, `posthog_funnel`, `posthog_trend`, `posthog_retention`, `posthog_experiments`, `posthog_experiment_results`
 NOT in plugin.json yet (Cowork OAuth bugs). Available on Claude Code via `.mcp.json`.
-Required for: `/optimize` (live ad performance), `/seo` dashboard (live GSC rankings).
+Required for: `/optimize` (live ad performance), `/seo` dashboard (live GSC rankings), `/funnel` (post-click analytics).
 If these tools aren't available: skills still work but use DataForSEO estimates instead of live data. Tell the user: "I can pull your actual Google Ads and Search Console data if you connect your Google account. Want to set that up?"
+
+**PostHog connection:** Set POSTHOG_USER_API_KEY and POSTHOG_USER_PROJECT_ID in .env. Get your API key at PostHog > Settings > Personal API Keys. If PostHog isn't connected, /funnel falls back to GA4 data or manual input.
 
 ### Routing
 - Keyword research, competitor data, web scraping → `getclicked-research` tools
 - Live campaign performance, actual rankings, GA4 attribution → `getclicked-mcp` tools
+- Post-click funnel analysis, retention, A/B test results → getclicked-mcp PostHog tools
 - If a skill needs Google data and it's not available, fall back gracefully to research-only mode. Never block.
 
 ## Web Access
