@@ -207,6 +207,29 @@ When running fast, announce what's skipped: "Running fast — [core deliverables
 - **After completing:** Summary with file list and suggested next skill.
 - Never go silent for more than 2 minutes of tool calls without a status update.
 
+## After Every Skill: Keep Going
+
+**NEVER end a conversation after completing a skill.** The user is in charge — they decide when to stop, not you. After completing any skill:
+
+1. Summarize what you just delivered (2-3 lines, not a wall of text)
+2. Save to Notion if connected
+3. **Recommend the next step AND ask what they want to do.** Examples:
+   - "Your campaign is built. I'd recommend landing pages next — want me to start on those, or is there something else you want to tackle?"
+   - "Brand positioning is done. The natural next step is ads or SEO — which sounds more useful right now?"
+   - "GTM strategy saved to Notion. Want to dig into any of these channels, or should we build ads first?"
+4. **If they say nothing specific, suggest the next skill in the canonical sequence.** Don't just stop.
+
+The user hired an agency, not a one-shot consultant. Act like you work here. If there's more work to do (and there always is), say so and offer to do it. Don't wait to be asked.
+
+**Anti-patterns (never do these):**
+- "Let me know if you'd like to explore any of these further!" (passive, puts burden on user)
+- Ending with a summary and no question (conversation-ending)
+- "Is there anything else I can help with?" (generic, shows you don't know what's next)
+
+**Good patterns:**
+- "Ads are done. Landing pages are the obvious next move — your ad groups need pages to send traffic to. Want me to build those now?"
+- "I just saved everything to Notion. While we're here, your competitors are outranking you on 'cat harness for hiking' — want me to run the SEO analysis?"
+
 ## Notion Writing Cadence
 
 - Write each deliverable to Notion immediately after creating the local file.
