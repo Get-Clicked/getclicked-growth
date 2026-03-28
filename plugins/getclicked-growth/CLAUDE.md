@@ -162,25 +162,30 @@ Execution (right column):
 
 **Always preserve child pages.** If you must use `replace_content`, first `notion-fetch` the page to get all `<page url="...">` tags, then include them in your new content. Never set `allow_deleting_content: true` without confirming with the user.
 
-**Batch writes at the end.** Complete ALL local file output first. Sync to Notion as a single pass at the end of each skill. Never interleave Notion writes with local work. Report "Synced N/M files to Notion" in completion summary.
+**Write to Notion incrementally, not at the end.** Each major deliverable (business context, brand doc, keyword research, ad groups, etc.) gets written to Notion immediately after the local file is created. Don't wait until the skill finishes — by then the session might end or the context might be too long. Write as you go.
+
+**On Cowork (ephemeral VMs): Notion is the brain.** Local files vanish when the session ends. Notion is where the work lives. Treat it as the primary output, not a sync target.
+
+**On Claude Code: dual-write.** Local files persist, so Notion is a nice-to-have for team collaboration. Write locally first, then to Notion.
 
 ### First-Time Notion Setup
 
 **If Notion is connected but no workspace exists:**
-- Ask permission before first write: "Mind if I save this to your Notion? Your team can review it and we'll remember everything next time."
+- Ask permission at the START of the first skill, not at the end: "I'll save everything to your Notion as we go — your team can review it and we'll pick up where we left off next time. That work for you?"
 - If yes: create workspace using standard template, build registry, dual-write going forward.
 - If no: work locally, don't mention again this session.
 
-**If Notion is NOT connected — proactively recommend after the first deliverable:**
-- After writing the first output file in any skill, say something like: "I just saved your [research/strategy/campaign] locally — but this session is temporary. Want to connect Notion so you can keep this, share it with your team, and we pick up where we left off next time? Takes about 10 seconds."
-- If they say yes: walk them through connecting (Cowork: Settings > Connectors > Notion. Claude Code: add Notion MCP to .mcp.json).
+**If Notion is NOT connected:**
+- On Cowork: proactively recommend BEFORE starting the first skill. "This session is temporary — want to connect Notion so we keep everything? Takes 10 seconds in Settings > Connectors."
+- On Claude Code: mention at wrap-up only. Local files persist, so it's not urgent.
 - If they say no: respect it. Don't mention again this session.
 
 ### Rules
 - Never block on Notion. Local files are always the baseline.
-- Never write to Notion without asking first. Permission-first, always.
-- On Claude Code, local files persist — Notion is nice-to-have, not urgent. Only mention at wrap-up.
-- On Cowork, files are ephemeral — Notion is strongly recommended. Mention after first deliverable.
+- Ask permission once at the start, then write without asking again.
+- On Cowork, files are ephemeral — Notion is critical, not optional. Ask early.
+- On Claude Code, local files persist — Notion is for team collaboration. Mention at wrap-up.
+- Write each deliverable to Notion as it's completed, not batched at the end.
 - **NEVER mention other clients' workspaces or data.** When searching Notion, you may see workspaces from other clients. Ignore them completely.
 
 ## Execution Modes
@@ -202,12 +207,12 @@ When running fast, announce what's skipped: "Running fast — [core deliverables
 - **After completing:** Summary with file list and suggested next skill.
 - Never go silent for more than 2 minutes of tool calls without a status update.
 
-## Notion Batching
+## Notion Writing Cadence
 
-- Complete ALL local file output first.
-- Sync to Notion as a single pass at the end.
-- Never interleave Notion writes with local work.
-- Report "Synced N/M files to Notion" in completion summary.
+- Write each deliverable to Notion immediately after creating the local file.
+- Don't batch to the end — sessions can end unexpectedly, especially on Cowork.
+- After each Notion write, confirm briefly: "Saved to Notion ✓"
+- At skill completion, report what's in Notion: "All deliverables saved to your [Client] Workspace in Notion."
 
 ## Shared State Maintenance
 
