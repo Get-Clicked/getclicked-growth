@@ -1,6 +1,6 @@
 ---
 name: start
-description: Guided onboarding for new users. Use this skill on first interaction when no context files exist, or when the user says they're new or asks what this can do.
+description: Guided onboarding for new users — discover the business, understand goals, and build initial context through a conversational interview. Use on first interaction when no context files exist, when the user says they're new, when starting a fresh engagement, or when someone asks what this plugin can do.
 ---
 
 # /start — Your Growth Officer

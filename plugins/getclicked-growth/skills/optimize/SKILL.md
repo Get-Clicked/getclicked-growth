@@ -1,6 +1,6 @@
 ---
 name: optimize
-description: Pull live Google Ads performance data, compare against the original plan, identify waste and opportunities, and generate ranked action items. Use when campaigns are running and the user wants to improve performance.
+description: Pull live Google Ads performance data, compare against the original plan, identify waste and opportunities, and generate ranked action items with dollar-impact estimates. Use when a campaign has been running 7+ days, monthly performance reviews, before scaling budget, or when the user asks "how's the campaign doing?"
 ---
 
 # /optimize — Post-Launch Campaign Optimization

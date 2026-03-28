@@ -1,6 +1,6 @@
 ---
 name: context
-description: Build and maintain the foundational business context — company info, market research, competitor analysis, keyword themes, and audience personas. Use this skill when starting with a new client, when the user wants to research their market, or when context files don't exist yet.
+description: Build foundational business context — company profile, market landscape, validated keyword themes, and audience personas with real DataForSEO metrics. Use when onboarding a new client, starting a marketing engagement, researching a market you're unfamiliar with, or when other skills need context files that don't exist yet.
 ---
 
 # /context — Facts + North Star Strategy

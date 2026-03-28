@@ -1,6 +1,6 @@
 ---
 name: funnel
-description: Analyze conversion funnels from acquisition through activation and revenue. Pull analytics data from PostHog or GA4, identify drop-offs, cross-reference with ad campaigns and landing pages, and recommend experiments targeting the worst leaks. Use when the user wants to understand what happens after the click.
+description: Analyze conversion funnels from acquisition through activation and revenue — pull analytics from PostHog or GA4, identify drop-offs by channel, and recommend experiments targeting the biggest leaks. Use when ads are converting but revenue isn't following, investigating why signups don't activate, comparing channel quality beyond just clicks, or before scaling ad spend.
 ---
 
 # /funnel — Post-Click Funnel Intelligence

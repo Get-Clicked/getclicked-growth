@@ -1,6 +1,6 @@
 ---
 name: site
-description: Edit website content and SEO metadata through natural language — update headlines, fix SEO titles, create CMS pages, and publish changes. Uses the Webflow MCP connector. No dependencies required, but gets smarter with context, brand, and SEO data.
+description: Edit website content and SEO metadata through natural language — update headlines, fix meta titles, create CMS pages, deploy landing page variants, and publish changes via Webflow. Use when updating site copy after a brand refresh, deploying landing pages from /landing specs, fixing SEO issues flagged by /audit, or managing A/B test variants.
 ---
 
 # /site — Website Content Editor

@@ -1,6 +1,6 @@
 ---
 name: experiment
-description: Design hypothesis-driven marketing experiments with clear success criteria, track them through a lifecycle, and capture learnings. Use when the user wants to test a specific marketing idea or when optimize suggests experiments.
+description: Design hypothesis-driven marketing experiments with clear success criteria, track them through a structured lifecycle, and capture learnings that compound across sessions. Use when testing a new channel, validating a messaging angle, deciding between landing page variants, or when optimize flags something worth A/B testing.
 ---
 
 # /experiment — Hypothesis-Driven Marketing

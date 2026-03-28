@@ -1,6 +1,6 @@
 ---
 name: ads
-description: Build Google Ads campaigns — keyword research, ad copy, negative keywords, budget allocation, and ready-to-import export files. Use when the user wants to run paid search campaigns. Requires context to exist first.
+description: Build complete Google Ads campaigns — keyword research with real DataForSEO data, RSA ad copy, negative keywords, budget allocation, and ready-to-import CSV files. Use when launching paid search, expanding into new markets, building campaigns from keyword research, or preparing Google Ads exports for a client.
 ---
 
 # /ads — Paid Channel (Google Ads)

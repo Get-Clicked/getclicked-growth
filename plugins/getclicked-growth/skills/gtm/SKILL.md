@@ -1,6 +1,6 @@
 ---
 name: gtm
-description: Build a GTM Prototype using the Revealed framework (Klement & White) — 9 Decision Worksheets covering ICP, JTBD, pricing, differentiation, hiring process, demand narrative, channels, pitch, and risks. Plus a validation roadmap. Use when the user wants to figure out how to take a product to market. Requires context to exist first.
+description: Build a go-to-market strategy using the Revealed GTM Prototype framework (Klement & White) — 9 decision worksheets covering ICP, jobs-to-be-done, pricing, differentiation, demand narrative, channels, and risks. Use when taking a product to market, pivoting positioning, choosing which channels to invest in, or building a validation roadmap for a new segment.
 ---
 
 # /gtm — GTM Prototype (Revealed Framework)

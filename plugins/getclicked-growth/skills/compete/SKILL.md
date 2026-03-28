@@ -1,6 +1,6 @@
 ---
 name: compete
-description: Research competitor domains — organic rankings, paid keywords, ad copy, landing pages. Produces CEO-ready narrative report and machine-readable gaps file that feeds into /brand, /ads, /seo, /landing.
+description: Research competitor domains — organic rankings, paid keywords, ad copy, landing pages, and keyword gaps. Produces a CEO-ready narrative report and machine-readable gaps file. Use when entering a new market, preparing a competitive brief, investigating why a competitor outranks you, or feeding intelligence into ad and SEO strategy.
 ---
 
 # /compete — Competitive Intelligence

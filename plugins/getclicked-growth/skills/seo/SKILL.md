@@ -1,6 +1,6 @@
 ---
 name: seo
-description: Build organic search strategy — live rankings dashboard, keyword gaps, competitor analysis, and prioritized content actions. The SEMrush killer. Requires context to exist first.
+description: Build an organic search strategy — live rankings dashboard with real DataForSEO metrics, keyword gaps, competitor content analysis, and prioritized actions with CPC savings math. The SEMrush killer. Use when building a content strategy, auditing organic performance, finding keyword gaps competitors own, or justifying SEO investment to leadership.
 ---
 
 # /seo — Organic Channel

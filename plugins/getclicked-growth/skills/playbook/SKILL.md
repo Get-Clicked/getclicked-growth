@@ -1,6 +1,6 @@
 ---
 name: playbook
-description: Synthesize all skill outputs into the Revealed GTM Prototype — the capstone document with 9 Decision Worksheets (Klement & White) plus a validation roadmap. Use when the client wants a single strategic document that pulls everything together. Requires context + brand at minimum.
+description: Synthesize all skill outputs into the Revealed GTM Prototype — a capstone strategy document with 9 decision worksheets (Klement & White) plus a validation roadmap. Use when a client wants one strategic document that pulls everything together, preparing for a board presentation, or aligning a team on go-to-market before execution.
 ---
 
 # /playbook — GTM Prototype (Capstone)

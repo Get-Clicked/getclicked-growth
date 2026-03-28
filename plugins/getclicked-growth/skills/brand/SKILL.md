@@ -1,6 +1,6 @@
 ---
 name: brand
-description: Define brand positioning, voice, messaging pillars, and guardrails. Use this skill when the user wants to establish how the brand should sound, what it should say, and what language to avoid. Requires context to exist first.
+description: Define brand positioning, voice, messaging pillars, and guardrails using the Spendesk narrative model. Use when establishing how a brand should sound, writing a positioning doc for a new product, aligning a team on messaging before a launch, or creating voice guidelines for content creators.
 ---
 
 # /brand — Positioning + Voice Strategy

@@ -1,6 +1,6 @@
 ---
 name: audit
-description: Audit any website for production readiness — broken links, content gaps, responsive design, and technical SEO. Use when a site is ready for QA before launch or after changes.
+description: Audit any website for production readiness — broken links, content gaps, responsive design issues, and technical SEO problems. Use when a site is about to launch, after a major redesign, preparing for a client handoff, or investigating why organic traffic dropped.
 ---
 
 # /audit — Website QA Audit

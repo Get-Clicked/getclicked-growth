@@ -1,6 +1,6 @@
 ---
 name: landing
-description: Create landing page specs aligned to ad groups — one page per ad group with matched messaging, CTAs, and conversion optimization. Use when ads exist and the user needs landing pages. Requires ads output to exist first.
+description: Create landing page specs aligned to ad groups — one page per ad group with matched messaging, PAS framework copy, CTAs, and conversion optimization. Use when ads are built and need landing pages, preparing Webflow CMS content, building A/B test variants, or aligning ad copy with post-click experience.
 ---
 
 # /landing — Landing Pages (Ad-to-Page Alignment)
