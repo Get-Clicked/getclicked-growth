@@ -1,11 +1,45 @@
 {
   "name": "getclicked-growth",
-  "version": "0.9.0",
-  "description": "AI Growth Officer — market research, brand strategy, Google Ads campaigns, SEO, landing pages, go-to-market strategy, optimization, website QA audits, and experimentation. Your company's dedicated marketing team.",
+  "version": "0.10.0",
+  "description": "Ship Google Ads campaigns, SEO strategy, landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, PostHog, and Notion.",
+  "author": {
+    "name": "Get Clicked",
+    "url": "https://getclicked.ai"
+  },
+  "homepage": "https://getclicked.ai",
+  "repository": "https://github.com/Get-Clicked/getclicked-growth",
+  "license": "MIT",
+  "keywords": [
+    "marketing",
+    "google-ads",
+    "seo",
+    "landing-pages",
+    "growth",
+    "ppc",
+    "keyword-research",
+    "brand-strategy",
+    "funnel-analytics",
+    "posthog",
+    "competitor-analysis",
+    "go-to-market",
+    "notion"
+  ],
   "mcpServers": {
     "getclicked-research": {
       "type": "http",
       "url": "https://research.mcp.getclicked.ai/mcp/"
+    },
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    },
+    "webflow": {
+      "type": "http",
+      "url": "https://mcp.webflow.com/mcp"
+    },
+    "gamma": {
+      "type": "http",
+      "url": "https://mcp.gamma.app/mcp"
     }
   }
 }

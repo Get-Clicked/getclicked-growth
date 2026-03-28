@@ -1,23 +1,50 @@
 {
   "name": "getclicked",
   "owner": {
-    "name": "Founderbee Labs",
-    "email": "hello@founderbeelabs.com"
+    "name": "Get Clicked",
+    "email": "bob@getclicked.ai"
   },
   "metadata": {
-    "description": "AI Growth Officer — market research, brand strategy, Google Ads campaigns, SEO, landing pages, go-to-market strategy, optimization, website QA audits, and experimentation."
+    "description": "14 skills that replace your agency — market research with real DataForSEO data, brand positioning, Google Ads campaigns, SEO dashboards, landing page specs, competitor intelligence, post-click funnel analytics, and go-to-market playbooks. Built-in keyword research and web intelligence — no API keys needed to start."
   },
   "plugins": [
     {
       "name": "getclicked-growth",
-      "description": "Your AI Growth Officer — a dedicated marketing team that lives in your editor.",
+      "description": "Ship Google Ads campaigns, SEO strategy, landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, PostHog, and Notion.",
       "source": "./plugins/getclicked-growth",
-      "version": "0.9.0",
+      "version": "0.10.0",
       "category": "marketing",
+      "author": {
+        "name": "Get Clicked",
+        "url": "https://getclicked.ai"
+      },
       "homepage": "https://getclicked.ai",
       "repository": "https://github.com/Get-Clicked/getclicked-growth",
       "license": "MIT",
-      "keywords": ["marketing", "google-ads", "seo", "landing-pages", "growth", "audit", "qa"]
+      "keywords": [
+        "marketing",
+        "google-ads",
+        "seo",
+        "landing-pages",
+        "growth",
+        "ppc",
+        "keyword-research",
+        "brand-strategy",
+        "funnel-analytics",
+        "posthog",
+        "competitor-analysis",
+        "go-to-market",
+        "notion"
+      ],
+      "tags": [
+        "agency-replacement",
+        "campaign-management",
+        "conversion-optimization",
+        "market-research",
+        "brand-positioning",
+        "webflow",
+        "dataforseo"
+      ]
     }
   ]
 }
