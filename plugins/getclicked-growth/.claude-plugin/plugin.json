@@ -1,7 +1,7 @@
 {
   "name": "getclicked-growth",
   "version": "0.10.0",
-  "description": "Ship Google Ads campaigns, SEO strategy, landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, PostHog, and Notion.",
+  "description": "Ship Google Ads campaigns, SEO strategy, landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, GA4, PostHog, Webflow, and Notion.",
   "author": {
     "name": "Get Clicked",
     "url": "https://getclicked.ai"
@@ -22,7 +22,10 @@
     "posthog",
     "competitor-analysis",
     "go-to-market",
-    "notion"
+    "notion",
+    "webflow",
+    "ga4",
+    "search-console"
   ],
   "mcpServers": {
     "getclicked-research": {
@@ -36,6 +39,10 @@
     "webflow": {
       "type": "http",
       "url": "https://mcp.webflow.com/mcp"
+    },
+    "posthog": {
+      "type": "http",
+      "url": "https://mcp.posthog.com/mcp"
     },
     "gamma": {
       "type": "http",
