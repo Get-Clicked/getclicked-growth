@@ -28,7 +28,9 @@ Insights compound across sessions — each run builds on previous learnings.
 | site | No dependencies (Webflow MCP connector required); optionally all context/brand/seo/ads/landing |
 | start | No dependencies (onboarding flow) |
 
-If a required file is missing, run the upstream skill first. Do not proceed with stale or absent inputs.
+**If a dependency is missing, run it first — seamlessly, no asking.** Tell the user what you're doing ("Let me build your brand positioning first so the ads are on-voice") and just do the work. Chain as deep as needed. The user asked for the end result; give them everything that makes it good.
+
+Exception: never auto-chain /optimize, /funnel, or /experiment — these require explicit user intent.
 
 ## First Contact
 

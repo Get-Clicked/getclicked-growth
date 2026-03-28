@@ -41,28 +41,49 @@ When intent is ambiguous, ask one clarifying question — don't guess. When mult
 
 ## Skill Sequence and Dependencies
 
-**Canonical order:** start > context > brand > compete (optional) > ads / seo > landing > optimize > funnel (optional) > experiment. GTM can run after context for distribution strategy. Playbook is the capstone — synthesizes all skill outputs.
+**Canonical order:** start > context > brand > compete > seo > gtm > ads > landing > optimize > funnel > experiment. Playbook is the capstone — synthesizes all skill outputs.
 
-**Dependency map — check before invoking:**
+**Dependency map — what each skill needs to produce great output:**
 
-| Skill | Requires |
-|-------|----------|
-| `start` | Nothing — this is the front door for new users |
-| `context` | Nothing — this is always safe to run first |
-| `brand` | `context/business.md` + `context/market.md` |
-| `compete` | Nothing (accepts raw domain); optionally `context/market.md` |
-| `ads` | `context/keywords.md` |
-| `seo` | `context/keywords.md` |
-| `landing` | `ads/ad-groups.json` |
-| `optimize` | `ads/keywords.csv` (live campaign must exist) |
-| `funnel` | `context/business.md` + PostHog or GA4 connected (or user-provided data) |
-| `experiment` | `context/business.md` (minimal) |
-| `gtm` | `context/business.md` + `context/market.md` + `context/keywords.md` |
-| `playbook` | `context/business.md` + `context/personas/` + `context/brand.md` |
-| `audit` | Nothing — just needs a URL |
-| `site` | Nothing — needs Webflow MCP connector |
+| Skill | Hard requirements | Makes it better (auto-chain these) |
+|-------|----------|----------|
+| `start` | Nothing | |
+| `context` | Nothing | |
+| `brand` | `context/business.md`, `context/market.md` | `compete/` (competitor voice analysis) |
+| `compete` | At least one competitor domain | `context/market.md` (identifies competitors) |
+| `seo` | `context/keywords.md` | `compete/` (keyword gaps), `context/brand.md` (voice for content) |
+| `gtm` | `context/business.md`, `context/market.md`, `context/keywords.md` | `context/brand.md`, `compete/`, `context/personas/`, `seo/` |
+| `ads` | `context/keywords.md` | `context/brand.md` (voice for copy), `compete/` (competitor ad intel) |
+| `landing` | `ads/ad-groups.json` | `context/brand.md`, `context/personas/` |
+| `optimize` | Live campaign must exist | |
+| `funnel` | PostHog or GA4 connected (or manual data) | `ads/`, `landing/`, `optimize/` |
+| `experiment` | `context/business.md` | |
+| `playbook` | `context/business.md`, `context/personas/`, `context/brand.md` | Everything |
+| `audit` | A URL | |
+| `site` | Webflow MCP connector | `context/brand.md`, `seo/`, `ads/`, `landing/` |
 
-If a dependency is missing and the chain is ≤2 skills deep, auto-chain: run the prerequisite in fast mode, then the requested skill. Announce it clearly. If 3+ skills deep, ask first. Never auto-chain /optimize, /funnel, or /experiment — those require explicit intent.
+**Auto-chaining rules — run dependencies seamlessly, no asking:**
+
+When a skill is requested and its dependencies or "makes it better" inputs don't exist, run them first. Don't ask permission. Don't present a menu. Just do the work and tell the user what you're doing.
+
+Example: user asks for GTM strategy, no brand or competitor work exists yet.
+
+DO: "Let me build your go-to-market strategy. I'm going to dig into your brand positioning, competitors, and search landscape first so the strategy is built on real data — not guesses."
+Then run: context → brand → compete → seo → gtm as one continuous flow.
+
+DON'T: "I need to run brand and competitive research first. Want me to do that?"
+
+**The user asked for GTM. They get GTM. They also get everything that makes GTM good.** That's the agency experience — you don't ask the client's permission to do the research that informs the strategy.
+
+**How to announce it:**
+- Brief status at each transition: "Brand positioning locked in. Now pulling competitor data."
+- Not: "Running /brand skill. Complete. Now running /compete skill."
+- Save to Notion incrementally as each piece completes.
+
+**Never auto-chain these (require explicit intent):**
+- `/optimize` — needs a live campaign, costs real money to act on
+- `/funnel` — needs analytics connection
+- `/experiment` — needs explicit hypothesis framing
 
 **Auto-chaining rules:**
 
