@@ -80,17 +80,82 @@ Before starting work, check if Notion is available:
 2. If it works → Notion is available. Note it for later (don't write yet — need permission first).
 3. If it errors → Notion is not configured. Continue without it.
 
-When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page:
-- For markdown files → `notion-update-page` with the page content
+### Creating the Workspace (first time only)
 
-**Output mapping (local file → Notion target):**
+When NOTION_ENABLED and no workspace exists yet, create it using this exact structure. This is how the user navigates their marketing work — organized by workflow, not by file names.
+
+**Step 1: Create the workspace page**
+- Title: "🐾 [Client Name] Workspace"
+- Add intro text: "Your growth workspace. Strategy, research, and campaigns — all in one place."
+
+**Step 2: Create section pages as children of the workspace**
+
+Create these pages in this order. Use `notion-create-pages` with the workspace as parent:
+
+```
+Research section:
+  📊 Business & Market        ← context/business.md + context/market.md combined
+  🔍 Competitive Intelligence ← compete/compete-report.md, compete/gaps.md
+  👥 Personas                  ← context/personas/ (one sub-page per persona)
+  🎯 Brand & Positioning      ← context/brand.md
+  🔑 Keywords                  ← context/keywords.md
+
+Strategy section:
+  🚀 Go-to-Market             ← gtm/prototype.md, gtm/messaging.md, gtm/validation-roadmap.md
+  📈 SEO Strategy              ← seo/dashboard.md, seo/keywords.csv
+
+Execution section:
+  📢 Ad Campaigns              ← ads/ad-groups.json, ads/budget.md, ads/forecast.md
+  🖥️ Landing Pages             ← landing/pages/*.md
+  🧪 Experiments               ← experiments/EXP-*.md
+  📊 Performance               ← optimize/report.md, funnel/report.md
+```
+
+**Step 3: Save the workspace registry**
+
+After creating the workspace, save page IDs to `context/notion-workspace.json`:
+
+```json
+{
+  "client": "client-name",
+  "workspace_id": "uuid-of-workspace-page",
+  "pages": {
+    "business_market": { "id": "uuid", "title": "Business & Market" },
+    "competitive": { "id": "uuid", "title": "Competitive Intelligence" },
+    "personas": { "id": "uuid", "title": "Personas" },
+    "brand": { "id": "uuid", "title": "Brand & Positioning" },
+    "keywords": { "id": "uuid", "title": "Keywords" },
+    "gtm": { "id": "uuid", "title": "Go-to-Market" },
+    "seo": { "id": "uuid", "title": "SEO Strategy" },
+    "ads": { "id": "uuid", "title": "Ad Campaigns" },
+    "landing": { "id": "uuid", "title": "Landing Pages" },
+    "experiments": { "id": "uuid", "title": "Experiments" },
+    "performance": { "id": "uuid", "title": "Performance" }
+  }
+}
+```
+
+**Don't create pages one-at-a-time as skills run.** Create the full workspace structure up front (pages can be empty). Then write content into existing pages as each skill completes. This gives the user a table of contents from the start and avoids a messy flat list of ad-hoc pages.
+
+### Writing to Notion (after workspace exists)
+
+When NOTION_ENABLED, after writing each local file, also write the content to the corresponding Notion page using the registry:
 
 | Local File | Notion Target | Method |
 |-----------|---------------|--------|
-| `context/business.md` | Context > Business page | `notion-update-page` |
-| `context/market.md` | Context > Market page | `notion-update-page` |
-| `context/keywords.md` | Context > Keywords database | `notion-create-pages` (rows) + update parent page with themes/notes |
-| `insights/keyword-research.md` | Insights > Keyword Research page | `notion-update-page` |
+| `context/business.md` + `context/market.md` | Business & Market page | `notion-update-page` |
+| `context/brand.md` | Brand & Positioning page | `notion-update-page` |
+| `context/keywords.md` | Keywords page | `notion-update-page` |
+| `compete/*.md` | Competitive Intelligence page | `notion-update-page` |
+| `context/personas/*.md` | Personas page (sub-pages) | `notion-create-pages` |
+| `gtm/*.md` | Go-to-Market page | `notion-update-page` |
+| `seo/*.md` | SEO Strategy page | `notion-update-page` |
+| `ads/*.md` | Ad Campaigns page | `notion-update-page` |
+| `landing/pages/*.md` | Landing Pages page (sub-pages) | `notion-create-pages` |
+| `experiments/*.md` | Experiments page (sub-pages) | `notion-create-pages` |
+| `optimize/*.md` + `funnel/*.md` | Performance page | `notion-update-page` |
+
+**Write incrementally.** Each deliverable goes to Notion immediately after the local file is created. Don't batch to the end.
 
 **Key rule:** Never block on Notion. If it fails, log it internally and continue. Local files are always the baseline.
 
