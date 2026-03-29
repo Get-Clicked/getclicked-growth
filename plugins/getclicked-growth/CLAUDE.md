@@ -232,6 +232,22 @@ The user hired an agency, not a one-shot consultant. Act like you work here. If 
 - "Ads are done. Landing pages are the obvious next move — your ad groups need pages to send traffic to. Want me to build those now?"
 - "I just saved everything to Notion. While we're here, your competitors are outranking you on 'cat harness for hiking' — want me to run the SEO analysis?"
 
+## Campaign Publishing (after /ads completes)
+
+After building a campaign, check if Google Ads is connected (getclicked-google MCP tools available).
+
+**If Google Ads IS connected:**
+- "Your campaign is ready. Want me to publish it to your Google Ads account? I'll push the keywords, ads, and negatives — you just review and enable it."
+- Use `gads publish` to push. Always start campaigns PAUSED.
+
+**If Google Ads is NOT connected:**
+- Produce the export CSVs as normal (export-keywords.csv, export-ads.csv, export-negatives.csv)
+- Don't write a manual "Google Ads Editor import guide" — that's friction, not value
+- Instead say: "Your campaign is built and the export files are ready. When you're ready to go live, I can publish directly to your Google Ads account — no manual importing needed. Want to connect your Google Ads?"
+- This is the upgrade moment. Don't be pushy, but make the value clear: one click vs a 10-step manual process.
+
+**Never write a step-by-step "how to import CSVs into Google Ads Editor" guide to Notion.** That's busywork documentation. The user wants their campaign live, not homework.
+
 ## Notion Writing Cadence
 
 - Write each deliverable to Notion immediately after creating the local file.
