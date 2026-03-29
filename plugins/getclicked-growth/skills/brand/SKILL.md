@@ -199,13 +199,62 @@ Brand decisions can flow back into context. When brand strategy reveals somethin
 
 ---
 
+## Phase 2: Visual Identity Extraction
+
+After writing `context/brand.md`, extract the client's visual brand identity. This runs automatically — not a separate command.
+
+### When to run
+- Always, after completing the brand narrative
+- Skip ONLY if `context/brand-visual.json` already exists AND user hasn't asked for a refresh
+
+### How to extract
+
+Use `web_extract` MCP tool to pull the homepage HTML from the URL in `context/business.md`. Also pull 1-2 inner pages (about, services) if available.
+
+From the extracted HTML/CSS, identify and record:
+
+**Colors** — primary, secondary, accent, background, surface, text, text_light, CTA, CTA hover, border. Look for: CSS custom properties (skip framework prefixes like `--tw-`, `--bs-`), colors on buttons/CTAs (highest signal for primary), most frequent background-color, most frequent text color.
+
+**Typography** — heading font family, body font family. Full scale: H1-H3 sizes/weights/line-heights, body size, small text. Check Google Fonts `<link>` tags for exact font names.
+
+**Logo** — find `<img>` or `<svg>` in the header/nav with class/alt/src containing "logo". Record the URL.
+
+**Buttons** — primary button: bg, text, border-radius, padding, font-weight, shadow, hover state. Secondary button if present. Pay special attention to distinctive styles (3D shadows, sharp corners, pill shapes) — these are brand signatures.
+
+**Layout** — max-width of main content container, section padding, card border-radius/shadow/padding, grid gap.
+
+**If brand guidelines were uploaded** (`context/brand-guidelines.pdf` or `.png`): read them with vision. Guidelines override scraped values where they conflict.
+
+### Output
+
+Write `context/brand-visual.json` with this structure:
+
+```json
+{
+  "colors": { "primary": "#hex", "secondary": "#hex", "accent": "#hex", "background": "#hex", "surface": "#hex", "text": "#hex", "text_light": "#hex", "cta": "#hex", "cta_hover": "#hex", "border": "#hex" },
+  "typography": { "heading_family": "Font, fallback", "body_family": "Font, fallback", "h1": { "size": "Xrem", "weight": "700", "line_height": "1.1" }, "h2": {...}, "h3": {...}, "body": {...}, "small": {...} },
+  "logo": { "url": "https://...", "width": "Npx", "alt": "Name" },
+  "buttons": { "primary": { "bg": "#hex", "text": "#hex", "border_radius": "Npx", "padding": "N N", "font_weight": "N", "shadow": "...", "hover_bg": "#hex" }, "secondary": {...} },
+  "layout": { "max_width": "Npx", "section_padding": "Npx 0", "card_border_radius": "Npx", "card_shadow": "...", "card_padding": "Npx", "grid_gap": "Npx" },
+  "source": "scrape", "source_url": "https://...", "_guessed": ["list of uncertain values"]
+}
+```
+
+Present a summary: "I extracted your visual brand identity — [colors], [fonts], [button styles]. A few values I'm less sure about: [guessed list]. Want to adjust anything?"
+
+### Brand fidelity principle
+Every generated page must pass: **"Could this be a subpage on their actual site?"** Match their site exactly before improving it.
+
+---
+
 ## Done
 
-You are done when this file exists:
+You are done when these files exist:
 
 | File | Fast | Comprehensive |
 |------|------|---------------|
 | `context/brand.md` | Required | Required |
+| `context/brand-visual.json` | Required | Required |
 
 Stop. Present completion summary and suggest next skill (/ads or /seo). Do not add unrequested deliverables.
 

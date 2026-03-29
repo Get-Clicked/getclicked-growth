@@ -10,9 +10,9 @@
   "plugins": [
     {
       "name": "getclicked-growth",
-      "description": "Ship Google Ads campaigns, SEO strategy, landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, GA4, PostHog, Webflow, and Notion.",
+      "description": "Ship Google Ads campaigns, SEO strategy, hosted landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, GA4, PostHog, Webflow, and Notion.",
       "source": "./plugins/getclicked-growth",
-      "version": "0.11.0",
+      "version": "0.12.0",
       "category": "marketing",
       "author": {
         "name": "Get Clicked",

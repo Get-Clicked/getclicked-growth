@@ -634,6 +634,128 @@ Push page specs to Webflow CMS: `wf pages push --landing-dir ./landing/pages/ --
 
 ---
 
+## Generate + Publish Branded Landing Pages
+
+After writing each page spec, generate a live branded HTML page and publish it.
+
+### Prerequisites
+- `context/brand-visual.json` must exist (produced by `/brand`). If missing: "I need your visual brand first — run /brand or tell me your colors/fonts."
+- `publish_landing_page` MCP tool must be available. If not available, write local HTML only.
+
+### Flow (per page)
+
+1. Read `context/brand-visual.json` for brand tokens
+2. Read the page spec you just wrote (`landing/pages/{slug}.md`)
+3. Generate a complete self-contained HTML file following the **Landing Page HTML Template** rules below
+4. Write to `landing/mockup/{slug}.html` (local file, always)
+5. Call `publish_landing_page` MCP tool with:
+   - `client_slug`: slugified client name from `context/business.md` or `.active-client`
+   - `page_slug`: the slug from the page spec filename
+   - `html_content`: the full HTML
+   - `metadata`: `{"ad_group": "name", "campaign": "name"}`
+6. Show the user the live URL: "Here's your page: [url]"
+7. Ask: "How does this look? Any changes before the next page?"
+8. If changes requested: regenerate, re-publish (upserts), show updated URL
+
+**If `publish_landing_page` is unavailable:** write `landing/mockup/{slug}.html` only. Tell user to open in browser.
+
+### After all pages built
+
+Present a summary table:
+
+| Page | Ad Group | Live URL | Status |
+|------|----------|----------|--------|
+| {name} | {group} | [View →]({url}) | Draft |
+
+Update `ads/ad-groups.json` Final URLs to point to the hosted page URLs.
+
+### Notion integration
+
+When syncing landing pages to Notion, include at the TOP of each page:
+1. **Live preview link** (bold, prominent): `[View Live Page →]({url})`
+2. **Status:** Draft / Live
+3. Then the full page spec content as normal
+
+At the end, tell the user: "Your pages are in Notion with live links. Leave comments on any page and I'll pick them up next session — or tell me now what to change."
+
+---
+
+## Landing Page HTML Template
+
+When generating HTML, follow this structure. The template IS the product — do not freestyle layouts.
+
+### Structure
+- Self-contained HTML — all CSS in `<style>`, no external stylesheets except Google Fonts
+- CSS custom properties for ALL brand values from `context/brand-visual.json` — zero hardcoded brand colors
+- Google Fonts via CDN (families from brand-visual.json)
+- Lucide icons via CDN: `<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>`
+- Mobile-first responsive at 768px breakpoint
+- Schema markup: LocalBusiness + FAQPage
+
+### CSS variable system (map from brand-visual.json)
+```css
+:root {
+  --color-primary: /* colors.primary */;
+  --color-secondary: /* colors.secondary */;
+  --color-bg: /* colors.background */;
+  --color-surface: /* colors.surface */;
+  --color-text: /* colors.text */;
+  --color-text-light: /* colors.text_light */;
+  --color-cta: /* colors.cta */;
+  --color-cta-hover: /* colors.cta_hover */;
+  --font-heading: /* typography.heading_family */;
+  --font-body: /* typography.body_family */;
+  --max-width: /* layout.max_width */;
+  --section-pad: /* layout.section_padding */;
+  --card-radius: /* layout.card_border_radius */;
+  --btn-radius: /* buttons.primary.border_radius */;
+}
+```
+
+### Design rules
+- **8px spacing grid:** 4, 8, 16, 24, 32, 48, 64, 96, 112px as CSS variables
+- **Layered shadows:** 3+ layers using `hsl(var(--shadow-color) / opacity)`, NOT `rgba(0,0,0,0.1)`
+- **clamp() for headings:** `font-size: clamp(2rem, 5vw, 3.5rem)` — fluid, no breakpoints needed
+- **Micro-interactions:** Card hover `translateY(-4px)`, button hover `translateY(-1px)`, `prefers-reduced-motion` support
+- **Preserve brand signatures:** If the brand has sharp corners (0px radius), 3D button shadows, dark themes, or unusual fonts — USE THEM. Don't normalize to generic rounded/light defaults.
+
+### 9 sections in order
+1. **Hero** — H1 matching ad headline, subheadline, CTA with `data-cta="hero"`, image placeholder (pill with icon + description)
+2. **Trust bar** — 4 items with Lucide icons
+3. **Problem + Agitation** — PAS copy, contrasting background
+4. **Benefits** — 3 cards, CTA with `data-cta="benefits"`
+5. **How It Works** — 3 numbered steps, image placeholder
+6. **Social Proof** — testimonial cards
+7. **FAQ** — CSS-only accordion (`<details>`/`<summary>`), FAQPage schema
+8. **Final CTA** — headline, lead capture form (`data-form="lead"`, 3 fields max), risk-removal text. Phone prominent for healthcare/local.
+9. **Footer** — phone, address, hours. Zero navigation.
+
+### Image placeholders
+Use styled placeholder boxes (not broken images):
+```html
+<div class="image-placeholder">
+  <span class="pill"><i data-lucide="monitor"></i> Product Screenshot</span>
+  <span class="hint">Description of what image should show</span>
+</div>
+```
+Dashed border, subtle background, pill label. Client provides real images later.
+
+### Form + event tracking JS
+Inline script at end of body. Form submit: `preventDefault`, collect FormData, POST to `{window.location.pathname}/events` as JSON. Thank-you message via `createElement`/`textContent` (no innerHTML). CTA clicks: elements with `data-cta` POST to `/events`.
+
+### Quality checklist (verify before showing to user)
+- [ ] H1 contains primary keyword from ad group
+- [ ] CTA visible within 600px on 375px mobile
+- [ ] ALL colors from CSS variables (no hardcoded hex outside :root)
+- [ ] Schema has real business data from context/business.md
+- [ ] Form JS posts to correct /events path
+- [ ] No navigation links
+- [ ] Mobile stacks vertically, buttons full-width
+- [ ] Logo from brand-visual.json in navbar
+- [ ] Would pass the "could this be a page on their site?" test
+
+---
+
 ## Done
 
 You are done when these files exist:
@@ -642,11 +764,12 @@ You are done when these files exist:
 |------|------|---------------|
 | `landing/audit.md` | Required | Required |
 | `landing/pages/*.md` | Top 3 groups | All groups |
+| `landing/mockup/*.html` | Top 3 groups | All groups |
 | `landing/brief.md` | Required | Required |
 | `landing/geo/*.md` | Skip | If applicable |
 | `landing/variants/*.md` | Skip | If requested |
 
-Stop. Present completion summary. Do not add unrequested deliverables.
+Stop. Present completion summary with live URLs if published. Do not add unrequested deliverables.
 
 ## When to Use This Skill
 
