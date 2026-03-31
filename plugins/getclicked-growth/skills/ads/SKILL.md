@@ -330,6 +330,8 @@ Pinning: don't pin unless specific reason. Pin brand to Position 3, keyword to P
 
 **Validation (mandatory, not optional):** After generating headlines, verify ALL are ≤ 30 chars. After generating descriptions, verify ALL are ≤ 90 chars. Count character by character. Fix any that exceed BEFORE proceeding to Step 3.
 
+**Policy validation (mandatory):** After character validation, run the policy compliance checklist (see "Google Ads Policy Compliance" section). Check every headline and description for restricted terms based on the client's industry. Healthcare clients: zero tolerance for Rx/prescription/pharmacy/medication language. Flag landing page risks to the user before proceeding.
+
 Write `ads/ad-groups.json` — schema: `{ campaign_name, ad_groups: [{ name, cluster, intent, keywords[], headlines[] (≤30 chars each), descriptions[] (≤90 chars each), display_url }] }`
 
 ### 3. Negative Keywords → `ads/negatives.json` [~1 min]
@@ -495,6 +497,54 @@ This step runs **after a campaign has been live** and the user provides a search
 
 ---
 
+## Google Ads Policy Compliance
+
+**Every ad must pass Google's advertising policies BEFORE export.** Policy violations cause disapprovals that block the entire campaign — sometimes all ad groups, not just the offending one. Fixing disapprovals wastes days and repeated violations risk account suspension.
+
+### Policy Red Flags by Industry
+
+**Healthcare / Telehealth:**
+- **PRESCRIPTION_DRUG_SALE** — the #1 killer. Google requires healthcare advertiser certification before running ads that reference prescriptions, medications, Rx, pharmacy, antibiotics, or "meds." Even indirect language ("sent to your pharmacy", "same-day Rx") triggers this.
+- **Fix:** Use treatment/care language instead: "UTI Treatment Online" not "UTI Prescription Today." "Get Treated From Home" not "Get UTI Meds."
+- **Landing pages matter.** Google scans the destination URL. If the landing page mentions prescriptions, refills, pharmacy, or medications, ALL ads pointing to that page get flagged — even if the ad copy is clean. Flag this to the user before publishing.
+- Avoid guaranteeing medical outcomes ("guaranteed relief", "cure your...").
+- "Telehealth" and "virtual care" are safe. "Online pharmacy" is not.
+
+**Financial Services:**
+- Loan terms require APR disclosure. "Guaranteed approval" is prohibited without qualification.
+- Crypto ads require certification in most countries.
+
+**Legal Services:**
+- Avoid guaranteeing case outcomes ("we'll win your case").
+- Some jurisdictions restrict legal advertising — check target geo.
+
+**General (applies to all industries):**
+- **Unsubstantiated comparative claims:** "Cheaper than [competitor]", "half the cost of [X]", "#1 in [category]" — all require documented proof Google can verify. Remove or qualify.
+- **Misleading superlatives:** "Best", "guaranteed", "proven" without substantiation.
+- **Editorial violations:** ALL CAPS words, excessive punctuation (!!!), gimmicky spacing.
+- **Trademark:** Don't use competitor brand names in ad copy unless running a sanctioned competitive campaign.
+- **"Legitimate/Real" framing:** Saying "legit" or "real" implies competitors are fraudulent — Google may flag as misleading.
+
+### Policy Compliance Checklist (run before Step 6 — Export)
+
+For each ad group, verify:
+
+1. **No restricted terms for the industry.** Healthcare: no Rx/prescription/pharmacy/medication/antibiotics/meds. Financial: no unqualified loan guarantees. Legal: no outcome promises.
+2. **No unsubstantiated claims.** Any comparative statement ("cheaper than", "faster than", "better than") needs proof or gets cut.
+3. **No superlatives without proof.** "#1", "best", "guaranteed" — remove unless the client has third-party verification.
+4. **Landing page alignment.** Check that the destination URL doesn't contain restricted terms that would flag the ad. If it does, flag to the user: "Your landing page at [URL] mentions [term] — Google will flag all ads pointing there. Update the page before publishing."
+5. **Certification check.** If the business is in healthcare, financial services, or other regulated industries, ask: "Does your Google Ads account have [X] certification? Without it, ads mentioning [Y] will be disapproved."
+
+### When a Disapproval Happens
+
+If the user reports disapproved ads:
+1. Pull the actual disapproval reason via `gads report ads` + policy_summary query — don't guess.
+2. Check BOTH ad copy AND landing pages for the flagged policy topic.
+3. Editing and saving the ad triggers re-review. Saving without changes does NOT.
+4. Removing a bad ad group is cleaner than pausing — paused disapproved ads still count against the account.
+
+---
+
 ## Rules
 
 1. **Character limits non-negotiable.** Headlines ≤ 30, descriptions ≤ 90. Validate before writing.
@@ -506,6 +556,7 @@ This step runs **after a campaign has been live** and the user provides a search
 7. **Ask if unclear.** Missing business type, location, or priorities = ask first.
 8. **Quality Score awareness.** QS 10 = 50% CPC discount, QS 1 = 600% penalty. Components: Expected CTR (39%), Ad Relevance (22%), Landing Page (39%). Build tight ad groups, match headlines to keywords.
 9. **Brand vs. non-brand = separate campaigns.** Mixed data poisons algorithmic bidding.
+10. **Policy compliance before export.** Run the policy checklist before generating export CSVs. Flag restricted industries proactively. A disapproved campaign wastes more time than a careful review.
 
 ---
 
