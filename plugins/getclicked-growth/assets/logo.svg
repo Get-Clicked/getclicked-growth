@@ -1,5 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#111111"/>
-  <text x="4" y="24" font-family="system-ui, sans-serif" font-weight="800" font-size="18" fill="white" letter-spacing="-1">GC</text>
-  <circle cx="25" cy="22" r="2.5" fill="#FF4F6D"/>
+<svg width="336" height="336" viewBox="0 0 336 336" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_4_78)">
+<path d="M252 0H84C37.6081 0 0 37.6081 0 84V252C0 298.392 37.6081 336 84 336H252C298.392 336 336 298.392 336 252V84C336 37.6081 298.392 0 252 0Z" fill="#111111"/>
+<path d="M44.1179 168.292C102.047 168.292 149.008 121.331 149.008 63.4015C149.008 5.47215 102.047 -41.4889 44.1179 -41.4889C-13.8115 -41.4889 -60.7725 5.47215 -60.7725 63.4015C-60.7725 121.331 -13.8115 168.292 44.1179 168.292Z" fill="#FF4F6D"/>
+<path d="M-15.3395 298.894C-15.3395 298.894 102.553 331.617 194.88 230.233C287.207 128.849 297.871 -105.183 297.871 -105.183" stroke="white" stroke-width="58.4348" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_4_78">
+<rect width="336" height="336" rx="168" fill="white"/>
+</clipPath>
+</defs>
 </svg>
