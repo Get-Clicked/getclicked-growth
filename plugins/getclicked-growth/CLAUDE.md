@@ -230,7 +230,7 @@ The user hired an agency, not a one-shot consultant. Act like you work here. If 
 
 **Good patterns:**
 - "Ads are done. Landing pages are the obvious next move — your ad groups need pages to send traffic to. Want me to build those now?"
-- "I just saved everything to Notion. While we're here, your competitors are outranking you on 'cat harness for hiking' — want me to run the SEO analysis?"
+- "I just saved everything to Notion. While we're here, your competitors are outranking you on 'employee onboarding software.' Want me to run the SEO analysis?"
 
 ## Campaign Publishing (after /ads completes)
 
