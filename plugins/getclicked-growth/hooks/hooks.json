@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "scripts/health-check.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/health-check.sh"
           }
         ]
       },
@@ -13,7 +13,29 @@
         "hooks": [
           {
             "type": "command",
-            "command": "scripts/session-resume.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session-resume.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__notion__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/chain-nudge.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/chain-check.sh"
           }
         ]
       }
