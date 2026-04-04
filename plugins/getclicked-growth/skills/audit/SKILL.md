@@ -1,390 +1,64 @@
 ---
 name: audit
-description: Audit any website for production readiness — broken links, content gaps, responsive design issues, and technical SEO problems. Use when a site is about to launch, after a major redesign, preparing for a client handoff, or investigating why organic traffic dropped.
+description: Audit any website for production readiness — broken links, content gaps, responsive design, and technical SEO. Use when a site is ready for QA before launch or after changes.
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
 ---
 
-# /audit — Website QA Audit
+# /audit
 
-You are the **Website QA Auditor** for getClicked. You crawl any website, find what's broken, flag what's missing, and produce a prioritized punch list so nothing ships embarrassingly. You think like a QA engineer who also understands conversion and SEO.
+Crawl any public URL, find what's broken, flag what's missing, and produce a prioritized punch list. Works on any website — not just sites built by getClicked skills. Two modes: fast (homepage + 3 pages) and comprehensive (up to 25 pages).
 
-**Read `AGENT_VOICE_GUIDE.md` for tone.** You're a meticulous site reviewer who catches what everyone else misses — broken links, placeholder text, missing meta tags, busted mobile layouts.
+## References
+- Golden example: `docs/golden-examples/audit-report.md`
+- Notion guide: `docs/reference/notion-workspace.md`
 
----
+## Input
+- **Target URL** — required. Ask if not provided.
+- `context/brand.md` — optional (enables voice consistency checks)
+- `context/business.md` — optional (enables business info accuracy checks)
+- `landing/pages/` — optional (enables spec-vs-reality comparison, comprehensive only)
 
-## System Architecture
+## Process
 
-This skill is part of the **CMO Skill System** — a set of composable Claude Code skills that produce marketing deliverables as files.
+### 1. Discovery
+Normalize the URL. Fetch homepage via `web_extract` MCP tool. Extract internal links from nav, footer, CTAs. Check `/sitemap.xml` and `/robots.txt`. Fast mode: homepage + up to 3 high-value pages. Comprehensive: up to 25 pages from sitemap + nav.
 
-```
-/context (foundation — facts, north star keywords, personas)
-       |
-/brand (strategy — positioning, voice, messaging)
-       |
-/ads + /seo (channel — paid and organic)
-       |
-/landing (conversion — page specs matched to ads)
-       |
-/optimize + /audit <── YOU ARE HERE (operations — live performance + site QA)
-       |
-/experiment (learning — hypothesis testing)
-```
+### 2. Link check
+For each audited page, classify every link: Broken (4xx/5xx) = Critical. Placeholder (`#`, `javascript:void(0)`) = Critical. Redirect (3xx) = Important. External broken = Important. Write `audit/links.md`.
 
-**How data flows to you:**
+### 3. Content check
+On every page: placeholder text (lorem ipsum, "coming soon"), heading hierarchy (skipped levels, multiple H1s), missing sections (no CTA, empty areas), thin content (< 100 words). Comprehensive adds: alt text audit, legal pages, brand consistency vs brand.md, spec-vs-reality against landing specs.
 
-```
-User provides: target URL (required)
-context/brand.md (optional — brand voice consistency checks)
-context/business.md (optional — verify business info accuracy)
-landing/pages/ (optional — spec-vs-reality comparison)
-       |
-       ▼
-You crawl the site and audit it
-       |
-       ▼
-audit/report.md (prioritized findings)
-audit/links.md (link health inventory)
-audit/technical-seo.md (meta, schema, robots, sitemap)
-audit/screenshots/ (responsive captures — comprehensive only)
-```
+### 4. Technical SEO
+Per page: title tag (exists, 30-60 chars), meta description (120-155 chars), H1 (exactly one), OG tags, canonical URL, robots.txt, sitemap. Comprehensive adds: structured data, HTTPS check. Write `audit/technical-seo.md`.
 
----
+### 5. Synthesis
+Merge all findings into `audit/report.md`. Write it like a brief from a trusted colleague — plain language, specific fixes, priority order. Three sections: "Fix before launch" (critical), "Fix this week" (important), "Nice to have." No tables, no severity labels — the sections ARE the priority. Max 30 bullets; group small issues.
 
-## Prerequisites
+**Voice rules:** Write to a marketing lead, not a developer. Every bullet is self-contained. Say what's wrong AND what to do. No issue IDs or category tags.
 
-**Required:** A target URL. That's it. If the user doesn't provide one, ask for it.
+## Output
 
-**Optional (enriches the audit):**
-- `context/brand.md` — enables brand voice consistency checks
-- `context/business.md` — enables business info accuracy verification (phone, address, hours)
-- `landing/pages/` — enables spec-vs-reality comparison (comprehensive only)
-
-No hard dependencies on other skills. This skill works on ANY website — not just sites built by other getClicked skills.
-
----
-
-## Notion Integration
-
-Before starting work, check if Notion is available:
-
-1. Read `.active-client` to get the client name
-2. Use `notion-search` to find a page titled "[Client Name] Workspace"
-3. If found: set NOTION_ENABLED = true and note Audit section page ID
-4. If NOT found or Notion tools unavailable: set NOTION_ENABLED = false, continue with local files only
-
-When NOTION_ENABLED, complete all local file writes first. As the final step, sync the Site Review to Notion.
-
-**Output mapping:**
-
-| Local File | Notion Target | Method |
-|-----------|---------------|--------|
-| `audit/report.md` | Audit > Site Review page | `notion-update-page` |
-
-The Notion deliverable is a **single page written like a memo** — not a data dump. It reads top to bottom: bottom line, what to fix now, what to fix this week, what can wait. Written in plain language for a marketing lead, not a developer. The local `links.md` and `technical-seo.md` files are the detailed backup for anyone technical who needs to dig in — they do NOT go to Notion.
-
----
-
-## Notion Output Template
-
-**Write narrative, not spreadsheets.** Write like an expert walking someone through what they found, not a spreadsheet of findings. Each issue is a story: what's wrong, why it matters, and exactly how to fix it. Tables only for genuinely tabular data (category score summary, final action plan).
-
-Follow `docs/notion-style-guide.md` for voice, formatting, and block primitives. Golden example: `docs/golden-examples/audit-report.md`.
-
-```
-Status Badge
-Executive Summary (prose: overall health grade, the 2-3 things that matter most, honest assessment)
-
-## Site health: [A/B/C/D/F]
-Category scores table: Category / Grade / Critical / Warnings / Passed (genuinely tabular — keep as summary scorecard)
-Categories: Technical SEO, Content Quality, Link Health, Mobile/UX, Page Speed.
-
----
-
-## Critical issues (fix immediately)
-Each finding is narrative — NOT a table row. For each issue, write three paragraphs:
-- **Impact:** What this costs you in traffic, conversions, or rankings. Be specific — "This broken link on your pricing page means ~15% of visitors who click 'View Plans' hit a dead end."
-- **Evidence:** What you found, where you found it, the data that proves it. Reference screenshots if available.
-- **Fix:** Exact steps to resolve, written for a marketing lead who'll forward this to a developer.
-
-## Warnings (fix this month)
-Same narrative format as critical issues, but briefer — one paragraph per finding covering impact + fix. Toggle sections: summary line = issue + one-sentence impact.
-
-## Opportunities (nice to have)
-Brief narrative paragraphs. Lower severity, higher optionality. "When you have time" energy.
-
----
-
-## Action plan (prioritized)
-Table: # / Action / Category / Impact / Effort / Priority (genuinely tabular — keep as the wrap-up checklist. Do first / Do next / Backlog.)
-
-> Source: /audit, site crawl + manual review, {date}
-```
-
----
-
-## Execution Mode
-
-| Mode | Deliverables |
-|------|-------------|
-| Fast (default) | Homepage + up to 3 key pages. Nav/footer/CTA links. Placeholder text, missing meta, heading hierarchy, robots.txt, sitemap. |
-| Comprehensive | Full crawl up to 25 pages. All links. Responsive screenshots. Brand consistency. Legal completeness. Alt text audit. Structured data. Spec-vs-reality if landing specs exist. |
-
-Fast skips: deep crawl beyond 4 pages, responsive screenshots, brand consistency, legal page audit, alt text inventory, structured data validation, spec-vs-reality.
-
----
-
-## What You Produce
-
-| File | Contents |
+| File | Required |
 |------|----------|
-| `audit/report.md` | Prioritized findings — Critical / Important / Nice-to-have |
-| `audit/links.md` | Link health inventory — broken, placeholder, redirects, wrong destination |
-| `audit/technical-seo.md` | Meta titles/descriptions, OG tags, canonicals, robots.txt, sitemap, structured data |
-| `audit/screenshots/` | Responsive captures at 1440/768/375 (comprehensive only, Chrome DevTools required) |
-
----
-
-## Workflow
-
-Announce the plan before starting: "Auditing [URL]. [N] steps: discovery → links → content → technical SEO [→ responsive]. ~[N] minutes."
-
-### Step 1: Site Discovery + Tool Check [~1 min]
-
-**Resolve the target URL.** Normalize it (add https:// if missing, follow redirects to canonical).
-
-**Detect available tools** — check what's available and set capability flags:
-
-| Tool | Check | Capability |
-|------|-------|-----------|
-| Chrome DevTools MCP | `mcp__chrome-devtools__navigate_page` | Screenshots, JS rendering, console errors, network analysis |
-| `web_extract` MCP | `mcp__plugin_getclicked-growth_getclicked-research__web_extract` | Server-side page fetching |
-| WebFetch | Built-in | Client-side page fetching |
-
-**Fallback chain for page fetching:** Chrome DevTools (best — renders JS, captures screenshots) → `web_extract` MCP → WebFetch → error.
-
-**Discover pages to audit:**
-1. Fetch the homepage
-2. Extract all internal links from navigation, footer, and CTAs
-3. Check for `/sitemap.xml` and `/robots.txt`
-4. **Fast mode:** Select homepage + up to 3 highest-value pages (pricing, contact, about, key service pages)
-5. **Comprehensive:** Crawl up to 25 unique internal pages from sitemap + navigation
-
-Tell the user: "Found [N] pages to audit. [Tool status]. Starting link check."
-
-### Step 2: Link Checker [~2 min fast / ~5 min comprehensive]
-
-**Fast mode:** Check links on the audited pages only — navigation, footer, CTA buttons, and inline links.
-**Comprehensive:** Check all links across all crawled pages.
-
-**For each link, classify:**
-
-| Status | Meaning | Priority |
-|--------|---------|----------|
-| Broken (4xx/5xx) | Dead link, returns error | Critical |
-| Placeholder | Links to `#`, `javascript:void(0)`, or empty href | Critical |
-| Redirect (3xx) | Works but inefficient — update to final URL | Important |
-| External broken | Outbound link to dead page | Important |
-| Wrong destination | Link text doesn't match destination content | Important |
-| Slow | Response time > 3s | Nice-to-have |
-
-**Write `audit/links.md`:**
-
-```markdown
-# Link Audit
-
-**Date:** [date]
-**Site:** [URL]
-**Pages checked:** [N]
-**Total links checked:** [N]
-
-## Summary
-- Critical: [N] broken + [N] placeholder
-- Important: [N] redirects + [N] external broken
-- Nice-to-have: [N] slow
-
-## Critical Issues
-
-| Page | Link Text | URL | Status | Fix |
-|------|-----------|-----|--------|-----|
-| [source page] | [anchor text] | [href] | [status] | [recommendation] |
-
-## All Links by Page
-
-### [Page URL]
-| Link Text | URL | Status |
-|-----------|-----|--------|
-```
-
-Tell the user: "Links checked — [N] broken, [N] placeholder. Checking content next."
-
-### Step 3: Content Checker [~2 min fast / ~5 min comprehensive]
-
-**On every audited page, check for:**
-
-| Check | What to Flag | Priority |
-|-------|-------------|----------|
-| Placeholder text | Lorem ipsum, "coming soon", "[insert X]", repeated dummy content | Critical |
-| Heading hierarchy | Skipped levels (H1 → H3), multiple H1s, missing H1 | Important |
-| Missing sections | No CTA, no contact info, empty sections, hidden elements with no content | Important |
-| Thin content | Pages with < 100 words of body content | Important |
-| Brand consistency | Voice/tone mismatches vs brand.md (if available) | Nice-to-have |
-| Alt text | Images missing alt attributes (comprehensive only) | Important |
-| Legal pages | Missing privacy policy, terms, accessibility statement (comprehensive only) | Important |
-| Business info | Phone/address/hours mismatch vs business.md (if available) | Important |
-
-**Spec-vs-reality (comprehensive only, if `landing/pages/` exists):**
-
-For each page that has a matching landing page spec, compare:
-- H1 matches spec headline
-- CTA text matches spec CTA
-- Section order matches spec content blocks
-- Trust signals present as specified
-
-Report findings inline in `audit/report.md` under each page's section.
-
-### Step 4: Technical SEO [~1 min]
-
-**For each audited page, check:**
-
-| Element | What to Check | Good | Bad |
-|---------|--------------|------|-----|
-| Title tag | Exists, 30-60 chars, includes primary keyword | Unique, descriptive | Missing, duplicate, too long/short |
-| Meta description | Exists, 120-155 chars, includes CTA | Compelling, unique | Missing, duplicate, truncated |
-| H1 | Exactly one per page, includes keyword | Clear, relevant | Missing, multiple, generic |
-| OG tags | og:title, og:description, og:image present | Complete set | Missing og:image, no tags |
-| Canonical URL | Present, points to correct URL | Self-referencing or correct | Missing, wrong URL |
-| Robots.txt | Exists, doesn't block important pages | Allows crawling | Blocks key pages, missing |
-| Sitemap | Exists at /sitemap.xml, valid XML, includes key pages | Complete, current | Missing, outdated, errors |
-| Structured data | JSON-LD present (comprehensive only) | LocalBusiness, FAQPage, etc. | Missing, invalid |
-| HTTPS | All pages served over HTTPS | Full HTTPS | Mixed content, HTTP pages |
-
-**Write `audit/technical-seo.md`:**
-
-```markdown
-# Technical SEO Audit
-
-**Date:** [date]
-**Site:** [URL]
-
-## Summary
-| Check | Pass | Fail | N/A |
-|-------|------|------|-----|
-| Title tags | [N] | [N] | |
-| Meta descriptions | [N] | [N] | |
-| H1 tags | [N] | [N] | |
-| OG tags | [N] | [N] | |
-| Canonical URLs | [N] | [N] | |
-| Robots.txt | [pass/fail] | | |
-| Sitemap | [pass/fail] | | |
-
-## Issues by Page
-
-### [Page URL]
-- **Title:** [current title] — [verdict]
-- **Meta description:** [current] — [verdict]
-- **H1:** [current] — [verdict]
-- **OG tags:** [present/missing] — [details]
-- **Canonical:** [current] — [verdict]
-```
-
-Tell the user: "Technical SEO checked. [N] issues found. [Moving to responsive check / Writing report]."
-
-### Step 5: Responsive Checker [comprehensive only, ~3 min]
-
-**Requires Chrome DevTools MCP.** If not available, skip with message: "Skipping responsive check — Chrome DevTools not available. Run this audit with Chrome DevTools connected for screenshot-based responsive testing."
-
-**Capture screenshots at three breakpoints:**
-
-| Breakpoint | Width | Represents |
-|-----------|-------|-----------|
-| Desktop | 1440px | Standard desktop |
-| Tablet | 768px | iPad portrait |
-| Mobile | 375px | iPhone SE / standard mobile |
-
-**For each page, check:**
-- Layout breaks (overlapping elements, horizontal scroll)
-- CTA visibility (above fold on mobile?)
-- Text readability (font size, contrast)
-- Touch targets (buttons/links ≥ 44px)
-- Image scaling (stretched, cropped, missing)
-
-Save screenshots to `audit/screenshots/{slug}-{breakpoint}.png`.
-
-Report layout issues in `audit/report.md` with screenshot references.
-
-### Step 6: Synthesis → `audit/report.md` [~1 min]
-
-Merge all findings into a single memo. **This is the client deliverable.** Write it like a brief from a trusted colleague — not a technical report. No tables, no scores, no jargon. Plain language, specific fixes, priority order.
-
-**Write `audit/report.md`:**
-
-```markdown
-# Site Review — [domain]
-
-[date]
-
-**Bottom line:** [1-2 sentences. How does the site look overall? How many things need fixing? What's the biggest risk?]
-
-## Fix before launch
-
-- [Issue in plain English — what's wrong, where, and why it matters. One bullet per issue.]
-- [Be specific: "Your footer Health Plans link sends people to the wrong page" not "incorrect link destination"]
-- [Include the page if it's not sitewide: "On the Clinicians page, the headline says 'The isn't what you signed up for' — missing the word 'This.'"]
-
-## Fix this week
-
-- [Less urgent but still visible to visitors or affects SEO]
-- [Same format: what, where, why it matters, what to do]
-
-## Nice to have
-
-- [Won't hurt you today but worth doing when you have time]
-- [Keep it short — 1-2 sentences per item max]
-```
-
-**Voice rules for the report:**
-- Write to a marketing lead, not a developer. She'll forward this to her team.
-- Every bullet is self-contained — no "see above" or "as noted in the links audit."
-- Say what's wrong AND what to do. "Your robots.txt blocks Google from seeing your site. This probably fixes itself when you connect your custom domain — verify after."
-- No severity labels, no issue IDs, no category tags. The sections ARE the priority.
-- No tables. Bullets only.
-- Keep the total report under 30 bullets. If you found 50 issues, group the small ones: "Several pages are missing alt text on images — affects accessibility and image search."
-
----
-
-## Rules
-
-1. **Works on any website.** Not just Webflow, not just sites built by getClicked skills. Any public URL.
-2. **Tool detection, not assumption.** Check for Chrome DevTools, web_extract, WebFetch at startup. Degrade gracefully — never fail because a tool is missing.
-3. **Prioritize ruthlessly.** Critical = blocks launch. Important = fix this week. Nice-to-have = backlog. Don't inflate severity.
-4. **Specific fixes, not vague advice.** "Add alt text to hero image on /about" not "improve accessibility."
-5. **No false positives.** If you can't verify a link is broken (timeout, rate limit), say so. Don't flag working links.
-6. **Respect rate limits.** Add reasonable delays between fetches. Don't hammer the site with 50 concurrent requests.
-7. **Fast mode is useful.** Homepage + 3 pages catches 80% of issues. Don't upsell comprehensive unless the site is large.
-8. **Brand and business checks are additive.** They enrich the audit when context files exist but are never required.
-
----
-
-## Done
-
-You are done when these files exist:
-
-| File | Fast | Comprehensive |
-|------|------|---------------|
-| `audit/report.md` | Required | Required |
-| `audit/links.md` | Required | Required |
-| `audit/technical-seo.md` | Required | Required |
-| `audit/screenshots/` | Skip | If Chrome DevTools available |
-
-Stop. Present completion summary: pages audited, issues by severity, files written, top 3 fixes. Do not add unrequested deliverables.
-
----
-
-## When to Use This Skill
-
-- **Pre-launch QA** — site is "done" and needs a final check before going live
-- **Post-redesign** — new site or major update, verify nothing broke
-- **After `/landing` pages are published** — confirm pages match specs and links work
-- **Competitor audit** — quick scan of a competitor's site for weaknesses
-- **Periodic health check** — monthly or quarterly site review
-- **"Is my site broken?"** — anytime the user suspects issues
-- **Partial runs** — "just check the links", "just check SEO", "audit the homepage only"
+| `audit/report.md` | Yes — the client deliverable |
+| `audit/links.md` | Yes — link health inventory |
+| `audit/technical-seo.md` | Yes — meta, schema, robots, sitemap |
+
+**Notion:** Sync `audit/report.md` to Audit > Site Review page (single narrative memo: bottom line, fix now, fix this week, can wait).
+
+**Inline fallback:** Three priority tiers — Critical (blocks launch), Important (fix this week), Nice-to-have (backlog). Each finding: what's wrong, where, why it matters, how to fix.
+
+## Quality check
+- No false positives — if you can't verify a link is broken, say so
+- Every finding includes a specific fix, not vague advice ("Add alt text to hero image on /about" not "improve accessibility")
+- Fast mode catches 80% of issues — don't upsell comprehensive unless the site is large
+
+## Budgets
+- Max 2 Read calls (golden example + context files)
+- No MCP research calls needed (just web_extract for crawling)
+- Max 1 Notion write
+- Max 3K characters per Notion page section
+
+## Next
+Suggest fixing the issues or running `/seo` — "Site review is done. Want me to fix the SEO metadata, or run a full organic search analysis?"
