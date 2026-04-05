@@ -1,7 +1,7 @@
 ---
 name: landing
 description: Create landing page specs aligned to ad groups — one page per ad group with matched messaging, PAS framework copy, CTAs, and conversion optimization. Use when ads exist and need landing pages, or building A/B test variants.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 ## Current state

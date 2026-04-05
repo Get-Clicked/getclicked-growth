@@ -1,7 +1,7 @@
 ---
 name: audit
 description: Audit any website for production readiness — broken links, content gaps, responsive design, and technical SEO. Use when a site is ready for QA before launch or after changes.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 # /audit

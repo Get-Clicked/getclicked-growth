@@ -1,7 +1,7 @@
 ---
 name: brand
 description: Define brand positioning, voice, messaging pillars, and guardrails using the Spendesk narrative model. Use when establishing how a brand should sound, writing a positioning doc, or aligning a team on messaging before a launch.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 ## Current state

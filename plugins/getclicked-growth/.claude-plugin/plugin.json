@@ -1,6 +1,6 @@
 {
   "name": "getclicked-growth",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Ship Google Ads campaigns, SEO strategy, hosted landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, GA4, PostHog, Webflow, and Notion.",
   "author": {
     "name": "Get Clicked",
@@ -28,7 +28,7 @@
     "search-console"
   ],
   "mcpServers": {
-    "getclicked-research": {
+    "getclicked": {
       "type": "http",
       "url": "https://research.mcp.getclicked.ai/mcp/"
     },

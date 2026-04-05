@@ -1,7 +1,7 @@
 ---
 name: playbook
 description: Synthesize all skill outputs into a structured GTM Prototype Playbook — the capstone deliverable covering 9 decision worksheets plus a validation roadmap. Use when the client wants a single strategic document that pulls everything together. Requires context, personas, and brand to exist.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 # /playbook

@@ -1,7 +1,7 @@
 ---
 name: context
 description: Build foundational business context — company profile, market landscape, validated keyword themes, and audience personas with real DataForSEO metrics. Use when onboarding a new client, starting a marketing engagement, or when other skills need context files.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.* WebFetch WebSearch"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.* WebFetch WebSearch"
 ---
 
 ## Current state

@@ -1,7 +1,7 @@
 ---
 name: site
 description: Edit website content and SEO metadata through natural language — update headlines, fix meta titles, create CMS pages, deploy landing page variants, and publish changes via Webflow. Use when updating site copy after a brand refresh, deploying landing pages from /landing specs, fixing SEO issues flagged by /audit, or managing A/B test variants.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.* mcp__webflow__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.* mcp__webflow__.*"
 ---
 
 # /site

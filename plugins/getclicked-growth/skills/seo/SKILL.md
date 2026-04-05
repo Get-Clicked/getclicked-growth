@@ -1,7 +1,7 @@
 ---
 name: seo
 description: Build organic search strategy — live rankings dashboard with real DataForSEO metrics, keyword gaps, competitor content analysis, and prioritized actions with CPC savings math. The SEMrush killer.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 # /seo

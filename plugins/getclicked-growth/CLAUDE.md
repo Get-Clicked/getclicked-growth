@@ -62,7 +62,7 @@ On session start, silently check if `context/business.md` exists.
 
 Two servers, different purposes:
 
-### getclicked-research (keyword + web data)
+### getclicked (keyword + web data)
 Tools: `keyword_search_volume`, `keyword_suggestions`, `ranked_keywords`, `serp_competitors`, `web_search`, `web_extract`, `domain_overview`, `paid_keywords`, `competitor_ads`, `domain_intersection`
 Ships with the plugin. Free tier has daily limits. Authenticate via OAuth for unlimited.
 BYOK fallback: Claude Code users can add `DATAFORSEO_*` + `TAVILY_API_KEY` to `.env`.
@@ -75,7 +75,7 @@ Required for: `/optimize`, `/seo` dashboard (live GSC), `/funnel`.
 **PostHog:** Set POSTHOG_USER_API_KEY and POSTHOG_USER_PROJECT_ID in .env. If not connected, /funnel falls back to GA4 or manual input.
 
 ### Routing
-- Keyword research, competitor data, web scraping -> `getclicked-research`
+- Keyword research, competitor data, web scraping -> `getclicked`
 - Live campaign performance, actual rankings, GA4 -> `getclicked-mcp`
 - Post-click funnel, retention, A/B results -> getclicked-mcp PostHog tools
 - If Google data unavailable, fall back to research-only mode. Never block.

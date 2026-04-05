@@ -1,7 +1,7 @@
 ---
 name: funnel
 description: Analyze conversion funnels from acquisition through activation and revenue — pull analytics from PostHog or GA4, identify drop-offs by channel, and recommend experiments targeting the biggest leaks. Use when ads are converting but revenue isn't following, investigating why signups don't activate, comparing channel quality beyond clicks, or before scaling ad spend.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 # /funnel

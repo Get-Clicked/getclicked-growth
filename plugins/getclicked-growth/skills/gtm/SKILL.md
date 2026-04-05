@@ -1,7 +1,7 @@
 ---
 name: gtm
 description: Build a go-to-market strategy using the Revealed GTM Prototype framework (Klement & White) — 9 decision worksheets covering ICP, JTBD, pricing, differentiation, demand narrative, channels, and risks.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 # /gtm

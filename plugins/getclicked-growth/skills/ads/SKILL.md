@@ -1,7 +1,7 @@
 ---
 name: ads
 description: Build Google Ads campaigns — keyword research with real DataForSEO data, RSA ad copy, negative keywords, budget allocation, and ready-to-import CSV files. Use when launching paid search or expanding into new markets.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 ## Current state

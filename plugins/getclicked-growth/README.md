@@ -58,7 +58,7 @@ Everything works out of the box. DataForSEO (keyword research) and Tavily (web r
 2. **Set up credentials** (see [Setup](#setup) below)
 3. **Authenticate for unlimited access** (optional):
    ```bash
-   claude mcp auth getclicked-research
+   claude mcp auth getclicked
    ```
    This opens Google SSO in your browser. Free tier works without authentication but has daily limits.
 4. **Say** "I need help marketing my business" — the Growth Officer takes it from there

@@ -46,7 +46,7 @@
 - Session resume: detects completed skills on session start.
 
 ### Changed
-- MCP server renamed from `founderbee-data` to `getclicked-research`.
+- MCP server renamed from `founderbee-data` to `getclicked`.
 - Trailing slash added to MCP endpoint URL (required by FastMCP HTTP transport).
 - Plugin restructured as marketplace with nested plugin directory.
 

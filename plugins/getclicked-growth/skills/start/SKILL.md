@@ -1,7 +1,7 @@
 ---
 name: start
 description: First interaction — learn the business and start building. Use on first interaction or when no context exists.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 # /start — First Meeting

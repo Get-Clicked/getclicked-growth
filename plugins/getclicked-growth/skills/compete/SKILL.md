@@ -1,7 +1,7 @@
 ---
 name: compete
 description: Research competitor domains — organic rankings, paid keywords, ad copy, landing pages, and keyword gaps. Produces a CEO-ready narrative report and machine-readable gaps file for downstream skills.
-allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 # /compete
