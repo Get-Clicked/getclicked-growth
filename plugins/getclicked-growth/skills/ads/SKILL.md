@@ -1,590 +1,88 @@
 ---
 name: ads
-description: Build complete Google Ads campaigns — keyword research with real DataForSEO data, RSA ad copy, negative keywords, budget allocation, and ready-to-import CSV files. Use when launching paid search, expanding into new markets, building campaigns from keyword research, or preparing Google Ads exports for a client.
+description: Build Google Ads campaigns — keyword research with real DataForSEO data, RSA ad copy, negative keywords, budget allocation, and ready-to-import CSV files. Use when launching paid search or expanding into new markets.
+allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked-research__.*"
 ---
 
-# /ads — Paid Channel (Google Ads)
+## Current state
+!`[ -f ads/ad-groups.json ] && echo "UPDATING: Campaigns exist" || echo "CREATING: No campaigns yet"`
+!`[ -f context/keywords.md ] && echo "Keywords available" || echo "WARNING: No keywords — run /context first"`
 
-You are the **Ads Strategist** for getClicked. You build Google Ads campaigns from strategic context — keyword research, ad copy, negatives, budget allocation, and a ready-to-import export file.
+# /ads
 
-**Read `AGENT_VOICE_GUIDE.md` for tone.** You're an opinionated paid media expert, not a keyword generator.
+Build complete Google Ads campaigns from strategic context. Six steps: keyword research, ad copy, negatives, budget, forecast, and export CSVs. Every metric is real DataForSEO data.
 
----
+## References
+- Golden example: `docs/golden-examples/ads-forecast.md`
+- API patterns: `docs/reference/api-patterns.md`
+- Notion guide: `docs/reference/notion-workspace.md`
 
-## System Architecture
+## Input
+- `context/business.md`, `context/keywords.md` — **required.** If missing, run `/context` first.
+- `context/brand.md`, `context/market.md`, `context/personas/` — optional, read all available.
+- `insights/keyword-research.md`, `insights/copy-patterns.md`, `insights/negative-patterns.md` — read before DataForSEO calls.
+- `compete/gaps.md` — optional, competitor paid keywords inform campaign.
 
-This skill is part of the **CMO Skill System** — a set of composable Claude Code skills that produce marketing deliverables as files.
+## Process
 
-```
-/context (foundation — facts, north star keywords, personas)
-       |
-/brand (strategy — positioning, voice, messaging)
-       |
-/ads ◄── YOU ARE HERE (paid channel execution)
-       |
-  Keyword Researcher → ads/keywords.csv
-  Google Ads Copywriter → ads/ad-groups.json
-  Negative Keywords → ads/negatives.json
-  Budget Strategist → ads/budget.md
-  Forecast & Projections → ads/forecast.md
-  Google Ads Publisher → ads/export-keywords.csv, export-ads.csv, export-negatives.csv
-  Campaign Settings → ads/campaign-settings.json
-  Client Presentation → ads/outputs/[client]-ads-launch-plan.pdf   ← NEW (v4.2)
-  Search Term Auditor → updates negatives.json + writes to insights/
-```
+### 1. Keyword Research -> `ads/keywords.csv` [~3 min]
+Read north star themes from `context/keywords.md`. Expand each into paid-specific keywords (max 6 themes, 10 keywords per theme). Focus on transactional/commercial intent. Use `keyword_search_volume` (batch 10 per call). 0-volume: test 2-3 word-order variants before declaring dead.
 
-**How data flows to you:**
+Assign: match type (Phrase default, Exact for high-value), bid tier (High/Med/Low), ad group (5-20 keywords per tight semantic cluster), intent, stage (TOFU/MOFU/BOFU).
 
-```
-context/keywords.md (strategic themes: "Window Washing", "Commercial Cleaning")
-       |
-       ▼
-You expand themes into paid-specific keyword tactics via DataForSEO
-       |
-       ▼
-ads/keywords.csv (keywords with match types, bid tiers, ad group assignments)
-       |
-       ▼
-ads/ad-groups.json → ads/negatives.json → ads/budget.md → ads/forecast.md → ads/export-*.csv → ads/campaign-settings.json → ads/gamma-prompt.md → ads/outputs/
-```
+### 2. Ad Copy -> `ads/ad-groups.json` [~3 min]
+**Fast:** Top 3 BOFU ad groups. **Comprehensive:** All groups.
 
-**Key distinction from `/seo`:** Same north star themes, different expansion. You focus on **transactional/commercial intent** → ad groups with match types and bid tiers. `/seo` covers all intent types → content types. Also read `context/brand.md` (voice alignment) and `context/market.md` (competitive positioning).
+Per ad group: 8-10 headlines covering keyword, feature, benefit, brand/trust, social proof, price/offer, competitive, CTA categories. 2-4 descriptions.
 
----
+**HARD LIMITS: Headlines <= 30 chars. Descriptions <= 90 chars.** Count character by character. Validate ALL before proceeding.
 
-## Prerequisites
+**Policy check:** No restricted terms for the industry. Healthcare: zero Rx/prescription/pharmacy/medication. No unsubstantiated superlatives. Check landing page alignment.
 
-**Required:** `context/business.md`, `context/keywords.md` (if missing → run `/context` first).
-**Optional:** `context/brand.md` (voice), `context/market.md` (competition), `context/personas/` (intent-matched copy), `insights/` (past learnings), `memory/cross-client-patterns.md` (cross-client intel; per-client overrides), `compete/` (competitor paid keywords + ad copy inform campaign strategy).
-Read all available files before starting.
+### 3. Negatives -> `ads/negatives.json` [~1 min]
+8 categories: job seekers, DIY/education, wrong intent, wrong geography, irrelevant modifiers, information-only, wrong audience, brand competitors. 3-tier architecture (account/campaign/ad-group). Cross-check every negative against positives — never block a paying keyword.
 
----
+### 4. Budget -> `ads/budget.md` [~1 min]
+3 tiers (minimum/recommended/aggressive). Allocation by ad group with rationale. Each group needs $5-10/day minimum. Scaling rules.
 
-## Notion Integration
+### 5. Forecast -> `ads/forecast.md` [Comprehensive only]
+Two scenarios: Conservative (Month 1-2, no QS history, 3% CVR) and Optimized (Month 3+, improving QS, 5% CVR). Revenue model, spend-to-revenue projection, breakeven analysis, "the honest take" section. See golden example.
 
-Check Notion: read `.active-client` → `notion-search` for "[Client Name] Workspace" → if found, note section page IDs (NOTION_ENABLED = true). Complete all local files first, then sync to Notion in one pass. If Notion unavailable, local files only.
+### 6. Export -> `ads/export-*.csv` [~1 min]
+Three Google Ads Editor import CSVs: `export-keywords.csv`, `export-ads.csv`, `export-negatives.csv`. One row per entity. Only active groups.
 
-| Local File | Notion Target | Method |
-|-----------|---------------|--------|
-| `ads/keywords.csv` | Ads > Keywords database | `notion-create-pages` (rows) |
-| `ads/ad-groups.json` | Ads > Ad Groups page | `notion-update-page` (structured markdown) |
-| `ads/negatives.json` | Ads > Negatives page | `notion-update-page` |
-| `ads/budget.md` | Ads > Budget page | `notion-update-page` |
-| `ads/forecast.md` | Ads > Forecast page | `notion-update-page` |
-| `ads/campaign-settings.json` | Ads > Campaign Settings page | `notion-update-page` (code block) |
-| `ads/gamma-prompt.md` | Ads > Gamma Prompt page | `notion-update-page` |
-| `ads/export-*.csv` | Not synced (download artifacts) | -- |
-| `insights/keyword-research.md` | Insights > Keyword Research | `notion-update-page` |
-| `insights/negative-patterns.md` | Insights > Negative Patterns | `notion-update-page` |
+### If MCP research tools are unavailable
+- Use `web_search` / WebSearch to find publicly available data
+- Mark all metrics as UNVALIDATED (do not estimate or guess)
+- Still produce all output files — structure and strategic analysis are valuable even without exact metrics
+- Tell the user: "I worked with publicly available data. Connect the research tools for exact keyword volumes and CPCs."
 
----
+## Output — Fast mode (default)
+All of these are REQUIRED even in fast mode:
+1. `ads/keywords.csv` — keyword research with real metrics
+2. `ads/ad-groups.json` — ad groups with RSA headlines + descriptions
+3. `ads/negatives.json` — negative keyword list
+4. `ads/budget.md` — budget allocation + forecast (mark UNVALIDATED if no real CPC data)
+5. `ads/export-keywords.csv`, `ads/export-ads.csv`, `ads/export-negatives.csv` — Google Ads Editor import files
 
-## Notion Output Template
+If MCP research tools are unavailable, still produce all files but mark metrics as UNVALIDATED.
 
-Follow `docs/notion-style-guide.md` for shared formatting rules, voice, and block primitives. Golden example: `docs/golden-examples/ads-forecast.md`.
+## Output — Comprehensive mode (adds)
+6. `ads/forecast.md` — full forecast with revenue model
+7. `ads/campaign-settings.json` — campaign settings for import
 
-**Write narrative, not spreadsheets.** Tables only when the data IS genuinely tabular (keyword lists, ad copy with character counts, budget allocation numbers, projection grids). Everything else is prose — a strategist talking to the client, not a report generator filling cells.
+**Notion:** Sync keywords, ad groups, negatives, budget, forecast to Ads section pages.
 
-### Forecast Page
+## Quality check
+- Every headline <= 30 chars, every description <= 90 chars — no exceptions
+- Every keyword metric is real DataForSEO data or marked UNVALIDATED
+- Negatives don't conflict with positive keywords (conflicts_prevented logged)
 
-"The Honest Take" is the signature pattern — stop reporting and start advising. This page should read like a strategist sitting across the table, not a spreadsheet with headers.
+## Budgets
+- Max 3 Read calls (golden example + reference files + context)
+- Max 3 MCP research calls (keyword_search_volume batches)
+- Max 2 Notion writes (ad groups + budget/forecast)
+- Max 3K characters per Notion page section
 
-```
-> **Status: Draft** | Generated by /ads on {date}
-
-[2-3 sentence executive summary: budget, expected outcome range, the honest take]
-
-## Revenue model
-
-[Write this as a narrative paragraph. Explain how the business makes money from ads: what counts as a conversion, what each conversion is worth, how LTV factors in. Connect the dots between a click and revenue in plain language — "Each booked appointment generates an average of $X in first-visit revenue, with Y% of customers returning for ongoing service worth $Z over 12 months."]
-
-## Spend-to-revenue projection
-
-### Conservative (Month 1-2)
-
-[One paragraph explaining assumptions: no quality score history, cold traffic, Google's algorithm still learning. Set expectations honestly.]
-
-| Monthly Spend | Avg CPC | Clicks | CVR | Conversions | Revenue | CAC | ROAS |
-|...|
-
-### Optimized (Month 3+)
-
-[One paragraph explaining what changes and why: quality score improving from click-through data, negative keywords pruned from search term reports, conversion signals feeding Smart Bidding.]
-
-| Monthly Spend | Avg CPC | Clicks | CVR | Conversions | Revenue | CAC | ROAS |
-|...|
-
----
-
-## Breakeven analysis
-
-[Write this as narrative prose. Be specific about when the investment pays for itself. Walk through the math conversationally — "At the recommended $X/month spend, you need Y conversions to break even. Conservative projections put you there by month Z. The real unlock is repeat business — once LTV kicks in, breakeven drops to just N conversions per month."]
-
-## The honest take
-
-[This is the heart of the page. Write 2-3 paragraphs of candid strategic advice. Name the trade-offs. Say what's uncomfortable. Don't hedge — advise. Start with the hardest truth ("First-visit ROAS is below 1.0x") and then make the case for why it's still worth it, with data supporting each point. This should feel like a trusted advisor being straight with the client, not a numbered list of justifications.]
-
----
-
-## What moves the numbers
-
-[Write as a narrative paragraph ranking the levers from highest to lowest impact. Explain WHY each lever matters and how much it moves the needle — "The single biggest lever is conversion rate. Moving from 3% to 5% doubles your ROAS without spending another dollar. The second lever is..."]
-
-## Recommendation
-
-[One decisive paragraph. Specific: start at $X/month, expect Y in the first 60 days, revisit after Z weeks. Name the first optimization milestone and what triggers scaling up.]
-
-## Assumptions
-
-[Every assumption documented. Transparent. Narrative format — one paragraph covering data sources, benchmark references, and what could invalidate the projections.]
-
-> Source: /ads, DataForSEO keyword data + industry benchmarks, {date}
-```
-
-### Budget Page
-
-```
-> **Status: Draft** | Generated by /ads on {date}
-
-[2-3 sentence executive summary: total monthly spend, allocation strategy, key constraint]
-
-## Budget allocation
-
-| Ad Group | Monthly Spend | % of Budget | Bid Strategy | Max CPC |
-|----------|--------------|-------------|-------------|---------|
-
----
-
-## Allocation rationale
-
-[Write this as 2-3 paragraphs of narrative prose. Explain WHY this split exists — which ad groups get more money and the strategic reasoning behind it. Tie allocation to persona priority, keyword opportunity size, and expected conversion rates. "The Window Cleaning group gets 40% of budget because it targets the highest-intent BOFU keywords with the strongest conversion potential. Commercial Cleaning gets 25% — lower volume but higher revenue per conversion, making the higher CPC worthwhile." Make the client understand the logic, not just see the numbers.]
-
-## Scaling rules
-
-[Write as narrative prose. Describe the conditions that trigger budget changes — "When CPA drops below $X for two consecutive weeks, that's the signal to increase spend by 20%. If an ad group's CPA climbs above $Y with no improvement after adding negatives, pause it and redistribute. The goal is to feed winners and starve losers, but give each group at least 3 weeks of data before making the call."]
-
-> Source: /ads, informed by DataForSEO CPCs + industry benchmarks, {date}
-```
-
-### Ad Groups Page
-
-```
-> **Status: Draft** | Generated by /ads on {date}
-
-[2-3 sentence executive summary: number of ad groups, campaign structure, targeting approach]
-
-[Repeat per ad group:]
-
-## [Ad Group Name]
-
-[Open each ad group with a narrative paragraph that frames the strategic context: who this group targets, what intent stage they're in, why this keyword cluster matters, and how it fits the overall campaign. "This group captures homeowners actively searching for window cleaning services — they've moved past research and are ready to hire. These are your highest-intent prospects, and the ad copy is built to match that urgency with a direct call to action."]
-
-### Keywords
-| Keyword | Match Type | Volume | CPC | Bid Tier |
-|---------|-----------|--------|-----|----------|
-
-### Ad copy
-**Headlines:** [3-5 headlines, each <=30 chars]
-**Descriptions:** [2-3 descriptions, each <=90 chars]
-
-### Negatives (group-level)
-[Bulleted list of negative keywords specific to this group]
-
----
-
-> Source: /ads, DataForSEO keyword data, {date}
-```
-
----
-
-## Execution Mode
-
-| Mode | Deliverables |
-|------|-------------|
-| Fast (default) | keywords.csv + ad-groups.json (top 3 BOFU groups) + negatives.json + budget.md + export-*.csv |
-| Comprehensive | + forecast.md + campaign-settings.json + gamma-prompt.md + search term audit |
-
-Fast skips: forecast projections, campaign settings, client presentation, search term audit.
-
----
-
-## What You Produce
-
-| File | Contents |
-|------|----------|
-| `ads/keywords.csv` | Paid keyword list with match types, bid tiers, ad groups, intent, metrics |
-| `ads/ad-groups.json` | Ad groups with headlines (≤30 chars) and descriptions (≤90 chars) |
-| `ads/negatives.json` | Negative keyword list with conflict prevention |
-| `ads/budget.md` | Budget allocation, bid recommendations, daily budget |
-| `ads/forecast.md` | Spend → clicks → conversions → revenue projections (client-presentable) |
-| `ads/campaign-settings.json` | Campaign settings — bidding, geo targeting, languages, networks, sitelinks, callouts |
-| `ads/export-keywords.csv` | Keywords — Google Ads Editor import (Keywords section) |
-| `ads/export-ads.csv` | RSA ads — Google Ads Editor import (Responsive Search Ads section) |
-| `ads/export-negatives.csv` | Negative keywords — Google Ads Editor import (Negative Keywords section) |
-| `ads/gamma-prompt.md` | Paste-ready prompt for Gamma AI to generate client presentation |
-| `ads/outputs/` | Final client-facing deliverables (presentations, PDFs) |
-| `ads/inputs/` | Documents client shares with us (reports, exports, briefs) |
-
----
-
-## Workflow
-
-Run these sub-agents in order. Each builds on the previous output.
-
-### Competitive Intelligence
-
-If `compete/gaps.md` exists, read Keyword Gaps (Paid) for keywords competitors bid on that we should target. Read Ad Copy Intelligence for messaging themes to differentiate against. This data supplements DataForSEO keyword expansion and gives ad copy a competitive edge.
-
-### 1. Keyword Researcher → `ads/keywords.csv` [~3 min]
-
-Read `context/keywords.md` for north star themes. Also check `optimize/expansion-candidates.csv` (if it exists) — these are converting search terms identified by `/optimize` that aren't in the current keyword list. Prioritize adding them.
-
-**Brand vs. non-brand separation.** Branded terms have 1299% vs 68% non-branded ROAS (WordStream) — mixing poisons algorithmic learning. This skill builds the non-branded campaign. Branded = separate campaign, manual CPC, 50-70% lower bids.
-
-Expand each theme into paid-specific keywords:
-**Bounds: Max 6 themes, 10 keywords per theme.** Max 2 word-order variants per 0-vol keyword. If 0 after 2 variants → dead end, move on.
-
-- Generate 10-15 keywords per theme, focused on **transactional and commercial intent**
-- For each keyword, determine: **Match type** (Phrase default, Exact for high-value; Broad only after 50+ conversions + Smart Bidding), **Bid tier** (High/Medium/Low), **Ad group** (5-20 keywords per group, tight semantic clusters), **Intent** (Transactional/Commercial/Informational/Local), **Stage** (TOFU/MOFU/BOFU).
-- Match types are now semantic — Exact includes close variants, Phrase includes same-meaning. Negatives are more important than ever. Structure: 7-10 ad groups per campaign.
-
-**Before expanding**, read `insights/keyword-research.md` for canonical forms, dead ends, and geo intel. Also read `memory/cross-client-patterns.md` for this industry's defaults. Per-client insights take precedence.
-
-**DataForSEO — Data Access:**
-
-**Preferred: MCP tools.** If `keyword_search_volume` tool is available, use MCP tools directly (no credentials needed). Falls back to curl + .env if MCP unavailable. See plugin CLAUDE.md "Data Access" for the full fallback chain.
-
-**BYOK fallback (Claude Code only):** Read `.env` for `DATAFORSEO_BASE64` (or `DATAFORSEO_API_LOGIN` + `DATAFORSEO_API_PASSWORD`). Use Read tool — don't assume shell exports.
-
-**API endpoints (`Authorization: Basic {DATAFORSEO_BASE64}`):**
-
-| Endpoint | Use | Key Params |
-|----------|-----|-----------|
-| `keywords_for_keywords/live` | Expand themes → keywords | `keywords` (max 10), `location_name`, `language_name` |
-| `search_volume/live` | Geo-specific CPC | `keywords`, `location_name` per state |
-| `locations` | Location lookup | Filter by search term |
-
-Batch up to 10 keywords per API call. Use the location from `context/keywords.md` Target Market section.
-
-**Geo-specific CPC:** If multiple target geos, pull `search_volume/live` per state in parallel. Long-tail keywords may fall below state-level threshold — leave empty.
-
-Write `ads/keywords.csv` with geo columns:
-
-```csv
-keyword,ad_group,match_type,intent,stage,bid_tier,search_volume,cpc_low,cpc_high,competition,persona,{st1}_vol,{st1}_cpc_low,{st1}_cpc_high,{st2}_vol,{st2}_cpc_low,{st2}_cpc_high
-window cleaning near me,Window Cleaning,Exact,Transactional,BOFU,High,2400,3.50,8.20,Medium,Homeowner,80,2.10,5.40,120,3.80,9.10
-```
-
-Column naming: 2-letter state abbreviation lowercase (e.g., `id_vol`, `id_cpc_low`, `id_cpc_high`). National columns are primary reference. Geo columns show CPC variance for budget allocation.
-
-**Insight integration:** Read `insights/keyword-research.md`, `insights/negative-patterns.md`, and `insights/copy-patterns.md` before DataForSEO calls. After calls, append new canonical forms, dead ends, and geo surprises to `insights/keyword-research.md`.
-
-**0-volume investigation:** When a keyword returns 0 but the concept is obviously real, test 2-3 word-order variants before declaring it dead. DataForSEO tracks the specific canonical form Google uses (e.g., "online UTI treatment" = 0 → "treat UTI online" = 5,400/mo). Append new canonical forms, dead ends, and geo surprises to `insights/keyword-research.md`.
-
-Tell the user: "Keywords validated — [N] survive. Building ad copy next."
-
-### 2. Google Ads Copywriter → `ads/ad-groups.json` [~3 min]
-
-Read `ads/keywords.csv` + `context/brand.md` (if available) + `context/personas/` (if available).
-**Fast mode: Top 3 ad groups** (highest-intent BOFU groups only). Comprehensive: all groups.
-
-When personas exist, match ad groups to their primary persona — use the persona's pain points, search language, and objections to write copy that speaks to their specific situation.
-
-**Copy insight integration:** Read `insights/copy-patterns.md` + `memory/cross-client-patterns.md` copy patterns before writing. Apply winning headline/CTA patterns, avoid documented dead ends, use persona-specific language insights. Per-client overrides cross-client. Don't write copy-patterns.md during generation — patterns emerge from performance data (/optimize).
-
-**Ad group count must match budget.** Each ad group needs ~$5–10/day minimum for Google's algorithm to optimize. Scale accordingly:
-
-| Monthly Budget | Active Ad Groups | Strategy |
-|---------------|-----------------|----------|
-| < $1,000 | 2–3 | Only highest-ROI clusters. Consolidate related themes. |
-| $1,000–$2,000 | 3–4 | Top clusters, each with enough daily budget for 1–3 clicks. |
-| $2,000–$5,000 | 5–8 | Expand to secondary clusters. Start testing. |
-| $5,000+ | 8+ | Full library. Enough data per group to optimize. |
-
-**Build the full library, activate what the budget supports.** Write all ad groups but mark active vs. paused. Export only active groups. For small budgets, merge groups sharing the same persona + landing page + intent.
-
-For each ad group:
-
-**Headlines (8-10 per ad group, minimum 8):**
-- **HARD LIMIT: Every headline MUST be ≤ 30 characters.** Count carefully. No exceptions.
-**8-headline categories (cover all for RSA quality):**
-
-| # | Category | Count | Example |
-|---|----------|-------|---------|
-| 1 | Keyword-focused | 1-2 | Include primary keyword |
-| 2 | Feature | 1-2 | Specific service/method |
-| 3 | Benefit | 1-2 | Outcome for customer |
-| 4 | Brand/Trust | 1 | Name, years, credential |
-| 5 | Social Proof | 1 | Review count, awards |
-| 6 | Price/Offer | 0-1 | Free quote, discount |
-| 7 | Competitive | 0-1 | Specific differentiator |
-| 8 | CTA | 1-2 | BOFU: "Book Today" / MOFU: "Compare Options" |
-
-Pinning: don't pin unless specific reason. Pin brand to Position 3, keyword to Position 1 only for high-value exact-match groups. Ad Strength is diagnostic, not a KPI — optimize for conversions, not the score. Display URL: use both Path 1 and Path 2 (15 chars each), include keyword in Path 1.
-- If `context/brand.md` exists, match voice and avoid forbidden terms
-
-**Descriptions (2-4 per ad group):**
-- **HARD LIMIT: Every description MUST be ≤ 90 characters.** Count carefully. No exceptions.
-- Reinforce benefits, include clear CTA
-- Natural keyword inclusion — never keyword-stuff
-
-**Validation (mandatory, not optional):** After generating headlines, verify ALL are ≤ 30 chars. After generating descriptions, verify ALL are ≤ 90 chars. Count character by character. Fix any that exceed BEFORE proceeding to Step 3.
-
-**Policy validation (mandatory):** After character validation, run the policy compliance checklist (see "Google Ads Policy Compliance" section). Check every headline and description for restricted terms based on the client's industry. Healthcare clients: zero tolerance for Rx/prescription/pharmacy/medication language. Flag landing page risks to the user before proceeding.
-
-Write `ads/ad-groups.json` — schema: `{ campaign_name, ad_groups: [{ name, cluster, intent, keywords[], headlines[] (≤30 chars each), descriptions[] (≤90 chars each), display_url }] }`
-
-### 3. Negative Keywords → `ads/negatives.json` [~1 min]
-
-Read `ads/keywords.csv`. Generate negative keywords to prevent wasted spend:
-
-**8 negative categories:**
-
-| Category | Examples |
-|----------|---------|
-| Job seekers | jobs, hiring, salary, careers |
-| DIY/Education | free, DIY, how to, tutorial |
-| Wrong intent | reviews, complaints, lawsuit, scam |
-| Wrong geography | Competing city/state names |
-| Irrelevant modifiers | Industry-specific wrong-traffic terms |
-| Information-only | what is, definition, vs (unless MOFU groups target these) |
-| Wrong audience | B2B terms if B2C (or vice versa) |
-| Brand competitors | Competitor names (unless competitive campaign) |
-
-**3-tier architecture:** Account-level (universal: job seekers, DIY, complaints) → Campaign-level (wrong geography, wrong audience) → Ad group-level (cross-group traffic sculpting).
-
-**Critical:** Negatives match LITERALLY, not semantically (unlike positives). "running shoes" as negative does NOT block "jogging sneakers." Add every variation you want to block.
-
-**Protected keywords:** Cross-check every negative against `ads/keywords.csv`. If it would block any positive keyword, exclude it and log in `conflicts_prevented`. Don't over-negate — if a real customer might use the term, don't block it.
-
-**Negative insight integration:** Read `insights/negative-patterns.md` before building. Add proven negatives with `"source": "insight_carryover"`. Don't re-add terms that were negated then found to convert. After search term audit or /optimize, write new patterns to `insights/negative-patterns.md`.
-
-Write `ads/negatives.json`:
-
-Schema: `{ account_level: [{ keyword, match_type, reason }], campaign_level: [...], ad_group_level: { "Group Name": [...] }, conflicts_prevented: ["reason"] }`
-
-Tell the user: "Ad copy done — [N] headlines, all under 30 chars. Negatives set. Working on budget."
-
-### 4. Budget Strategist → `ads/budget.md` [~1 min]
-
-Read `ads/keywords.csv` (CPC data) + `context/market.md` (competitive context). Produce budget recommendations.
-
-**Minimum viable monthly budgets by industry** (WordStream 2025 benchmarks — budgets below these don't generate enough data for optimization):
-
-| Industry | Min Budget | Avg CPC |
-|----------|-----------|---------|
-| Home Services | $2,500-$4,000 | $3-7 |
-| Healthcare/Dental | $3,000-$5,000 | $4-8 |
-| Legal | $5,000-$6,500 | $8-12 |
-| SaaS/B2B | $4,000-$6,000 | $5-10 |
-| E-commerce | $2,500-$4,000 | $1-3 |
-
-**Practical minimums:** Each ad group needs $5-10/day to learn. If budget/groups < $5/day, consolidate. CPC inflation is 12-13%/year — build 10-15% buffer into recommendations.
-
-Write `ads/budget.md`:
-
-Write `ads/budget.md`: 3 budget tiers (minimum/recommended/aggressive) → allocation by ad group (% + daily $) → bid recommendations by tier (High/Medium/Low) → assumptions and notes.
-
-### 5. Forecast & Projections → `ads/forecast.md` [~2 min, comprehensive only]
-
-Read `ads/keywords.csv` (CPC data) + `ads/budget.md` (allocation tiers) + `context/business.md` (revenue per conversion, service pricing) + `context/personas/` (LTV signals — repeat visit likelihood, household size). Produce a client-presentable projection showing the direct line from spend to revenue.
-
-**Two scenarios, always:**
-
-1. **Conservative (Month 1–2):** Higher avg CPC (no quality score yet), 3% conversion rate (cold traffic, no conversion data). This is the realistic worst case.
-2. **Optimized (Month 3+):** Lower avg CPC (quality score improving, negative keywords pruned), 5% conversion rate (conversion signals feeding Google's algorithm). This is what to expect after the learning period.
-
-**Conversion rate benchmarks by industry** (WordStream/LocaliQ 2025 — 16,000+ US campaigns):
-
-| Industry | Avg CVR | Conservative (Mo 1-2) | Optimized (Mo 3+) |
-|----------|---------|----------------------|-------------------|
-| Home & Improvement | 7.33% | 3-5% | 7-10% |
-| Physicians/Surgeons | 11.62% | 4-6% | 8-12% |
-| Dental | 9.08% | 4-6% | 8-12% |
-| Legal | 5.09% | 3-5% | 6-10% |
-| Business/SaaS | 5.14% | 2-3% | 4-6% |
-| E-commerce | 3.83% | 1-2% | 3-5% |
-
-If the industry isn't listed, use DataForSEO data for real CPC/volume. Don't assume a neighboring industry's metrics apply.
-
-**Blended CPC calculation:** Weight average CPC by budget allocation percentage from `ads/budget.md`. At lower budgets, spend concentrates in fewer (often higher-CPC) ad groups — adjust accordingly.
-
-Write `ads/forecast.md`:
-
-Write `ads/forecast.md`: Revenue Model (revenue per conversion, LTV, conversion definition) → Conservative projection table (Month 1-2: higher CPC, lower CVR) → Optimized projection table (Month 3+) → Breakeven analysis → What moves the numbers (CVR is biggest lever) → Assumptions with sources.
-
-Include 3 budget tiers per scenario. ROAS = Revenue ÷ Ad Spend.
-
-### 6. Google Ads Publisher → `ads/export-*.csv` [~1 min]
-
-Read all `ads/` files. Produce 3 Google Ads Editor import CSVs:
-
-| File | Columns | Import Location |
-|------|---------|----------------|
-| `export-keywords.csv` | Campaign, Ad Group, Keyword, Match Type, Max CPC, Final URL | Keywords & Targeting > Keywords |
-| `export-ads.csv` | Campaign, Ad Group, Final URL, Headline 1-15, Description 1-4, Path 1, Path 2 | Ads > Responsive Search Ads |
-| `export-negatives.csv` | Campaign, Ad Group (blank for campaign-level), Keyword, Match Type | Keywords & Targeting > Negative Keywords |
-
-One row per keyword/ad/negative. RSAs: one row per ad group with all headlines/descriptions. Only include active (launch) groups.
-
-Tell the user: "Campaign ready — export files written. Here's your summary."
-
-### 6.5. Campaign Settings → `ads/campaign-settings.json` [comprehensive only]
-
-Read all `ads/` files + `context/keywords.md` + `context/brand.md` (if available). Auto-generate campaign-level settings that the `gads publish` CLI consumes.
-
-**9 harmful Google Ads defaults to override:**
-
-| Default | Fix | Why |
-|---------|-----|-----|
-| Search Partners: ON | OFF | Low quality, inflated impressions |
-| Display Network: ON | OFF | Wasted budget on banners |
-| Location: "Presence or interest" | "Presence" only | Prevents NYC users seeing Boise ads |
-| Broad match pushed | Phrase + Exact only | Broad only after 50+ conversions + Smart Bidding |
-| Auto-apply recommendations | OFF | Many increase spend without returns |
-| Enhanced CPC | OFF for new | Lets Google 2x your bids without data |
-| Ad rotation: "Optimize" | "Do not optimize" (first 30d) | Equal impressions for testing |
-| Audience: "Targeting" | "Observation" mode | Data without restricting reach |
-| Conversion tracking | Verify before launch | Smart Bidding without data = blind |
-
-**Derive fields from context:** Bidding from `ads/budget.md` (low budget/no tracking = `manual_cpc`; otherwise `maximize_conversions`). Locations from `context/keywords.md` Target Market. Languages default `["English"]`. Networks: search only (partners + display OFF). Sitelinks (2-4, ≤25 char link_text, ≤35 char descriptions) from ad groups + brand. Callouts (3-5, ≤25 chars) from brand proof points. Dates: null/null default.
-
-**Character limits are non-negotiable.** Sitelink link_text ≤ 25 chars. Sitelink descriptions ≤ 35 chars each. Callouts ≤ 25 chars each. Count before writing.
-
-**Output format:**
-
-Schema: `{ bidding: { strategy, enhanced_cpc }, locations: { target[], exclude[] }, languages[], networks: { google_search, search_partners, display_network }, location_options: { target_type: "PRESENCE" }, sitelinks: [{ link_text (≤25), description1 (≤35), description2 (≤35), final_url }], callouts[] (≤25 each), start_date, end_date }`
-
-Present settings to user for verification before finalizing. After approval, publish: `gads publish` (dry run) → `gads publish --live --open` (create + open browser). Add `--webflow-domain example.com --collection-slug services` for Webflow landing pages.
-
-### 7. Client Presentation [comprehensive only]
-
-Generate a paste-ready prompt for Gamma AI that the user can copy into Gamma's "Generate" feature to produce a client-facing launch plan presentation.
-
-**10 slides:** Title → Goal + Opportunity → Campaign Setup → Personas → Keyword Strategy → Campaign Groups → Ad Previews → Projections → Budget Protection → Next Steps
-
-Each slide pulls real data from ads/ and context/ files. Self-contained prompt — user pastes into Gamma and generates.
-
-**Output:** Write `ads/gamma-prompt.md`. User pastes into Gamma, generates presentation, downloads PDF to `ads/outputs/[client]-ads-launch-plan.pdf`.
-
-### Completion Summary & Next Step
-
-After completing, present:
-
-```
-## Campaign Built
-
-- **Campaign:** [name] | **Ad groups:** [N] active ([M] paused)
-- **Keywords:** [total] | **Budget:** $[daily]/$[monthly]
-- **Geo:** [locations] | **Files:** 7 core files ready
-```
-
-Then tell the user: "Next: landing pages. Dedicated pages convert 116% better than homepage traffic. Run `/landing` to build matched pages for each ad group."
-
-Show a mapping table: Ad Group → Landing Page slug → Primary Keyword → Intent.
-
-### 8. Search Term Auditor [comprehensive only, post-campaign]
-
-> **For automated optimization, use `/optimize`.** It pulls data via the `gads` CLI (no CSV needed), covers search terms + keywords + ads + landing pages, and adapts analysis depth to campaign maturity. Step 8 here remains available for **manual CSV audits** when you have an exported report and want a quick pass without the full `/optimize` workflow.
-
-This step runs **after a campaign has been live** and the user provides a search term report CSV export from Google Ads. It turns live search data into actionable updates.
-
-**Input:** User provides a Google Ads search term report (CSV export from Google Ads → Reports → Search Terms).
-
-**Process:** Parse CSV (Search Term, Impressions, Clicks, CTR, Cost, Conversions, etc.) → Flag negatives (0 clicks, 0 conversions + high cost, wrong audience; never flag positive keywords) → Update `ads/negatives.json` with `"source": "search_term_audit"` → Identify content gaps (converting terms without matching pages → `insights/`) → Validate persona mapping against `context/personas/` → Write discoveries to `insights/negative-patterns.md`, `insights/copy-patterns.md`, `insights/keyword-research.md` (each with pattern, evidence, date).
-
-**Output:** New negatives added, top wasted-spend terms, content gaps, persona validation. **When:** 2+ weeks live, user provides CSV.
-
----
-
-## Google Ads Policy Compliance
-
-**Every ad must pass Google's advertising policies BEFORE export.** Policy violations cause disapprovals that block the entire campaign — sometimes all ad groups, not just the offending one. Fixing disapprovals wastes days and repeated violations risk account suspension.
-
-### Policy Red Flags by Industry
-
-**Healthcare / Telehealth:**
-- **PRESCRIPTION_DRUG_SALE** — the #1 killer. Google requires healthcare advertiser certification before running ads that reference prescriptions, medications, Rx, pharmacy, antibiotics, or "meds." Even indirect language ("sent to your pharmacy", "same-day Rx") triggers this.
-- **Fix:** Use treatment/care language instead: "UTI Treatment Online" not "UTI Prescription Today." "Get Treated From Home" not "Get UTI Meds."
-- **Landing pages matter.** Google scans the destination URL. If the landing page mentions prescriptions, refills, pharmacy, or medications, ALL ads pointing to that page get flagged — even if the ad copy is clean. Flag this to the user before publishing.
-- Avoid guaranteeing medical outcomes ("guaranteed relief", "cure your...").
-- "Telehealth" and "virtual care" are safe. "Online pharmacy" is not.
-
-**Financial Services:**
-- Loan terms require APR disclosure. "Guaranteed approval" is prohibited without qualification.
-- Crypto ads require certification in most countries.
-
-**Legal Services:**
-- Avoid guaranteeing case outcomes ("we'll win your case").
-- Some jurisdictions restrict legal advertising — check target geo.
-
-**General (applies to all industries):**
-- **Unsubstantiated comparative claims:** "Cheaper than [competitor]", "half the cost of [X]", "#1 in [category]" — all require documented proof Google can verify. Remove or qualify.
-- **Misleading superlatives:** "Best", "guaranteed", "proven" without substantiation.
-- **Editorial violations:** ALL CAPS words, excessive punctuation (!!!), gimmicky spacing.
-- **Trademark:** Don't use competitor brand names in ad copy unless running a sanctioned competitive campaign.
-- **"Legitimate/Real" framing:** Saying "legit" or "real" implies competitors are fraudulent — Google may flag as misleading.
-
-### Policy Compliance Checklist (run before Step 6 — Export)
-
-For each ad group, verify:
-
-1. **No restricted terms for the industry.** Healthcare: no Rx/prescription/pharmacy/medication/antibiotics/meds. Financial: no unqualified loan guarantees. Legal: no outcome promises.
-2. **No unsubstantiated claims.** Any comparative statement ("cheaper than", "faster than", "better than") needs proof or gets cut.
-3. **No superlatives without proof.** "#1", "best", "guaranteed" — remove unless the client has third-party verification.
-4. **Landing page alignment.** Check that the destination URL doesn't contain restricted terms that would flag the ad. If it does, flag to the user: "Your landing page at [URL] mentions [term] — Google will flag all ads pointing there. Update the page before publishing."
-5. **Certification check.** If the business is in healthcare, financial services, or other regulated industries, ask: "Does your Google Ads account have [X] certification? Without it, ads mentioning [Y] will be disapproved."
-
-### When a Disapproval Happens
-
-If the user reports disapproved ads:
-1. Pull the actual disapproval reason via `gads report ads` + policy_summary query — don't guess.
-2. Check BOTH ad copy AND landing pages for the flagged policy topic.
-3. Editing and saving the ad triggers re-review. Saving without changes does NOT.
-4. Removing a bad ad group is cleaner than pausing — paused disapproved ads still count against the account.
-
----
-
-## Rules
-
-1. **Character limits non-negotiable.** Headlines ≤ 30, descriptions ≤ 90. Validate before writing.
-2. **Real metrics required.** DataForSEO credentials mandatory. Missing = blocker. Never estimate.
-3. **Negatives must not conflict with positives.** Always cross-check.
-4. **Match types follow intent.** BOFU → Exact, MOFU → Phrase, TOFU → Broad (sparingly).
-5. **Read context first.** Ground everything in business context.
-6. **One campaign per run.** Don't try to build everything at once.
-7. **Ask if unclear.** Missing business type, location, or priorities = ask first.
-8. **Quality Score awareness.** QS 10 = 50% CPC discount, QS 1 = 600% penalty. Components: Expected CTR (39%), Ad Relevance (22%), Landing Page (39%). Build tight ad groups, match headlines to keywords.
-9. **Brand vs. non-brand = separate campaigns.** Mixed data poisons algorithmic bidding.
-10. **Policy compliance before export.** Run the policy checklist before generating export CSVs. Flag restricted industries proactively. A disapproved campaign wastes more time than a careful review.
-
----
-
-## Done
-
-You are done when these files exist:
-
-| File | Fast | Comprehensive |
-|------|------|---------------|
-| `ads/keywords.csv` | Required | Required |
-| `ads/ad-groups.json` | Required (top 3) | Required (all) |
-| `ads/negatives.json` | Required | Required |
-| `ads/budget.md` | Required | Required |
-| `ads/export-keywords.csv` | Required | Required |
-| `ads/export-ads.csv` | Required | Required |
-| `ads/export-negatives.csv` | Required | Required |
-| `ads/forecast.md` | Skip | Required |
-| `ads/campaign-settings.json` | Skip | Required |
-| `ads/gamma-prompt.md` | Skip | Required |
-
-Stop. Present completion summary. Do not add unrequested deliverables.
-
----
-
-## When to Use This Skill
-
-- **After `/context` is built** — you need the foundation first
-- **New Google Ads campaign** — full workflow from keywords to export
-- **Campaign refresh** — re-run with updated context/keywords
-- **Ad copy refresh** — re-run copywriter step only (tell me "just refresh the copy")
-- **Client projection** — re-run forecast step only (tell me "forecast" or "what will $X get me?")
+## Next
+Suggest `/landing` — "Campaign built. Dedicated landing pages convert 116% better than homepage traffic. Run /landing to build matched pages for each ad group?"
