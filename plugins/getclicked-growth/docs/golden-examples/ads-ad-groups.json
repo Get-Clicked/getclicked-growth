@@ -1,0 +1,108 @@
+{
+  "campaign_name": "Invincible - Search",
+  "ad_groups": [
+    {
+      "name": "SPED/IEP Software",
+      "cluster": "SPED/IEP Software",
+      "intent": "BOFU",
+      "persona": "District SPED Director",
+      "status": "active",
+      "keywords": [
+        "SPED software",
+        "IEP software",
+        "special education case management",
+        "special education management software",
+        "IEP management software",
+        "iep writing software",
+        "iep goal tracking software"
+      ],
+      "headlines": [
+        "504 Plan Execution Software",
+        "SPED Software That Executes",
+        "Daily 504 Plan Tracking",
+        "Audit-Ready Care Logs",
+        "Reduce Parent Escalations",
+        "See Plans in Action Daily",
+        "Invincible for Schools",
+        "Trusted by K-12 Districts",
+        "Book a Free Demo Today",
+        "Get Your Free Demo Now"
+      ],
+      "descriptions": [
+        "Track daily 504 plan execution. Audit-ready logs. Reduce parent escalations. Book a demo.",
+        "Nurses, teachers & counselors on one timeline. FERPA-compliant. No app for parents.",
+        "Your compliance tool writes the plan. Invincible makes sure it's followed every day."
+      ],
+      "display_url": "invincibleapp.com/504-execution",
+      "path1": "504-execution",
+      "path2": "demo",
+      "final_url": "https://invincibleapp.com/504-plan-execution"
+    },
+    {
+      "name": "District Competitor Intercept",
+      "cluster": "Competitor Intercept",
+      "intent": "BOFU",
+      "persona": "District SPED Director",
+      "status": "active",
+      "keywords": [
+        "Frontline IEP",
+        "Embrace IEP",
+        "SpedTrack",
+        "iep direct frontline",
+        "frontline education iep"
+      ],
+      "headlines": [
+        "Beyond Plan Compliance",
+        "The 504 Execution Layer",
+        "Plans Exist. Now Execute.",
+        "Daily Care Team Logbook",
+        "Know Your Plan Is Followed",
+        "Fewer Parent Escalations",
+        "Invincible for Schools",
+        "FERPA & HIPAA Compliant",
+        "Book a Free Demo Today",
+        "See a Live Demo"
+      ],
+      "descriptions": [
+        "Plans are written. Are they followed? Invincible tracks daily 504 execution. Book a demo.",
+        "Complement your IEP tool with daily care coordination. Nurses, teachers & parents aligned."
+      ],
+      "display_url": "invincibleapp.com/504-execution",
+      "path1": "504-execution",
+      "path2": "demo",
+      "final_url": "https://invincibleapp.com/504-plan-execution"
+    },
+    {
+      "name": "Private School Health",
+      "cluster": "Private School Health",
+      "intent": "BOFU",
+      "persona": "Private School Admin",
+      "status": "active",
+      "keywords": [
+        "Magnus Health",
+        "SNAP Health Center",
+        "504 plan and private schools"
+      ],
+      "headlines": [
+        "Beyond Health Records",
+        "Coordinated Student Care",
+        "No App Download Needed",
+        "Secure Parent Messaging",
+        "Parents Expect Updates",
+        "Sub Nurse? No Problem",
+        "Invincible for Schools",
+        "FERPA & HIPAA Compliant",
+        "Book a Free Demo Today",
+        "See It in Action Free"
+      ],
+      "descriptions": [
+        "Professional care coordination for private schools. No app for parents. Book a free demo.",
+        "Records store forms. Invincible coordinates daily care between nurse, teacher & parent."
+      ],
+      "display_url": "invincibleapp.com/school-health",
+      "path1": "school-health",
+      "path2": "demo",
+      "final_url": "https://invincibleapp.com/school-health-coordination"
+    }
+  ]
+}

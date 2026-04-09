@@ -1,0 +1,71 @@
+{
+  "account_level": [
+    {"keyword": "jobs", "match_type": "Broad", "reason": "Exclude job seekers"},
+    {"keyword": "hiring", "match_type": "Broad", "reason": "Exclude job seekers"},
+    {"keyword": "salary", "match_type": "Broad", "reason": "Exclude job seekers"},
+    {"keyword": "careers", "match_type": "Broad", "reason": "Exclude job seekers"},
+    {"keyword": "employment", "match_type": "Broad", "reason": "Exclude job seekers"},
+    {"keyword": "resume", "match_type": "Broad", "reason": "Exclude job seekers"},
+    {"keyword": "internship", "match_type": "Broad", "reason": "Exclude job seekers"},
+    {"keyword": "DIY", "match_type": "Broad", "reason": "Exclude DIY/self-help"},
+    {"keyword": "tutorial", "match_type": "Broad", "reason": "Exclude education seekers"},
+    {"keyword": "course", "match_type": "Broad", "reason": "Exclude education seekers"},
+    {"keyword": "certification", "match_type": "Broad", "reason": "Exclude education seekers"},
+    {"keyword": "reddit", "match_type": "Broad", "reason": "Wrong intent — forum browsing"},
+    {"keyword": "lawsuit", "match_type": "Broad", "reason": "Wrong intent — legal research"},
+    {"keyword": "complaint form", "match_type": "Phrase", "reason": "Wrong intent — filing complaints, not buying software"}
+  ],
+  "campaign_level": [
+    {"keyword": "login", "match_type": "Broad", "reason": "Navigational — existing users trying to sign in to competitor tools"},
+    {"keyword": "sign in", "match_type": "Phrase", "reason": "Navigational — existing users trying to sign in"},
+    {"keyword": "log in", "match_type": "Phrase", "reason": "Navigational — existing users trying to sign in"},
+    {"keyword": "portal", "match_type": "Broad", "reason": "Navigational — existing users accessing their portal"},
+    {"keyword": "password", "match_type": "Broad", "reason": "Navigational — password reset"},
+    {"keyword": "reset password", "match_type": "Phrase", "reason": "Navigational — password reset"},
+    {"keyword": "support number", "match_type": "Phrase", "reason": "Navigational — calling competitor support"},
+    {"keyword": "phone number", "match_type": "Phrase", "reason": "Navigational — calling competitor support"},
+    {"keyword": "customer service", "match_type": "Phrase", "reason": "Navigational — contacting competitor"},
+    {"keyword": "help desk", "match_type": "Phrase", "reason": "Navigational — contacting competitor support"},
+    {"keyword": "training video", "match_type": "Phrase", "reason": "Navigational — existing competitor users seeking training"},
+    {"keyword": "user guide", "match_type": "Phrase", "reason": "Navigational — existing competitor users"},
+    {"keyword": "template", "match_type": "Broad", "reason": "Wrong intent — looking for free 504/IEP templates, not software"},
+    {"keyword": "example", "match_type": "Broad", "reason": "Wrong intent — looking for plan examples, not software"},
+    {"keyword": "sample", "match_type": "Broad", "reason": "Wrong intent — looking for sample plans, not software"},
+    {"keyword": "worksheet", "match_type": "Broad", "reason": "Wrong intent — looking for worksheets, not software"},
+    {"keyword": "PDF", "match_type": "Broad", "reason": "Wrong intent — looking for downloadable documents"},
+    {"keyword": "printable", "match_type": "Broad", "reason": "Wrong intent — looking for printable forms"},
+    {"keyword": "what is", "match_type": "Phrase", "reason": "Informational — definition seekers, not software buyers"},
+    {"keyword": "definition", "match_type": "Broad", "reason": "Informational — definition seekers"},
+    {"keyword": "meaning", "match_type": "Broad", "reason": "Informational — definition seekers"},
+    {"keyword": "vs", "match_type": "Broad", "reason": "Informational — comparison research, not buying intent"},
+    {"keyword": "difference between", "match_type": "Phrase", "reason": "Informational — comparison research"},
+    {"keyword": "how to write", "match_type": "Phrase", "reason": "Wrong intent — writing plans manually, not buying software"},
+    {"keyword": "how to create", "match_type": "Phrase", "reason": "Wrong intent — creating plans manually, not buying software"}
+  ],
+  "ad_group_level": {
+    "SPED/IEP Software": [
+      {"keyword": "Frontline", "match_type": "Broad", "reason": "Traffic sculpting — route competitor searches to Competitor Intercept group"},
+      {"keyword": "Embrace", "match_type": "Broad", "reason": "Traffic sculpting — route competitor searches to Competitor Intercept group"},
+      {"keyword": "SpedTrack", "match_type": "Broad", "reason": "Traffic sculpting — route competitor searches to Competitor Intercept group"},
+      {"keyword": "Magnus", "match_type": "Broad", "reason": "Traffic sculpting — route to Private School Health group"}
+    ],
+    "District Competitor Intercept": [
+      {"keyword": "Magnus", "match_type": "Broad", "reason": "Traffic sculpting — route to Private School Health group"},
+      {"keyword": "nurse", "match_type": "Broad", "reason": "Traffic sculpting — route school nurse queries to Private School Health"}
+    ],
+    "Private School Health": [
+      {"keyword": "Frontline", "match_type": "Broad", "reason": "Traffic sculpting — route to District Competitor Intercept group"},
+      {"keyword": "Embrace", "match_type": "Broad", "reason": "Traffic sculpting — route to District Competitor Intercept group"},
+      {"keyword": "SpedTrack", "match_type": "Broad", "reason": "Traffic sculpting — route to District Competitor Intercept group"},
+      {"keyword": "IEP", "match_type": "Broad", "reason": "Traffic sculpting — route IEP queries to SPED/IEP Software group"}
+    ]
+  },
+  "conflicts_prevented": [
+    "Did NOT add 'free' as negative because 'free demo' is referenced in ad copy CTA",
+    "Did NOT add 'plan' as negative because '504 plan' is core to our value prop",
+    "Did NOT add 'health' as negative because 'Magnus Health' and 'SNAP Health Center' are target keywords",
+    "Did NOT add 'education' as negative because 'frontline education iep' is a target keyword",
+    "Did NOT add 'app' as negative because Invincible IS an app — would block relevant traffic",
+    "Did NOT add 'software' as negative because 'SPED software' and 'IEP software' are target keywords"
+  ]
+}
