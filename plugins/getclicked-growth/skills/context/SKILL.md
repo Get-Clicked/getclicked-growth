@@ -29,6 +29,12 @@ Build and maintain the foundational knowledge base that every downstream skill r
 3. Ask one question at a time: products/services, ideal customer, value prop, location/service area, hours, insurance/payment.
 4. Write `context/business.md` — narrative investment-memo style (see golden example).
 
+**CHECKPOINT — Business Summary**
+After writing business.md, present a 4-5 sentence summary:
+"Here's what I found about your business: [what you do, who you serve, how you're different, where you operate].
+Did I get this right? What am I missing?"
+Wait for response. Update business.md if needed, then continue to Phase 2.
+
 ### Phase 2 — Market Intel [~3 min]
 1. Ask about top 3-5 competitors and differentiators. Research independently: 3 web searches max.
 2. **Comprehensive only:** Pull `ranked_keywords` per competitor (top 3) for SEO posture and gap analysis.
@@ -41,11 +47,26 @@ Build and maintain the foundational knowledge base that every downstream skill r
 4. Reorder priorities by real data: volume x inverse competition x intent alignment.
 5. Write `context/keywords.md`. Append new findings to `insights/keyword-research.md`.
 
+**CHECKPOINT — Keyword Themes**
+Before moving to personas, present the keyword themes:
+"Here are the [N] keyword themes I'd build your campaigns around:
+- [Theme 1]: [top keyword] at [volume]/mo, $[CPC]
+- [Theme 2]: [top keyword] at [volume]/mo, $[CPC]
+What's missing? Anything here that doesn't fit?"
+Wait for response. Adjust keywords.md if needed, then continue to Phase 4.
+
 ### Phase 4 — Personas [~2 min]
 1. Suggest 2-3 segments from business.md audience section. Ask user to confirm/adjust.
 2. Ask: what triggers the search? What objections before choosing?
 3. Write `context/personas/{slug}.md` (character-first, not demographic spec) + `context/personas/INDEX.md`.
 4. **Fast:** 2 personas. **Comprehensive:** 3-4 personas.
+
+**CHECKPOINT — Personas**
+After writing ALL persona files and INDEX.md, present a 1-line summary of each:
+"I've drafted [N] personas:
+- **[Name]**: [role], triggered by [catalyst], worried about [objection]
+Do these feel right? Anyone I'm missing?"
+Wait for response. Adjust personas if needed, then continue to next skill.
 
 ### If MCP research tools are unavailable
 - Use `web_search` / WebSearch to find publicly available data

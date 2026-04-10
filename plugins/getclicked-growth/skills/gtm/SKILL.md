@@ -26,8 +26,15 @@ Guide marketing leaders through building a GTM Prototype — the 9 Decision Work
 
 ## Process
 
-### Phase 1 — Discovery [~2 min]
-Ask one at a time: (1) How acquiring customers today? (2) What's working? (3) What failed? (4) Success in 90 days? (5) Pricing model? (6) What keeps you up at night about GTM?
+### Phase 1 — Discovery [~3 min]
+**CHECKPOINT — Discovery (MANDATORY, never skip)**
+Ask these one at a time. Wait for each answer before asking the next:
+1. "How are you acquiring customers today?"
+2. "What's working? What's not?"
+3. "If I could fix one thing about your go-to-market in 90 days, what would it be?"
+4. "How do you price — and do customers push back?"
+
+Do NOT proceed to worksheets until you have answers to at least questions 1-3. These answers feed every worksheet.
 
 Determine stage: Pre-PMF (<$10K MRR) → focus Worksheets 1-5. GTM-Fit (some revenue) → full prototype. Scaling → emphasis on Worksheets 7, 9.
 
@@ -37,6 +44,16 @@ Determine stage: Pre-PMF (<$10K MRR) → focus Worksheets 1-5. GTM-Fit (some rev
 3. **Pricing & packaging.** Value for money: cost of adoption vs doing nothing vs competitors.
 4. **Better & different.** Competing Solutions, One-Good-Reason-to-Avoid (eliminate it), How Different, How Better.
 5. **Hiring Process.** Answer 6 JTBD questions with evidence. Any "no" = won't hire. Be honest about gaps.
+
+**CHECKPOINT — Value Side Review**
+Before moving to demand-side worksheets, summarize the value side:
+"Here's what I've got so far:
+- **ICP:** [1-line]
+- **Core Job:** [JTBD statement]
+- **Better & Different:** [key differentiator]
+- **Biggest hiring risk:** [from Worksheet 5]
+Does this capture it? The demand strategy I build next depends on getting this right."
+Wait for response.
 
 ### Phase 3 — Worksheets 6-9: The Demand Side
 6. **Demand Gen Narrative.** 4-beat arc: world changing → today's solutions failing → new affordances → new goals. **Write `gtm/messaging.md`** with expanded narrative + per-persona + per-channel messaging.

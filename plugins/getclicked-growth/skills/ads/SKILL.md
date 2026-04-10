@@ -49,6 +49,14 @@ Read north star themes from `context/keywords.md`. Expand each into paid-specifi
 
 Assign: match type (Phrase default, Exact for high-value), bid tier (High/Med/Low), ad group (5-20 keywords per tight semantic cluster), intent, stage (TOFU/MOFU/BOFU).
 
+**CHECKPOINT — Campaign Structure**
+After keyword research, present the ad group structure before writing ad copy:
+"I'd organize the campaign into [N] ad groups:
+- **[Group 1]**: [top 3 keywords], [total volume]/mo
+- **[Group 2]**: [top 3 keywords], [total volume]/mo
+Does this grouping make sense? Any keywords in the wrong bucket?"
+Wait for response. Adjust groups if needed before writing ad-groups.json.
+
 ### 2. Ad Copy -> `ads/ad-groups.json` [~3 min]
 **Fast:** Top 3 BOFU ad groups. **Comprehensive:** All groups.
 
@@ -58,11 +66,24 @@ Per ad group: 8-10 headlines covering keyword, feature, benefit, brand/trust, so
 
 **Policy check:** No restricted terms for the industry. Healthcare: zero Rx/prescription/pharmacy/medication. No unsubstantiated superlatives. Check landing page alignment.
 
+**CHECKPOINT — Ad Copy Sample**
+After writing ad-groups.json, show the top ad group's headlines:
+"Here's a sample from your [top group] ad group:
+Headlines: [show 4-5 headlines]
+Description: [show 1 description]
+Sound like your brand? Too formal? Too casual? Any claims you wouldn't make?"
+Wait for response. Adjust copy if needed before continuing to negatives and budget.
+
 ### 3. Negatives -> `ads/negatives.json` [~1 min]
 8 categories: job seekers, DIY/education, wrong intent, wrong geography, irrelevant modifiers, information-only, wrong audience, brand competitors. 3-tier architecture (account/campaign/ad-group). Cross-check every negative against positives — never block a paying keyword.
 
 ### 4. Budget -> `ads/budget.md` [~1 min]
 3 tiers (minimum/recommended/aggressive). Allocation by ad group with rationale. Each group needs $5-10/day minimum. Scaling rules.
+
+**CHECKPOINT — Budget**
+After writing budget.md:
+"Recommended: $[amount]/mo. [Top group] gets [%] — it has the highest intent keywords. Comfortable with this range, or should I adjust?"
+Wait for response. Adjust budget.md if needed, then continue to forecast + export.
 
 ### 5. Forecast -> `ads/forecast.md` [Comprehensive only]
 Two scenarios: Conservative (Month 1-2, no QS history, 3% CVR) and Optimized (Month 3+, improving QS, 5% CVR). Revenue model, spend-to-revenue projection, breakeven analysis, "the honest take" section. See golden example.

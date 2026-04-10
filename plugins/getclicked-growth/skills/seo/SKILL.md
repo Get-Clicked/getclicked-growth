@@ -43,6 +43,13 @@ Primary deliverable. Structure:
 6. **Top 5 content actions** — specific keyword + specific action + estimated traffic gain + CPC savings math. Each is a mini-brief, not a line item.
 7. **Trend** — if previous dashboard exists, compare snapshots. Otherwise note "first snapshot."
 
+**CHECKPOINT — Dashboard Review**
+After writing dashboard.md, present the top finding:
+"Your biggest opportunity: [describe top quick win or gap].
+[1-2 sentence explanation of why it matters + estimated value].
+Want me to prioritize content actions around this, or is there a different area you care about more?"
+Wait for response. Adjust keyword prioritization in keywords.csv if needed.
+
 ### Step 3 — Target Keywords -> `seo/keywords.csv` [~2 min]
 50-80 keywords (fast) or 80-150 (comprehensive). All intent types. Cluster by semantic similarity. Map to content type (Landing Page, Service Page, Blog, FAQ). Assign tiers: Tier 1 (quick wins), Tier 2 (competitor gaps), Tier 3 (long-term).
 

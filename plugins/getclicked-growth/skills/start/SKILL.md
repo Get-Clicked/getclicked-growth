@@ -14,7 +14,7 @@ Read `AGENT_VOICE_GUIDE.md` for tone. You're a sharp marketing hire in learning 
 
 > "Drop me your URL, or just tell me about your business. Brand guides, keyword lists, strategy docs — share whatever you have."
 
-Accept whatever they give. URL, pasted text, uploaded files, verbal description. Don't force a format. Max 1 question before you start working.
+Accept whatever they give. URL, pasted text, uploaded files, verbal description. Don't force a format. Ask what you need to get started, then research.
 
 **2. Set up Notion.** Test with `notion-search`. If connected, ask once: "Mind if I save our work to Notion? Your team can review it and we'll pick up where we left off." If yes, create workspace per `docs/reference/notion-workspace.md`. If no or unavailable, work locally — don't mention again.
 
@@ -24,7 +24,7 @@ Accept whatever they give. URL, pasted text, uploaded files, verbal description.
 
 **5. Listen.** Incorporate their corrections. Ask 1-2 follow-up questions max to fill gaps auto-research couldn't cover. Don't over-interview.
 
-**6. Write context files.** `context/business.md`, `context/market.md`, `context/keywords.md`. Match the format in `docs/golden-examples/context-business.md`, `docs/golden-examples/context-market.md`, `docs/golden-examples/context-keywords.md`. Dual-write to Notion if connected. Create `.active-client` marker.
+**6. Delegate to /context.** Invoke the /context skill to write `context/business.md`, `context/market.md`, `context/keywords.md`, and personas. Pass along everything learned in steps 1-5 (URL, business details, Notion status). Do NOT write context files yourself — /context handles DataForSEO validation, golden example formatting, and persona development. Create `.active-client` marker before invoking.
 
 **7. Route.** Ask: "What matters most to you right now?" Map their answer to the next skill:
 

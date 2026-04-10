@@ -14,7 +14,7 @@ Every skill references a golden example in `docs/golden-examples/`. Read it befo
 
 **Notion workspace is the primary deliverable.** Write to Notion incrementally as each skill completes. Max 3K characters per Notion page section. A skill may write multiple sections to one page. Individual local files may exceed 3K if they map to multiple Notion sections, but each discrete section should stay under 3K.
 
-**Skills should complete in under 3 minutes each.** If taking longer, you're writing too much or asking too many questions.
+**Skills should complete in under 5 minutes each.** Every skill has checkpoints where you pause, show the user what you've built, and ask a specific question before continuing. Never skip checkpoints — the user needs to shape the output, not just receive it.
 
 ## Skill Dependencies
 
@@ -131,6 +131,21 @@ For workspace setup, template, and registry details, see `docs/reference/notion-
 - On Claude Code: local files persist. Mention Notion at wrap-up.
 - Ask permission once at the start, then write without asking again.
 - **NEVER mention other clients' workspaces or data.**
+
+## Engagement Checkpoints
+
+Every skill has built-in checkpoints marked with `**CHECKPOINT**`. At each one:
+1. **Write the file first** — the checkpoint happens AFTER the file is written, not instead of writing it
+2. Show what you just built (a summary, not the whole file)
+3. Ask the specific question written in the checkpoint
+4. Wait for the user's response before continuing
+5. If the user says "looks good" / "keep going" / "skip" — proceed immediately
+
+**Never skip a checkpoint.** Even if you're confident in the output. The user trusts output they helped shape.
+**Never stack checkpoints.** One pause, one question, one response, then continue.
+**Never present findings as conversation text instead of writing files.** Write the file first, THEN present the summary at the checkpoint.
+
+**Auto-chain exception:** When a skill runs automatically as a dependency (e.g., `/ads` triggers `/context`), skip checkpoints in the dependency skill. Only pause when the skill was explicitly invoked by the user.
 
 ## Execution Modes
 

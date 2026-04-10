@@ -49,6 +49,17 @@ Follow the Spendesk narrative model — story-first, personality, conviction. Ev
 
 **Do NOT produce:** positioning canvas tables, tiered boilerplate, messaging pillar tables, competitive messaging tables.
 
+**CHECKPOINT — Brand Voice**
+After writing brand.md, present the core positioning:
+"Here's how I'd position you:
+
+**[Bold positioning line from section 1]**
+
+Voice: [2-3 do/don't pairs from section 4]
+
+Does this sound like you? Anything feel off?"
+Wait for response. Rewrite affected sections of brand.md if needed before extracting visual identity.
+
 ### Extract visual identity
 After writing brand.md, extract visual brand identity from the client's website using `web_extract`. Write `context/brand-visual.json` with colors, typography, logo, buttons, layout tokens. Skip if file already exists and user hasn't asked for a refresh.
 

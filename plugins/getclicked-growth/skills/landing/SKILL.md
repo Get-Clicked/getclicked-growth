@@ -67,6 +67,18 @@ Per ad group, write a full page spec with draft copy (not descriptions of copy).
 
 Each spec ends with an **ad copy alignment check** table verifying message match.
 
+**CHECKPOINT — First Page Review**
+After writing the FIRST page spec, present the hero section:
+"Here's the landing page for your [ad group name] campaign:
+
+**H1:** [headline]
+**Subhead:** [subhead]
+**CTA:** [button text]
+**Trust bar:** [4 signals]
+
+Message matches the ad headline '[ad headline]'. Does this feel right before I build the rest?"
+Wait for response. Adjust the first page if needed, then build remaining pages using the same tone.
+
 ### 3. Generate + Publish HTML [per page]
 If `context/brand-visual.json` exists: generate self-contained HTML (all CSS inline, Google Fonts, Lucide icons, CSS variables from brand tokens). Write to `landing/mockup/{slug}.html`. If `publish_landing_page` MCP tool available, publish and show live URL.
 
