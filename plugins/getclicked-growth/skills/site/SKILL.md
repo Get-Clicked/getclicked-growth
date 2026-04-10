@@ -4,6 +4,15 @@ description: Edit website content and SEO metadata through natural language — 
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.* mcp__webflow__.*"
 ---
 
+<HARD-GATE>
+Subcommand gates — check before proceeding:
+- `/site seo`: Do NOT proceed until seo/keywords.csv exists. Produced by the /seo skill.
+- `/site build`: Do NOT proceed until landing/pages/ specs exist. Produced by /landing.
+- `/site design`: Do NOT proceed until context/brand-visual.json exists. Produced by /brand.
+- `/site connect`, `/site scan`, `/site edit`: No gate — these are standalone operations.
+If a required file is missing, invoke the upstream skill first.
+</HARD-GATE>
+
 # /site
 
 Read a live Webflow site, brainstorm data-grounded copy changes, and push them — headlines, body text, SEO metadata, CMS items. Never touch layout, styles, or page structure. Content only. Subcommands: connect, scan, edit, seo, create, build, design, domains.

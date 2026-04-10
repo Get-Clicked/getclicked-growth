@@ -8,6 +8,15 @@ allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 !`[ -f context/brand.md ] && echo "UPDATING: Brand exists" || echo "CREATING: No brand yet"`
 !`[ -f context/business.md ] && echo "Context available" || echo "WARNING: No business context — run /context first"`
 
+<HARD-GATE>
+Do NOT write brand positioning or any context/brand.md content until context/business.md
+AND context/market.md exist. These files are produced by the /context skill. If they
+don't exist, invoke /context first. Do NOT write these files yourself — the skill's
+DataForSEO validation, golden example formatting, and persona development process is
+what makes the output valuable. Freehand context is a shortcut that produces worse
+downstream work.
+</HARD-GATE>
+
 # /brand
 
 Take the factual foundation from `/context` and make strategic decisions — positioning, voice, messaging, and guardrails. Output is `context/brand.md` (shared state all channel skills read) + `context/brand-visual.json` (visual identity for landing pages and design).
@@ -72,4 +81,9 @@ If `web_extract` is unavailable for visual identity extraction, skip `brand-visu
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest `/ads` or `/seo` — "Brand positioning is done. The natural next step is ads or SEO — which sounds more useful right now?"
+After completing this skill, ask which channel matters more right now:
+"Brand positioning is locked in. Ads or SEO — which matters more right now?"
+
+If the user's original request targeted a specific skill (e.g., "build me ads"), invoke that skill directly.
+If the user gives an open-ended answer or says "both," invoke `/ads` first (it feeds `/landing`).
+Do not end the conversation here — the user hired an agency, not a one-shot consultant.

@@ -82,4 +82,13 @@ Write narrative, not spreadsheets. Business page reads like an investment memo. 
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest `/brand` — "Your business context is built. Next: brand positioning to define how you sound and what you say. Run /brand?"
+After completing this skill, route based on the user's original request:
+
+**Open-ended request** ("help me grow", "build a campaign", "get started"):
+Invoke `/brand` without asking. "Context is built. Now establishing brand positioning."
+
+**Specific skill requested** ("I need SEO", "run ads", "GTM strategy"):
+Route directly to that skill — don't force through /brand. "Context is built. Now [skill]."
+
+**Default chain:** /context -> /brand -> /ads -> /landing (for open-ended requests only).
+Do not end the conversation here.

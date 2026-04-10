@@ -4,6 +4,13 @@ description: Analyze conversion funnels from acquisition through activation and 
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Do NOT write funnel analysis until context/business.md exists AND at least one analytics
+source is available (PostHog, GA4, or user-provided data). Business context is produced
+by the /context skill. If it doesn't exist, invoke /context first. If no analytics source
+is available, stop and ask — funnel analysis requires real data.
+</HARD-GATE>
+
 # /funnel
 
 Connect acquisition (ads, SEO, organic) to business outcomes (activation, revenue, retention) by pulling analytics data, mapping the funnel, identifying where users drop off, and proposing experiments to fix the biggest leaks. Core insight: cost-per-activated-user matters more than cost-per-click.
@@ -67,4 +74,6 @@ Archive previous report. Write `funnel/report.md`: executive summary, funnel tab
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest `/experiment` to formalize the top funnel fix — "Biggest leak is [stage] at [X]% drop-off. Want me to design an experiment to test a fix?"
+After completing this skill, offer next steps — don't auto-chain:
+"Biggest leak is [stage] at [X]% drop-off. Want me to design an experiment
+to test a fix with /experiment?"

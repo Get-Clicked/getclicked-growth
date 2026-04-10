@@ -4,6 +4,12 @@ description: Build a go-to-market strategy using the Revealed GTM Prototype fram
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Do NOT write GTM strategy until context/business.md, context/market.md, context/keywords.md,
+AND context/personas/ exist. These are produced by the /context skill. If they don't exist,
+invoke /context first. Do NOT write these files yourself.
+</HARD-GATE>
+
 # /gtm
 
 Guide marketing leaders through building a GTM Prototype — the 9 Decision Worksheets from the Revealed framework. Buyer-first, grounded in Jobs to Be Done theory. Channels are ONE worksheet (#7), not the whole framework.
@@ -71,4 +77,8 @@ Write narrative with conviction. Tables only for genuinely tabular data (decisio
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest `/ads` — "GTM strategy complete. Worksheet 7 identified paid search as a primary channel. Run /ads to build the campaign?"
+After completing this skill, route based on Worksheet 7 findings:
+If paid search was identified as a primary channel, invoke `/ads`:
+"GTM strategy complete. Worksheet 7 identified paid search as primary. Building the campaign now."
+
+Otherwise, offer based on recommended channels. Don't end the conversation here.

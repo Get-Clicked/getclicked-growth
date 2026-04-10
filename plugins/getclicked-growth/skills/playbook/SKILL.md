@@ -4,6 +4,13 @@ description: Synthesize all skill outputs into a structured GTM Prototype Playbo
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Do NOT write the playbook until context/business.md, context/personas/, AND
+context/brand.md exist. Business and personas are produced by /context, brand by /brand.
+If any are missing, invoke the upstream skill first. The playbook synthesizes — it does
+not generate source material.
+</HARD-GATE>
+
 # /playbook
 
 Pull together everything other skills have produced and synthesize it into the Revealed GTM Prototype — 9 Decision Worksheets from Alan Klement & Eric White's framework. This is the capstone: one document that captures every critical go-to-market decision. The playbook gets richer as more skills have run.
@@ -67,4 +74,6 @@ Present: strong sections, draft sections (with which skill to run), suggested ne
 - Max 3K characters per Notion page section
 
 ## Next
-This is the capstone. Present the coverage report and suggest which skills to run to strengthen draft sections.
+This is the capstone. Present the coverage report and suggest which specific skills
+to run to strengthen draft sections. For each `[DRAFT]` section, name the skill:
+"Worksheet 7 is draft — run /ads to fill it with real campaign data."

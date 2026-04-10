@@ -7,6 +7,14 @@ allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ## Current state
 !`[ -f ads/ad-groups.json ] && echo "Campaigns exist — can analyze" || echo "WARNING: No campaigns to optimize"`
 
+<HARD-GATE>
+Do NOT write optimization reports until ads/ad-groups.json, ads/keywords.csv,
+ads/negatives.json, ads/budget.md, AND context/business.md all exist, AND Google Ads API
+access is confirmed. The ads/ files are produced by the /ads skill, business.md by
+/context. If any are missing, invoke the upstream skill first. If Google Ads isn't
+connected, stop and ask — optimization requires live campaign data.
+</HARD-GATE>
+
 # /optimize
 
 Pull live Google Ads data, compare against the original plan, identify what's working and what's leaking, and generate ranked improvements with dollar-impact estimates. Analysis depth scales with campaign maturity — Early (<14d) gets a light read, Mature (60d+) gets the full treatment.
@@ -71,4 +79,8 @@ Archive previous report to `optimize/history/`. Write `optimize/report.md`: exec
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest `/experiment` for changes that need isolation testing — "Performance review is done. A few changes need testing before committing. Want me to design experiments for them?"
+After completing this skill, offer next steps — don't auto-chain:
+"Performance review is done. A few changes need testing before committing.
+Want me to design experiments for them with /experiment?"
+
+/experiment requires explicit intent. Don't invoke without asking.

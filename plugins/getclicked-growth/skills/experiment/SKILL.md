@@ -4,6 +4,11 @@ description: Design hypothesis-driven marketing experiments with clear success c
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Do NOT design experiments until context/business.md exists. This file is produced by the
+/context skill. If it doesn't exist, invoke /context first. Do NOT write it yourself.
+</HARD-GATE>
+
 # /experiment
 
 Turn marketing actions into testable hypotheses with clear success criteria, track them through a lifecycle, and capture learnings that compound across sessions. Two modes: Launch (no campaign yet — the experiment drives channel execution) and Optimization (campaign running — frame changes as isolated tests).
@@ -72,4 +77,6 @@ Update experiment file Results section. Compare to success criteria — call it 
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest running the experiment or `/optimize` to analyze results — "Experiment is designed. Ready to launch it, or want to check how existing campaigns are performing first?"
+After completing this skill, offer next steps — don't auto-chain:
+"Experiment is designed. Ready to launch it, or want to check how existing campaigns
+are performing first with /optimize?"

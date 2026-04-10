@@ -8,6 +8,14 @@ allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 !`[ -f ads/ad-groups.json ] && echo "UPDATING: Campaigns exist" || echo "CREATING: No campaigns yet"`
 !`[ -f context/keywords.md ] && echo "Keywords available" || echo "WARNING: No keywords — run /context first"`
 
+<HARD-GATE>
+Do NOT write ad copy, keywords, or any ads/ files until context/keywords.md AND
+context/business.md exist. These files are produced by the /context skill. If they don't
+exist, invoke /context first. Do NOT write these files yourself — the skill pulls real
+DataForSEO search volumes, validates keyword themes, and formats to the golden example
+spec. Freehand keywords produce campaigns built on guesses.
+</HARD-GATE>
+
 # /ads
 
 Build complete Google Ads campaigns from strategic context. Six steps: keyword research, ad copy, negatives, budget, forecast, and export CSVs. Every metric is real DataForSEO data.
@@ -190,6 +198,11 @@ Instead: "Campaign is built. Next steps: upload your creative assets to Google A
 - Max 3K characters per Notion page section
 
 ## Next
-**Search campaigns:** Suggest `/landing` — "Campaign built. Dedicated landing pages convert 116% better than homepage traffic. Run /landing to build matched pages for each ad group?"
+**Search campaigns:** After completing this skill, invoke `/landing` without asking.
+Announce: "Campaign built. Now building matched landing pages for each ad group."
 
-**App campaigns:** Do NOT suggest `/landing`. Instead: "Campaign is built. Upload your creative assets to Google Ads, set up conversion tracking, and enable it. Want me to help optimize your app store listing or run a competitive analysis?"
+**App campaigns:** Do NOT invoke `/landing` — installs go to the app store.
+Instead: "Campaign is built. Upload your creative assets, set up conversion tracking,
+and enable it. Want me to help optimize your app store listing or run a competitive analysis?"
+
+Do not end the conversation here — the user hired an agency, not a one-shot consultant.

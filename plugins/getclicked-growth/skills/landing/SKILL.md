@@ -7,6 +7,19 @@ allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ## Current state
 !`[ -f ads/ad-groups.json ] && echo "Ad groups available — build pages to match" || echo "WARNING: No ad groups — run /ads first"`
 
+<HARD-GATE>
+Do NOT write landing page specs or any landing/ files until ads/ad-groups.json,
+ads/export-keywords.csv, AND context/business.md all exist. ad-groups.json and
+export-keywords.csv are produced by the /ads skill. business.md is produced by /context.
+If any are missing, invoke the upstream skill first (which will auto-chain its own
+dependencies). Do NOT write these files yourself — the /ads skill validates character
+limits, pulls real CPC data, and structures ad groups for Google Ads Editor import.
+Freehand ad groups break the message-match chain.
+
+This gate applies to Search campaigns only. App campaigns do not produce landing pages —
+installs go to the app store.
+</HARD-GATE>
+
 # /landing
 
 Build conversion-optimized landing page specs that match ad copy to page content. One page per ad group so every visitor lands on a page designed for their exact search intent. Then generate branded HTML and publish live.
@@ -88,4 +101,8 @@ Always write `landing/brief.md` summarizing the page strategy, even if audit is 
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest `/experiment` or `/optimize` — "Landing pages built. Run /experiment to set up A/B tests, or /optimize after 7+ days of live traffic to analyze performance."
+After completing this skill, offer next steps — don't auto-chain:
+"Landing pages built. Run /experiment to set up A/B tests, or wait 7+ days for traffic
+and run /optimize to analyze performance."
+
+/optimize and /experiment require explicit intent. Don't invoke without asking.

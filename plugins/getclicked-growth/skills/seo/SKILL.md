@@ -4,6 +4,12 @@ description: Build organic search strategy — live rankings dashboard with real
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Do NOT write SEO analysis or any seo/ files until context/keywords.md, context/business.md,
+AND context/market.md exist. These files are produced by the /context skill. If they don't
+exist, invoke /context first. Do NOT write these files yourself.
+</HARD-GATE>
+
 # /seo
 
 Produce a live rankings dashboard that shows a marketer their entire organic position — what they rank for, where competitors beat them, and exactly what to do about it. In 5 minutes, not $200/month.
@@ -75,4 +81,9 @@ Scrape site with `web_extract`. Analyze: technical (speed, mobile, HTTPS, meta t
 - Max 3K characters per Notion page section
 
 ## Next
-Suggest `/landing` or `/gtm` — "Dashboard built. If you need landing pages for your quick wins, run /landing. If you want the full distribution strategy, run /gtm."
+After completing this skill, route based on findings:
+If quick wins map to landing page opportunities, offer `/landing`.
+If the bigger need is distribution strategy, offer `/gtm`.
+"Dashboard built. Landing pages for your quick wins, or full distribution strategy with /gtm?"
+
+Don't auto-chain — SEO next step depends on user priority. But don't end here either.

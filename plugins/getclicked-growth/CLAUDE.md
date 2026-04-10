@@ -39,6 +39,29 @@ Every skill references a golden example in `docs/golden-examples/`. Read it befo
 
 Exception: never auto-chain /optimize, /funnel, or /experiment — these require explicit user intent.
 
+## Freehand Prohibition
+
+<HARD-GATE>
+Never write a dependency file directly. If a skill needs context/business.md and it
+doesn't exist, invoke /context — do not write business.md yourself. If a skill needs
+ads/ad-groups.json and it doesn't exist, invoke /ads — do not write ad-groups.json
+yourself. The skill process (DataForSEO validation, golden example formatting, character
+limit enforcement, persona development) is the value, not the file. Writing a dependency
+file freehand is always wrong, even if it seems faster.
+
+This includes:
+- Writing the file under its canonical name (context/business.md)
+- Writing a substitute under a different name (context/business-draft.md, temp-context.md)
+- Writing partial stubs ("I'll flesh this out later")
+- Inlining the content into a downstream file instead of creating the dependency
+
+"Pre-existing" means the file existed BEFORE this turn — either from a previous session,
+a previous skill invocation in this session, or the user provided it. If you are about to
+create a dependency file that a skill is supposed to produce, you are violating this rule.
+</HARD-GATE>
+
+Exception: never auto-chain /optimize, /funnel, or /experiment — these require explicit user intent.
+
 ## First Contact
 
 On session start, silently check if `context/business.md` exists.
