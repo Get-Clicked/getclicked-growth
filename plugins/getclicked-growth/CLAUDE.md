@@ -60,6 +60,37 @@ a previous skill invocation in this session, or the user provided it. If you are
 create a dependency file that a skill is supposed to produce, you are violating this rule.
 </HARD-GATE>
 
+<HARD-GATE>
+Multiplayer publish-path (BEE-339 Phase 3 + BEE-341 Phase 5):
+
+Every shared-state file must be committed through its `publish_*` MCP tool, not via
+Write/Edit/Bash. The server validates against team constraint memories, enforces
+compare-and-swap on concurrent writes, and keeps the audit ledger in sync.
+
+| File(s) | Publish tool |
+|---|---|
+| `context/brand.md`, `context/brand-visual.json` | `publish_brand` |
+| `context/business.md`, `context/market.md`, `context/keywords.md` | `publish_context_files` |
+| `context/personas/*.md` (variable names) | `publish_files` |
+| `ads/ad-groups.json`, `ads/keywords.csv`, `ads/negatives.json`, `ads/budget.md`, `ads/forecast.md` | `publish_ads` |
+| `seo/dashboard.md`, `seo/keywords.csv`, `seo/audit.md` | `publish_seo_dashboard` |
+| `compete/compete-report.md`, `compete/gaps.md` | `publish_compete_report` |
+| `gtm/prototype.md`, `gtm/validation-roadmap.md`, `gtm/playbook.md` | `publish_gtm` |
+| `audit/report.md`, `audit/links.md`, `audit/technical-seo.md` | `publish_audit` |
+| `experiments/EXP-*.md` (variable names) | `publish_files` |
+| Landing page HTML (hosted) | `publish_landing_page` (unchanged from v1) |
+
+Rejection handling (applies to every `publish_*`):
+- `memory_violations` → address each violation, retry (cap 3 attempts). Never bypass.
+- `stale_revision` → fetch current, merge or override with user confirmation, retry
+  with updated `parent_revision`.
+- Server unreachable / tool error → queue payload in `.pending-publish/{op_id}.json`
+  and surface "Server unreachable — queued for retry" to the user. Never claim success.
+
+Insight files (`insights/*.md`) and the shared knowledge layer they represent are not
+canonical shared state — they're per-session notes. They can continue to use Write.
+</HARD-GATE>
+
 Exception: never auto-chain /optimize, /funnel, or /experiment — these require explicit user intent.
 
 ## First Contact
@@ -74,6 +105,32 @@ On session start, silently check if `context/business.md` exists.
 - Ad copy character limits: headlines <= 30 chars, descriptions <= 90 chars. Validate at generation time.
 - Cite sources for competitor research and market data.
 - Cross-skill keyword intelligence lives in insights/keyword-research.md — read before making DataForSEO calls.
+
+## Context Sync Handoff
+
+On session start, if the SESSION RESUME block contains `WORKSPACE_HYDRATION: attempt`:
+
+1. Call `get_workspace` with no parameters (server matches by authenticated email).
+2. If workspace returned AND local workspace is empty (no `context/business.md`):
+   a. Write all returned files to local workspace dirs (context/, seo/, ads/, gtm/, etc.)
+   b. Write `.active-client` with the client_slug
+   c. Read `context/facts.json` if present
+   d. Present: "We have some initial research on [client_name]. Before we go deeper — what are your biggest growth priorities right now?"
+   e. Walk through strategic assumed facts. Open question first, then reconcile.
+   f. On each correction: update facts.json locally, call `save_facts` to persist.
+   g. After strategic facts confirmed: recommend re-running affected skills based on `affects` arrays. Wait for user to confirm before re-running.
+3. If workspace returned AND local files exist:
+   - Present: "Found server workspace for [client_name] but you have local files. Use server version or keep local?"
+4. If no workspace returned: normal /start flow for new users.
+
+### Fact confirmation flow
+
+- Only surface `strategic` facts with `status: "assumed"` during handoff
+- Group related assumptions — don't quiz one at a time
+- Start with open question about goals, then reconcile against assumptions
+- When correcting: set status to `corrected`, add `corrected_from` with old value
+- Call `save_facts` after each correction to persist across sessions
+- Tactical facts get confirmed naturally as user runs specific skills — don't ask during handoff
 
 ## Security
 
@@ -177,6 +234,52 @@ After /ads, check if Google Ads is connected.
 - **Connected:** Offer to publish. Use `gads publish`. Always start PAUSED.
 - **Not connected:** Produce export CSVs. Offer to connect: "I can publish directly to your Google Ads account — no manual importing needed."
 - **Never** write step-by-step CSV import guides to Notion. That's busywork.
+
+## Session Hydration (Multiplayer)
+
+When SESSION RESUME output contains `MULTIPLAYER_HYDRATION: attempt` and an active client is set:
+
+1. On the first user message of the session, call:
+   - `get_workspace_memory(client_slug=<active>, hydration=true)` — returns pinned + active constraints (always) + any new memories since your `last_seen_run_id`.
+   - `get_workspace_activity(client_slug=<active>, hydration=true)` — returns skill runs since your `last_seen_run_id`.
+2. If either returns a non-empty delta, present a concise "Since your last visit" block to the user. Example:
+   > Since your last visit:
+   > - Bob deployed 2 landing page variants (yesterday)
+   > - Steph corrected the ICP: targeting VPs of Ops, not CFOs (2 days ago)
+   > Active constraints to honor: [list from `always.constraints`].
+3. If both deltas are empty, say nothing — don't announce an empty hydration.
+4. `last_seen_run_id` auto-updates at the end of `get_workspace_activity(hydration=true)`. No manual bookkeeping.
+
+**Before any skill with constraint-sensitive output** (brand, ads, landing, experiment, compete), and when the hydration-delta didn't already include active constraints, call `get_workspace_memory(client_slug=<active>, category="constraint")` and honor every active constraint. Never bypass.
+
+## Skill Run Logging (Multiplayer)
+
+Every skill SKILL.md must:
+
+1. **At entry:** call `log_run_start(skill="<name>", client_slug=<active>, plugin_version=<from ${CLAUDE_PLUGIN_ROOT}/plugin.json>)`. Capture the returned `run_id`.
+2. **At exit (success):** call `log_run_finish(run_id=<captured>, client_slug=<active>, status="completed")`. If the skill produced canonical outputs (Phase 3+), also pass `outputs_manifest={"ads/keywords.csv": "<sha256>", ...}`.
+3. **At exit (failure, e.g. user aborts mid-skill):** call `log_run_finish(run_id=<captured>, client_slug=<active>, status="failed")`.
+
+Run logging is authoritative for multiplayer presence ("Bob is running /ads"). Skipping it breaks cross-user visibility. Treat as mandatory.
+
+## Team Memory Capture
+
+**Only six categories qualify for `save_memory`.** Everything else stays in artifacts or `insights/*.md`:
+
+1. **decision** — a choice that changes strategy. *Yes:* "Brazil test approved for +$10k this month." *No:* "Added 12 keywords" (that's an artifact).
+2. **constraint** — a rule a validator should enforce. *Yes:* "Never target CFOs in ad copy." *No:* "Avoid typos" (too vague to enforce).
+3. **commitment** — a promise with a deadline. Set `expires_at` to the deadline + a buffer day. *Yes:* "Bob sends board update Thursday." *No:* "We'll get to this eventually."
+4. **stakeholder** — a person the agent should remember. *Yes:* "Juan is the growth lead at Rappi, owns channel strategy." *No:* "Met with someone named Juan today."
+5. **preference** — a consistent bias in how work should be shaped. *Yes:* "Steph prefers tight briefs over long docs." *No:* "Steph was happy with yesterday's draft."
+6. **open_question** — an unresolved fork that blocks work. *Yes:* "Should we pause Mexico while testing Chile? (Juan asked, no decision)." *No:* "What keyword volume does this have?" (that's a DataForSEO call).
+
+**When to call `save_memory`:** the instant the user states a qualifying fact in conversation. Do not wait for session end. Do not batch. Mid-conversation capture preserves the signal while it's fresh.
+
+**Supersession is explicit.** If a new fact contradicts an existing one, `save_memory` will return a `similar_to` hint listing overlapping active memories. Review; if it's a correction, call `supersede_memory(new_id, old_id)`. Never auto-supersede.
+
+**Privacy:** every workspace member sees all memories. If a user asks for a private note, decline — memory is team state.
+
+**Before constraint-sensitive skills (brand, ads, landing, experiment):** call `get_workspace_memory(category="constraint")` if the session-resume block didn't already inject it. Honor all active constraints.
 
 ## Shared State Maintenance
 

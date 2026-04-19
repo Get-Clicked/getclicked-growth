@@ -5,14 +5,14 @@
     "email": "bob@getclicked.ai"
   },
   "metadata": {
-    "description": "14 skills that replace your agency — market research with real DataForSEO data, brand positioning, Google Ads campaigns, SEO dashboards, landing page specs, competitor intelligence, post-click funnel analytics, and go-to-market playbooks. Built-in keyword research and web intelligence — no API keys needed to start."
+    "description": "14 skills that replace your agency \u2014 market research with real DataForSEO data, brand positioning, Google Ads campaigns, SEO dashboards, landing page specs, competitor intelligence, post-click funnel analytics, and go-to-market playbooks. Built-in keyword research and web intelligence \u2014 no API keys needed to start."
   },
   "plugins": [
     {
       "name": "getclicked-growth",
-      "description": "Ship Google Ads campaigns, SEO strategy, hosted landing pages, and go-to-market playbooks from research to live — in one session. Connects to your Google Ads, Search Console, GA4, PostHog, Webflow, and Notion.",
+      "description": "Ship Google Ads campaigns, SEO strategy, hosted landing pages, and go-to-market playbooks from research to live \u2014 in one session. Connects to your Google Ads, Search Console, GA4, PostHog, Webflow, and Notion.",
       "source": "./plugins/getclicked-growth",
-      "version": "0.15.1",
+      "version": "0.17.1",
       "category": "marketing",
       "author": {
         "name": "Get Clicked",

@@ -80,5 +80,23 @@ Research one competitor comprehensively, then build the whole counter-campaign i
 - Max 2 Notion writes (report + gaps)
 - Max 3K characters per Notion page section
 
+## Commit via `publish_compete_report` (multiplayer — HARD-GATE)
+
+Shared state is server-authoritative. Commit through `publish_compete_report`, not via raw file writes.
+
+1. **At skill entry:** `log_run_start(client_slug=<active>, skill="compete", plugin_version=<plugin.json>)` → capture `run_id`.
+2. **Determine `parent_revision`** per file from `.pending-publish/manifest.json` (absent = first write).
+3. **Commit:**
+   ```
+   publish_compete_report(client_slug=<active>,
+     compete_report_md=<content>, gaps_md=<content>,
+     parent_revision={"compete/compete-report.md": <int|null>, "compete/gaps.md": <int|null>},
+     run_id=<captured>)
+   ```
+4. **Handle responses:** `ok` → update local manifest. `stale_revision` → rebase + retry. `memory_violations` → rewrite + retry (cap 3). Server unreachable → `.pending-publish/{op_id}.json`. Never bypass.
+5. **At skill exit:** `log_run_finish(run_id, client_slug=<active>, status, outputs_manifest=<manifest>)`.
+
+Per-competitor files in `compete/{domain}/` are per-run scratch — not canonical, can stay on Write.
+
 ## Next
 Suggest based on findings: `/brand` if positioning gaps dominate, `/ads` if paid keyword gaps are rich, `/seo` if organic gaps tell the story.

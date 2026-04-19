@@ -93,6 +93,24 @@ Write narrative with conviction. Tables only for genuinely tabular data (decisio
 - Max 2 Notion writes (strategy + messaging)
 - Max 3K characters per Notion page section
 
+## Commit via `publish_gtm` (multiplayer — HARD-GATE)
+
+Shared state is server-authoritative. Commit through `publish_gtm`, not via raw file writes.
+
+1. **At skill entry:** `log_run_start(client_slug=<active>, skill="gtm", plugin_version=<plugin.json>)` → capture `run_id`.
+2. **Determine `parent_revision`** per file from `.pending-publish/manifest.json` (absent = first write).
+3. **Commit:**
+   ```
+   publish_gtm(client_slug=<active>,
+     prototype_md=<content>, validation_roadmap_md=<content>, playbook_md=<null unless /playbook ran>,
+     parent_revision={"gtm/prototype.md": <int|null>, "gtm/validation-roadmap.md": <int|null>, "gtm/playbook.md": <int|null>},
+     run_id=<captured>)
+   ```
+4. **Handle responses:** `ok` → update local manifest. `stale_revision` → rebase + retry. `memory_violations` → rewrite + retry (cap 3). Server unreachable → `.pending-publish/{op_id}.json`. Never bypass.
+5. **At skill exit:** `log_run_finish(run_id, client_slug=<active>, status, outputs_manifest=<manifest>)`.
+
+`/playbook` commits `gtm/playbook.md` via the same tool when it runs as the capstone.
+
 ## Next
 After completing this skill, route based on Worksheet 7 findings:
 If paid search was identified as a primary channel, invoke `/ads`:

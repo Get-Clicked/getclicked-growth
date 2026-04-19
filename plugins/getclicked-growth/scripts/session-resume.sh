@@ -113,4 +113,9 @@ if $notion_configured; then
 else
   echo "Notion MCP: not configured"
 fi
+
+# BEE-338 Phase 2 — multiplayer hydration signal (team memory + activity delta)
+echo ""
+echo "MULTIPLAYER_HYDRATION: attempt"
+echo "ACTION_FOR_AGENT: On first user message, call get_workspace_memory(hydration=true) and get_workspace_activity(hydration=true) to surface team changes since your last visit. Present as a brief 'Since your last visit' section. Update last_seen_run_id happens automatically."
 echo "--- END SESSION RESUME ---"

@@ -218,6 +218,25 @@ Instead: "Campaign is built. Next steps: upload your creative assets to Google A
 - Max 2 Notion writes (ad groups + budget/forecast)
 - Max 3K characters per Notion page section
 
+## Commit via `publish_ads` (multiplayer — HARD-GATE)
+
+Shared state is server-authoritative. Commit through `publish_ads`, not via raw file writes.
+
+1. **At skill entry:** `log_run_start(client_slug=<active>, skill="ads", plugin_version=<plugin.json>)` → capture `run_id`.
+2. **Determine `parent_revision`** per file from `.pending-publish/manifest.json` (absent = first write).
+3. **Commit** — ONE call regardless of field count (batched validator):
+   ```
+   publish_ads(client_slug=<active>,
+     ad_groups_json=<content or null>, keywords_csv=<...>, negatives_json=<...>,
+     budget_md=<...>, forecast_md=<...>,
+     parent_revision={"ads/ad-groups.json": <int|null>, "ads/keywords.csv": <int|null>, ...},
+     run_id=<captured>)
+   ```
+4. **Handle responses:** `ok` → update local manifest. `stale_revision` → rebase + retry. `memory_violations` → rewrite + retry (cap 3). Server unreachable → `.pending-publish/{op_id}.json` + surface "queued". Never bypass.
+5. **At skill exit:** `log_run_finish(run_id, client_slug=<active>, status, outputs_manifest=<manifest from publish_ads>)`.
+
+Local `ads/*` files remain scratch/cache — they mirror the server's authoritative copy but never precede it.
+
 ## Next
 **Search campaigns:** After completing this skill, invoke `/landing` without asking.
 Announce: "Campaign built. Now building matched landing pages for each ad group."

@@ -102,6 +102,30 @@ Write narrative, not spreadsheets. Business page reads like an investment memo. 
 - Max 4 Notion writes (business, market, keywords, personas)
 - Max 3K characters per Notion page section
 
+## Commit via `publish_context_files` + `publish_files` (multiplayer — HARD-GATE)
+
+Shared state is server-authoritative. Commit through the publish tools, not via raw file writes.
+
+1. **At skill entry:** `log_run_start(client_slug=<active>, skill="context", plugin_version=<plugin.json>)` → capture `run_id`.
+2. **Determine `parent_revision`** per file from `.pending-publish/manifest.json` (absent = first write).
+3. **Commit core files:**
+   ```
+   publish_context_files(client_slug=<active>,
+     business_md=<content>, market_md=<content>, keywords_md=<content>,
+     parent_revision={...}, run_id=<captured>)
+   ```
+4. **Commit personas** (variable paths) via the generic tool:
+   ```
+   publish_files(client_slug=<active>,
+     files={"context/personas/INDEX.md": <content>,
+            "context/personas/{slug}.md": <content>, ...},
+     parent_revision={...}, run_id=<captured>)
+   ```
+5. **Handle responses:** `ok` → update local manifest. `stale_revision` → rebase + retry. `memory_violations` → rewrite + retry (cap 3). Server unreachable → `.pending-publish/{op_id}.json`. Never bypass.
+6. **At skill exit:** `log_run_finish(run_id, client_slug=<active>, status, outputs_manifest=<manifest>)`.
+
+Local `context/*` files remain scratch/cache.
+
 ## Next
 After completing this skill, route based on the user's original request:
 

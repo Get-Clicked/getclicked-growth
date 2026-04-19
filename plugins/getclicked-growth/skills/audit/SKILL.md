@@ -60,5 +60,21 @@ Merge all findings into `audit/report.md`. Write it like a brief from a trusted 
 - Max 1 Notion write
 - Max 3K characters per Notion page section
 
+## Commit via `publish_audit` (multiplayer — HARD-GATE)
+
+Shared state is server-authoritative. Commit through `publish_audit`, not via raw file writes.
+
+1. **At skill entry:** `log_run_start(client_slug=<active>, skill="audit", plugin_version=<plugin.json>)` → capture `run_id`.
+2. **Determine `parent_revision`** per file from `.pending-publish/manifest.json` (absent = first write).
+3. **Commit:**
+   ```
+   publish_audit(client_slug=<active>,
+     report_md=<content>, links_md=<content or null>, technical_seo_md=<content or null>,
+     parent_revision={"audit/report.md": <int|null>, "audit/links.md": <int|null>, "audit/technical-seo.md": <int|null>},
+     run_id=<captured>)
+   ```
+4. **Handle responses:** `ok` → update local manifest. `stale_revision` → rebase + retry. `memory_violations` → rewrite + retry (cap 3). Server unreachable → `.pending-publish/{op_id}.json`. Never bypass.
+5. **At skill exit:** `log_run_finish(run_id, client_slug=<active>, status, outputs_manifest=<manifest>)`.
+
 ## Next
 Suggest fixing the issues or running `/seo` — "Site review is done. Want me to fix the SEO metadata, or run a full organic search analysis?"

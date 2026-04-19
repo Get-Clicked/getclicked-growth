@@ -87,6 +87,25 @@ Scrape site with `web_extract`. Analyze: technical (speed, mobile, HTTPS, meta t
 - Max 2 Notion writes (dashboard + keywords)
 - Max 3K characters per Notion page section
 
+## Commit via `publish_seo_dashboard` (multiplayer — HARD-GATE)
+
+Shared state is server-authoritative. Commit through `publish_seo_dashboard`, not via raw file writes.
+
+1. **At skill entry:** `log_run_start(client_slug=<active>, skill="seo", plugin_version=<plugin.json>)` → capture `run_id`.
+2. **Determine `parent_revision`** per file from `.pending-publish/manifest.json` (absent = first write).
+3. **Commit:**
+   ```
+   publish_seo_dashboard(client_slug=<active>,
+     dashboard_md=<content>, keywords_csv=<content>, audit_md=<content or null>,
+     parent_revision={"seo/dashboard.md": <int|null>, "seo/keywords.csv": <int|null>, "seo/audit.md": <int|null>},
+     run_id=<captured>)
+   ```
+4. **Handle responses:** `ok` → update local manifest. `stale_revision` → rebase + retry. `memory_violations` → rewrite + retry (cap 3). Server unreachable → `.pending-publish/{op_id}.json`. Never bypass.
+5. **At skill exit:** `log_run_finish(run_id, client_slug=<active>, status, outputs_manifest=<manifest>)`.
+
+For `seo/content-ideas.csv` (comprehensive-only, variable shape), use `publish_files`.
+Local `seo/*` files remain scratch/cache.
+
 ## Next
 After completing this skill, route based on findings:
 If quick wins map to landing page opportunities, offer `/landing`.

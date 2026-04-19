@@ -80,6 +80,22 @@ If `web_extract` is unavailable for visual identity extraction, skip `brand-visu
 
 **Notion:** Sync `context/brand.md` to Brand & Positioning page.
 
+## Commit via `publish_brand` (multiplayer — HARD-GATE)
+
+Shared state is server-authoritative. The skill must commit through `publish_brand`, not raw file writes.
+
+1. **At skill entry:** call `log_run_start(client_slug=<active>, skill="brand", plugin_version=<from plugin.json>)` and keep the returned `run_id`.
+2. **Before committing**, read the caller's local cache manifest (in `.pending-publish/manifest.json` if present, otherwise absent = first write) to determine `parent_revision` per file path.
+3. **Commit:** call `publish_brand(client_slug=<active>, brand_md=<content>, brand_visual_json=<content or null>, parent_revision={"context/brand.md": <int|null>, "context/brand-visual.json": <int|null>}, run_id=<captured>)`.
+4. **Handle responses:**
+   - `{ok: true, revision, manifest}` → success. Update local cache manifest with new revision numbers. Proceed.
+   - `{ok: false, reason: "stale_revision", current_revision, conflicts}` → another teammate published first. Fetch their version, offer the user a merge/override, retry with updated `parent_revision`.
+   - `{ok: false, reason: "memory_violations", violations}` → address each violation (rewrite), retry. Cap at 3 attempts. Never bypass.
+   - Server unreachable / tool error → write the payload to `.pending-publish/{op_id}.json` and tell the user: "Server unreachable — queued for retry on next session." Do NOT pretend the commit succeeded.
+5. **At skill exit:** call `log_run_finish(run_id=<captured>, client_slug=<active>, status="completed" | "failed", outputs_manifest=<the manifest from publish_brand>)`.
+
+Local `context/brand.md` / `context/brand-visual.json` remain scratch/cache — they mirror the server's authoritative copy but never precede it.
+
 ## Quality check
 - Every positioning decision traces to facts in context files — no invented differentiators
 - Voice examples are specific ("Say X instead of Y"), not abstract ("Be authentic")
