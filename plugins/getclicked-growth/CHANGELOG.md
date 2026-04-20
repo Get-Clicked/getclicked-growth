@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.18.3] - 2026-04-20
+
+### Added
+- Pending Publish Queue (BEE-361): HARD-GATE in CLAUDE.md defines the queue format (`pending_publish/*.json`) and drain rules. When a `publish_*` call fails transiently (network / 5xx / timeout / validator unavailable), the agent writes the full payload to the queue. Before any new publish, drain FIFO first. At session start, hydration is followed by queue drain. Never write canonical paths freehand as a workaround. Cowork ephemeral VMs can lose the queue between sessions — agent saves an `open_question` memory so the next session at least knows about the gap. Persistent server-side queue deferred to BEE-368 if needed.
+
 ## [0.18.2] - 2026-04-20
 
 ### Added

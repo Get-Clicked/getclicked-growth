@@ -297,6 +297,57 @@ Every successful `publish_*` response includes a `notion_hint` object. The agent
 - Never assume a page_id is fresh after an `action=update` call — if Notion returns a "page not found" error, fall back to `create` + re-register.
 </HARD-GATE>
 
+## Pending Publish Queue (Multiplayer)
+
+<HARD-GATE>
+The research MCP server is on Render's free tier — cold starts happen, network blips happen, validator timeouts happen. If a `publish_*` call fails for a transient reason, the agent has already produced canonical content but can't commit it. The pending-publish queue is how we avoid silent data loss.
+
+**When to queue:** any `publish_*` tool call that fails with:
+- Network error / connection refused / DNS failure
+- HTTP 5xx (server error)
+- Tool-call timeout (no response within ~30s)
+- `ValidatorUnavailable` returned as the only failure signal (no hard violation, just couldn't grade)
+
+**Do NOT queue** when the failure is:
+- `stale_revision` (CAS rejection) → rebase against current state and retry in-session
+- `memory_violations` (HARD-GATE fail) → fix the content and retry in-session
+- Auth / permission errors → surface to the user, don't queue
+
+**Queue format:** write one file per failed publish under the client's workspace root:
+
+```
+pending_publish/
+  2026-04-20T194812-publish_brand-abc123.json
+```
+
+Filename: `{ISO-8601-compact-utc}-{tool_name}-{short-sha}.json`. Content shape:
+
+```json
+{
+  "tool": "publish_brand",
+  "args": { "workspace_id": "…", "run_id": "…", "candidates": {…}, "parent_revision": {…} },
+  "error": { "reason": "timeout", "at": "2026-04-20T19:48:12Z", "attempts": 1 },
+  "created_at": "2026-04-20T19:48:12Z",
+  "last_retry_at": null
+}
+```
+
+Write the full `candidates` payload so the queued publish doesn't lose the actual content. If the content is huge (e.g. multi-megabyte landing pages), write the content to `pending_publish/{slug}/candidates/*.md` alongside the manifest JSON and reference them by path.
+
+**Drain rules:**
+
+1. **Before any new `publish_*` call, check the queue.** If `pending_publish/*.json` is non-empty, drain it FIFO first — call the queued tool with its original args. On success, delete the queue file. On failure of the same kind (transient), increment `attempts`, update `last_retry_at`, and leave in queue. After 5 attempts, surface a loud warning to the user and pause the queue.
+2. **At session start**, after hydration, check the queue. If non-empty, tell the user: *"You have N publishes queued from earlier sessions. Replaying now."* Drain before any other work.
+3. **Never skip the queue check.** If the queue has items and you publish something new on top without draining, you've broken CAS ordering — the queued item will collide.
+
+**Cowork ephemeral VM caveat:** `pending_publish/` lives on the VM's local filesystem, which does NOT persist between sessions. If a publish fails transiently and the user closes the session before retry, the queued content is lost. Mitigation for now: if any publish fails and the queue has unreplayed items, call `save_memory(category="open_question", statement="Unreplayed publish: {tool} for {path}. Content snapshot in prior session transcript.")` so the next session at least knows about the gap. (Proper persistent server-side queue is a future fix — BEE-368, not shipped.)
+
+**Never:**
+- Never write to the canonical path directly as a "workaround" for a queue failure. Writing `context/brand.md` freehand when `publish_brand` fails breaks CAS + validator. Content stays in the queue until the server takes it.
+- Never retry a queued publish with modified args ("I'll just fix this one thing") — that loses the original audit trail. To edit, drain first, then re-publish the edited version.
+- Never queue indefinitely. If the server has been down for hours, tell the user + offer to export the queue as a recovery bundle.
+</HARD-GATE>
+
 ## Skill Run Logging (Multiplayer)
 
 Every skill SKILL.md must:
