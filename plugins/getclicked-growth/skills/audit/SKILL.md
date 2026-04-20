@@ -4,9 +4,15 @@ description: Audit any website for production readiness — broken links, conten
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Publish-path enforcement. Commit via `publish_audit` — do NOT use Write/Edit on
+`audit/report.md`, `audit/links.md`, or `audit/technical-seo.md`. Generate content
+as strings → call `publish_audit` → server writes. Write is for scratch + insights only.
+</HARD-GATE>
+
 # /audit
 
-Crawl any public URL, find what's broken, flag what's missing, and produce a prioritized punch list. Works on any website — not just sites built by getClicked skills. Two modes: fast (homepage + 3 pages) and comprehensive (up to 25 pages).
+Crawl any public URL, find what's broken, flag what's missing, and produce a prioritized punch list. Works on any website — not just sites built by getClicked skills. Two modes: fast (homepage + 3 pages) and complete (up to 25 pages).
 
 ## References
 - Golden example: `docs/golden-examples/audit-report.md`

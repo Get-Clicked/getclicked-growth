@@ -4,6 +4,12 @@ description: Research competitor domains — organic rankings, paid keywords, ad
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Publish-path enforcement. Commit via `publish_compete_report` — do NOT use Write/Edit
+on `compete/compete-report.md` or `compete/gaps.md`. Per-competitor scratch files in
+`compete/{domain}/` remain local-only (not canonical). Write is for scratch + insights only.
+</HARD-GATE>
+
 # /compete
 
 Deep competitive intelligence. Give it a domain and it pulls organic rankings, paid keywords, ad copy, and landing pages — then synthesizes into a narrative report and machine-readable gaps file. No prior context required.

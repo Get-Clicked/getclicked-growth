@@ -5,6 +5,14 @@ allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 <HARD-GATE>
+Publish-path enforcement. Commit SEO outputs via `publish_seo_dashboard` — do NOT use
+Write/Edit on `seo/dashboard.md`, `seo/keywords.csv`, or `seo/audit.md`. For
+`seo/content-ideas.csv` (comprehensive mode, variable shape) use `publish_files`. Generate
+content as strings → call the publish tool → server writes. Write is for
+`.pending-publish/*` + `insights/*.md` scratch only.
+</HARD-GATE>
+
+<HARD-GATE>
 Do NOT write SEO analysis or any seo/ files until context/keywords.md, context/business.md,
 AND context/market.md exist. These files are produced by the /context skill. If they don't
 exist, invoke /context first. Do NOT write these files yourself.

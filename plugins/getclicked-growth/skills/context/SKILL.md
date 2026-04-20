@@ -4,6 +4,14 @@ description: Build foundational business context — company profile, market lan
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.* WebFetch WebSearch"
 ---
 
+<HARD-GATE>
+Publish-path enforcement. Commit core context files via `publish_context_files` (business.md,
+market.md, keywords.md) and personas via `publish_files` (variable paths). Do NOT use
+Write/Edit to produce `context/business.md`, `context/market.md`, `context/keywords.md`,
+or `context/personas/*.md`. Generate content as strings → call the publish tool → server
+writes. Write remains available for `.pending-publish/*` and `insights/*.md` scratch only.
+</HARD-GATE>
+
 ## Current state
 !`[ -f context/business.md ] && echo "RETURNING: Context exists — read existing files before researching" || echo "NEW: No context yet — start fresh research"`
 

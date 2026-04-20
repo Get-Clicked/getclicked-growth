@@ -9,6 +9,14 @@ allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 !`[ -f context/business.md ] && echo "Context available" || echo "WARNING: No business context — run /context first"`
 
 <HARD-GATE>
+Publish-path enforcement. This skill MUST commit via `publish_brand` — do NOT use
+Write/Edit to produce `context/brand.md` or `context/brand-visual.json`. Generate
+the content as a string in memory, then pass it as an argument to `publish_brand`.
+The server handles the write. Write remains available only for `.pending-publish/*`
+and `insights/*.md` scratch. See plugin CLAUDE.md "Multiplayer publish-path" HARD-GATE.
+</HARD-GATE>
+
+<HARD-GATE>
 Do NOT write brand positioning or any context/brand.md content until context/business.md
 AND context/market.md exist. These files are produced by the /context skill. If they
 don't exist, invoke /context first. Do NOT write these files yourself — the skill's

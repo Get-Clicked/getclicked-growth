@@ -5,6 +5,13 @@ allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
 <HARD-GATE>
+Publish-path enforcement. Commit via `publish_gtm` — do NOT use Write/Edit on
+`gtm/prototype.md`, `gtm/validation-roadmap.md`, or `gtm/playbook.md`. `/playbook`
+commits `gtm/playbook.md` via the same tool when it runs as the capstone. Write is
+for `.pending-publish/*` + `insights/*.md` scratch only.
+</HARD-GATE>
+
+<HARD-GATE>
 Do NOT write GTM strategy until context/business.md, context/market.md, context/keywords.md,
 AND context/personas/ exist. These are produced by the /context skill. If they don't exist,
 invoke /context first. Do NOT write these files yourself.

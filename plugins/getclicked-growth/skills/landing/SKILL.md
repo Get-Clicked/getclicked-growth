@@ -105,9 +105,9 @@ Convert each page spec to the Astro engine's JSON format. The JSON schema:
   "schema_version": "1.0",
   "meta": { "title": "...", "description": "...", "robots": "noindex, nofollow" },
   "campaign": { "campaign_id": "...", "ad_group": "...", "variant_key": null },
-  "nav": { "logo_text": "...", "ctas": { "primary": { "text": "...", "url": "..." } } },
+  "nav": { "logo_text": "...", "logo_image": "/clients/{slug}/logo.svg", "ctas": { "primary": { "text": "...", "url": "..." } } },
   "sections": [
-    { "type": "hero", "headline": "...", "subtitle": "...", "ctas": {...}, "product_image": {...}, "trust_line": "..." },
+    { "type": "hero", "category_label": "...", "headline": "...", "subtitle": "...", "ctas": {...}, "product_image": {...}, "trust_line": "...", "trust_variant": "prominent" },
     { "type": "stats", "variant": "dark", "heading": "...", "items": [...] },
     { "type": "product_showcase", "heading": "...", "products": [...] },
     { "type": "problem_cards", "heading": "...", "cards": [...] },
@@ -125,7 +125,7 @@ Convert each page spec to the Astro engine's JSON format. The JSON schema:
 
 | Section | Required fields | Key rules |
 |---------|----------------|-----------|
-| `hero` | headline, subtitle, ctas (CTAGroup) | product_image uses self-hosted path. trust_line optional. |
+| `hero` | headline, subtitle, ctas (CTAGroup) | product_image uses self-hosted path. trust_line optional. `category_label` renders a kicker above H1 (e.g. "#1 Hospitality Management System"). `trust_variant`: `subtle` (default, 13px footnote) or `prominent` (large, bold, full-width — matches brands that treat the trust line as a banner statement). `layout`: `centered` \| `split-left` \| `split-right` \| `minimal`. |
 | `stats` | items[] with number, label | variant: "dark". quote optional per item (Quote object). |
 | `product_showcase` | heading, products[] with label, name, description, image (Media) | Image src = self-hosted path. columns: 2 or 3. |
 | `problem_cards` | heading, cards[] with heading, description | Auto-numbered (01, 02, 03) by component. |
@@ -141,6 +141,13 @@ Convert each page spec to the Astro engine's JSON format. The JSON schema:
 - CTA objects need `text` and `url` — `variant` defaults to "primary" or "secondary"
 - Media objects need `src` and `alt` — always include alt text
 - `tracking.client_slug` and `tracking.page_slug` are required
+
+**Brand fidelity rules (BEE-345) — study the client's actual site before writing the hero:**
+- If the client's real homepage has a small kicker/eyebrow label above the H1 (e.g. "#1 Hospitality Management System", "New for 2026", "AI Recruiting Platform"), put it in `hero.category_label`. Leave it out when their site doesn't use one.
+- If the client's real homepage treats the trust/social-proof line as a bold full-width statement (not a tiny footnote), set `hero.trust_variant: "prominent"`. Keep default `subtle` for sites where the trust line is a minor caption.
+- Prefer `nav.logo_image` (self-hosted SVG/WebP of the full wordmark or brand mark) over `nav.logo_text` alone. When both are supplied, the text is used as the `alt` for accessibility and the image renders visually. Download the logo from the client site into `public/clients/{slug}/logo.svg` (or `.webp`). Never hotlink.
+- Drop the hero's secondary CTA when the client's real hero has only one CTA. Don't invent a second button just because the component supports it.
+- The quality bar is: "Would the client's marketing team believe this came from their design team?" Screenshot their real homepage and match the hero anatomy (kicker → headline → subtitle → CTA count → trust treatment) before generating JSON.
 
 ### Step 3: Build + deploy [~1 min]
 

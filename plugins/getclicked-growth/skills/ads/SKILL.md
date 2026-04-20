@@ -4,6 +4,14 @@ description: Build Google Ads campaigns — Search (keyword research, RSA ad cop
 allowed-tools: "Read Write Glob Grep mcp__notion__.* mcp__getclicked__.*"
 ---
 
+<HARD-GATE>
+Publish-path enforcement. Commit ad outputs via `publish_ads` — do NOT use Write/Edit
+to produce `ads/ad-groups.json`, `ads/keywords.csv`, `ads/negatives.json`, `ads/budget.md`,
+or `ads/forecast.md`. Generate each as a string, pass all in one `publish_ads` call.
+One batched validator pass regardless of field count. Write remains available for
+`.pending-publish/*` and `insights/*.md` scratch only. See plugin CLAUDE.md HARD-GATE table.
+</HARD-GATE>
+
 ## Current state
 !`[ -f ads/ad-groups.json ] && echo "UPDATING: Campaigns exist" || echo "CREATING: No campaigns yet"`
 !`[ -f context/keywords.md ] && echo "Keywords available" || echo "WARNING: No keywords — run /context first"`
