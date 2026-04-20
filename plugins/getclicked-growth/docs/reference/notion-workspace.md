@@ -15,6 +15,7 @@ Research section:
   Personas                 <- context/personas/ (one sub-page per persona)
   Brand & Positioning      <- context/brand.md
   Keywords                 <- context/keywords.md
+  Live Ads Inventory       <- context/live-ads.md narrative + child database of ads (one row per ad)
 
 Strategy section:
   Go-to-Market             <- gtm/prototype.md, gtm/messaging.md, gtm/validation-roadmap.md
@@ -45,6 +46,7 @@ After creating the workspace, save page IDs to `context/notion-workspace.json`:
     "personas": { "id": "uuid", "title": "Personas" },
     "brand": { "id": "uuid", "title": "Brand & Positioning" },
     "keywords": { "id": "uuid", "title": "Keywords" },
+    "live_ads": { "id": "uuid", "title": "Live Ads Inventory", "database_id": "uuid-of-child-database-or-null" },
     "gtm": { "id": "uuid", "title": "Go-to-Market" },
     "seo": { "id": "uuid", "title": "SEO Strategy" },
     "ads": { "id": "uuid", "title": "Ad Campaigns" },
@@ -66,6 +68,7 @@ On every skill run, read the registry first. Never search Notion if the registry
 | `context/business.md` + `context/market.md` | Business & Market | `notion-update-page` |
 | `context/brand.md` | Brand & Positioning | `notion-update-page` |
 | `context/keywords.md` | Keywords | `notion-update-page` |
+| `context/live-ads.md` + `context/live-ads.json` | Live Ads Inventory (page + child database) | `notion-update-page` (narrative) + `notion-create-database` (first run) + `notion-create-pages` (one per ad row) |
 | `context/personas/*.md` | Personas (sub-pages) | `notion-create-pages` |
 | `compete/*.md` | Competitive Intelligence | `notion-update-page` |
 | `gtm/*.md` | Go-to-Market | `notion-update-page` |
@@ -100,3 +103,28 @@ On every skill run, read the registry first. Never search Notion if the registry
 | GTM | 3 pages (strategy, messaging, validation) | 2K each, narrative |
 | SEO Strategy | Dashboard format | Narrative sections + genuinely tabular data |
 | Experiments | Per-experiment pages | 1-2K each |
+| Live Ads Inventory | Narrative summary (1-2K) + child database | Narrative prose above; database below with one row per ad |
+
+---
+
+## Live Ads Inventory Database Schema
+
+When creating the child database under the Live Ads Inventory page (first `/context` Phase 5 run that finds ads), use this schema:
+
+| Property | Type | Options / Notes |
+|---|---|---|
+| Title | title | `{advertiser} {format} {library_id[-6:] or creative_id[-6:]}` — lets the user scan by advertiser at a glance |
+| Platform | select | `Meta`, `Google` |
+| Advertiser | rich_text | From ad dict `advertiser_name` (Meta) or `advertiser_name` (Google) |
+| Format | select | `Image`, `Video`, `Text`, `Carousel`, `Unknown` |
+| Status | select | `Active`, `Inactive` (Meta only — Google always Active via Transparency) |
+| Start Date | date | Meta `start_date`; blank for Google (v1 grid-only) |
+| Source | select | `page_scoped`, `keyword_fallback`, `domain_suggestion` — for scrape-attribution debugging |
+| Creative Text | rich_text | Truncated to 500 chars; full text in `context/live-ads.json` |
+| Media | url | `media_url` |
+| Link | url | `snapshot_url` (Meta) or `creative_page_url` (Google) |
+| Scraped | date | Date of the `/context` run |
+
+After creating the database once (first run with ads), save `database_id` to the registry under `pages.live_ads.database_id`. On subsequent runs, use `notion-create-pages` against that database_id to insert new rows (one per ad); do not recreate the database.
+
+Update the narrative summary via `notion-update-page` on the Live Ads Inventory parent page — the narrative replaces each run to reflect the latest scrape.

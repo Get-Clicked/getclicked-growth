@@ -22,10 +22,11 @@ Every skill references a golden example in `docs/golden-examples/`. Read it befo
 |-------|----------|
 | context | No dependencies (run first) |
 | brand | context/business.md, context/market.md |
+| brandbook | context/brand.md (auto-runs /brand if missing); context/business.md |
 | compete | No dependencies (accepts raw domain); optionally context/market.md |
-| ads | context/keywords.md |
+| ads | context/keywords.md; reads context/live-ads.json if present (avoid duplicating live creative) |
 | seo | context/keywords.md |
-| landing | ads/ad-groups.json |
+| landing | ads/ad-groups.json; reads context/live-ads.json if present |
 | optimize | ads/keywords.csv |
 | funnel | context/business.md; PostHog or GA4 connected (or user-provided data) |
 | experiment | context/business.md |
@@ -105,6 +106,7 @@ On session start, silently check if `context/business.md` exists.
 - Ad copy character limits: headlines <= 30 chars, descriptions <= 90 chars. Validate at generation time.
 - Cite sources for competitor research and market data.
 - Cross-skill keyword intelligence lives in insights/keyword-research.md — read before making DataForSEO calls.
+- Live ads inventory (context/live-ads.json) is scraped public data with a status-first envelope. Each ad must retain its source URL (`snapshot_url` for Meta, `creative_page_url` for Google). Non-ok statuses (`selector_break`, `consent_or_login_wall`, `ambiguous`, `unverified_advertiser`) must be surfaced to the user — never treat them as silent empty results.
 
 ## Context Sync Handoff
 
@@ -237,9 +239,24 @@ After /ads, check if Google Ads is connected.
 
 ## Session Hydration (Multiplayer)
 
-When SESSION RESUME output contains `MULTIPLAYER_HYDRATION: attempt` and an active client is set:
+**Step 0 — detect workspace from `get_account_status` (every session, Claude Code AND Cowork).**
 
-1. On the first user message of the session, call:
+On the first user message of every session, before any other skill or research call:
+
+1. Call `get_account_status()`. The response includes:
+   - `caller_email` — the authenticated user.
+   - `workspace_memberships` — array of `{workspace_id, client_slug, client_name, role}` for every workspace the caller has accepted.
+2. Resolve the active workspace:
+   - **Exactly one membership** → that's the active workspace. Proceed to hydration.
+   - **Multiple memberships** → check for a local `.active-client` marker (Claude Code) or the SESSION RESUME block's `Active client`. If the marker matches a membership, use it. Otherwise ask the user which workspace.
+   - **Zero memberships** → research-only mode. Skip hydration. Offer `/start` if the user's intent is onboarding.
+3. Never infer "no active workspace" from a stale SESSION RESUME block or absence of local files. `workspace_memberships` from `get_account_status` is authoritative.
+
+**Step 1 — hydrate the active workspace.**
+
+Once the active workspace is known (from Step 0 or an explicit `MULTIPLAYER_HYDRATION: attempt` marker):
+
+1. Call:
    - `get_workspace_memory(client_slug=<active>, hydration=true)` — returns pinned + active constraints (always) + any new memories since your `last_seen_run_id`.
    - `get_workspace_activity(client_slug=<active>, hydration=true)` — returns skill runs since your `last_seen_run_id`.
 2. If either returns a non-empty delta, present a concise "Since your last visit" block to the user. Example:
@@ -249,6 +266,10 @@ When SESSION RESUME output contains `MULTIPLAYER_HYDRATION: attempt` and an acti
    > Active constraints to honor: [list from `always.constraints`].
 3. If both deltas are empty, say nothing — don't announce an empty hydration.
 4. `last_seen_run_id` auto-updates at the end of `get_workspace_activity(hydration=true)`. No manual bookkeeping.
+
+**Step 2 — if the user asks about the workspace ("what do you know about X"), pull published content before doing fresh research.**
+
+When the active workspace is set and the user's question targets it, call `get_workspace(client_slug=<active>)` to pull canonical files (`context/*`, `brand.md`, `compete/*`, etc.) and synthesize from those first. Only layer new DataForSEO / Tavily / web_extract calls on top of what the workspace already has. Never launch a cold `/compete` or `/context` run against a workspace that already has published artifacts.
 
 **Before any skill with constraint-sensitive output** (brand, ads, landing, experiment, compete), and when the hydration-delta didn't already include active constraints, call `get_workspace_memory(client_slug=<active>, category="constraint")` and honor every active constraint. Never bypass.
 

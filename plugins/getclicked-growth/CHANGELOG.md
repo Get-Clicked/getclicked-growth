@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.18.1] - 2026-04-20
+
+### Added
+- Session Hydration Step 0: agent now resolves the active workspace from `get_account_status().workspace_memberships` on every session start (both Claude Code and Cowork), instead of inferring "no active workspace" from a stale SESSION RESUME block. Auto-hydrates memory + activity once the workspace is resolved, and pulls published content before doing fresh research. Requires research-MCP update (also 2026-04-20) that adds `caller_email` + `workspace_memberships` to the `get_account_status` response.
+
 ## [0.4.0] - 2026-03-20
 
 ### Added

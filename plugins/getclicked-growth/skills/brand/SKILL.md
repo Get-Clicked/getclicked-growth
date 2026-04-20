@@ -27,7 +27,7 @@ downstream work.
 
 # /brand
 
-Take the factual foundation from `/context` and make strategic decisions — positioning, voice, messaging, and guardrails. Output is `context/brand.md` (shared state all channel skills read) + `context/brand-visual.json` (visual identity for landing pages and design).
+Take the factual foundation from `/context` and make strategic decisions — positioning, voice, messaging, and guardrails. Output is `context/brand.md` (shared state all channel skills read). Visual identity lives in `/brandbook`, which this skill auto-chains to.
 
 ## References
 - Golden example: `docs/golden-examples/brand.md`
@@ -68,10 +68,8 @@ Voice: [2-3 do/don't pairs from section 4]
 Does this sound like you? Anything feel off?"
 Wait for response. Rewrite affected sections of brand.md if needed before extracting visual identity.
 
-### Extract visual identity
-After writing brand.md, extract visual brand identity from the client's website using `web_extract`. Write `context/brand-visual.json` with colors, typography, logo, buttons, layout tokens. Skip if file already exists and user hasn't asked for a refresh.
-
-If `web_extract` is unavailable for visual identity extraction, skip `brand-visual.json` and note it was skipped. The brand positioning doc is the core deliverable — visual tokens can be extracted later.
+### Visual identity — delegated to `/brandbook`
+This skill no longer writes `context/brand-visual.json`. Visual identity is the `/brandbook` skill's responsibility: it runs the vision-assisted extractor, uploads assets, and ships a hosted brand book at `brand.getclicked.ai/{slug}`. `/brand` owns the narrative; `/brandbook` owns the visual side. See the Next section — this skill auto-chains to `/brandbook`.
 
 ### If MCP research tools are unavailable
 - Use `web_search` / WebSearch to find publicly available competitor and market data for positioning
@@ -84,7 +82,7 @@ If `web_extract` is unavailable for visual identity extraction, skip `brand-visu
 | File | Required |
 |------|----------|
 | `context/brand.md` | Yes |
-| `context/brand-visual.json` | Conditional (skip if web_extract unavailable) |
+| `context/brand-visual.json` | NO — owned by `/brandbook`, not this skill. |
 
 **Notion:** Sync `context/brand.md` to Brand & Positioning page.
 
@@ -94,7 +92,7 @@ Shared state is server-authoritative. The skill must commit through `publish_bra
 
 1. **At skill entry:** call `log_run_start(client_slug=<active>, skill="brand", plugin_version=<from plugin.json>)` and keep the returned `run_id`.
 2. **Before committing**, read the caller's local cache manifest (in `.pending-publish/manifest.json` if present, otherwise absent = first write) to determine `parent_revision` per file path.
-3. **Commit:** call `publish_brand(client_slug=<active>, brand_md=<content>, brand_visual_json=<content or null>, parent_revision={"context/brand.md": <int|null>, "context/brand-visual.json": <int|null>}, run_id=<captured>)`.
+3. **Commit:** call `publish_brand(client_slug=<active>, brand_md=<content>, brand_visual_json=None, parent_revision={"context/brand.md": <int|null>}, run_id=<captured>)`. Pass `brand_visual_json=None` — visual identity is `/brandbook`'s concern.
 4. **Handle responses:**
    - `{ok: true, revision, manifest}` → success. Update local cache manifest with new revision numbers. Proceed.
    - `{ok: false, reason: "stale_revision", current_revision, conflicts}` → another teammate published first. Fetch their version, offer the user a merge/override, retry with updated `parent_revision`.
@@ -116,9 +114,8 @@ Local `context/brand.md` / `context/brand-visual.json` remain scratch/cache — 
 - Max 3K characters per Notion page section
 
 ## Next
-After completing this skill, ask which channel matters more right now:
-"Brand positioning is locked in. Ads or SEO — which matters more right now?"
+**Auto-chain to `/brandbook`** once the narrative is committed. `/brandbook` runs the vision-assisted extractor against the client's website, uploads assets, and ships the hosted brand-guidelines book. Tell the user: "Brand narrative is locked in — now building the brand book with your logo, colors, and fonts."
 
-If the user's original request targeted a specific skill (e.g., "build me ads"), invoke that skill directly.
-If the user gives an open-ended answer or says "both," invoke `/ads` first (it feeds `/landing`).
-Do not end the conversation here — the user hired an agency, not a one-shot consultant.
+After `/brandbook` finishes, ask:
+"Brand book is live. Ads or SEO — which matters more right now?"
+If the user's original request targeted a specific skill, invoke that directly. If open-ended or "both," invoke `/ads` first (it feeds `/landing`).
