@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.18.2] - 2026-04-20
+
+### Added
+- Notion Mirror (BEE-360): every successful `publish_*` response now includes a `notion_hint` object. Plugin CLAUDE.md adds a HARD-GATE requiring the agent to mirror each page to the workspace's Notion in the same turn, using the user's Notion MCP connector (client-side auth — no server-side integration or `NOTION_API_KEY` required). First publish per file path: agent creates a child page under the workspace root and calls `set_notion_page` to register the mapping. Subsequent publishes update in place. Graceful when the connector is absent or `workspace_url` is null.
+
+### Infrastructure (research MCP)
+- New Supabase migration `010_notion_page_registry.sql` — `(workspace_id, file_path) -> notion_page_id`.
+- New MCP tools: `set_notion_page`, `get_notion_pages` (both `require_member`-gated).
+- `_publish()` returns `notion_hint` with per-file `{file_path, notion_page_id, suggested_title, content, action}` and top-level `workspace_url` + `instructions`.
+
 ## [0.18.1] - 2026-04-20
 
 ### Added

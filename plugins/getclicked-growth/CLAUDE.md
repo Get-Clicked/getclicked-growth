@@ -273,6 +273,30 @@ When the active workspace is set and the user's question targets it, call `get_w
 
 **Before any skill with constraint-sensitive output** (brand, ads, landing, experiment, compete), and when the hydration-delta didn't already include active constraints, call `get_workspace_memory(client_slug=<active>, category="constraint")` and honor every active constraint. Never bypass.
 
+## Notion Mirror (Multiplayer)
+
+<HARD-GATE>
+Every successful `publish_*` response includes a `notion_hint` object. The agent MUST mirror each page to the workspace's Notion **in the same turn**, using the Notion MCP connector (authenticated as the current user). This is how Steph + team see agent output in the tool they already use.
+
+**The flow per publish:**
+
+1. `publish_brand` (or any publish_*) returns `{ok: true, notion_hint: {workspace_url, pages: [...], instructions}}`.
+2. For each entry in `notion_hint.pages`:
+   - If `action == "create"` (no `notion_page_id`): call Notion MCP `notion-create-pages` with `parent.page_id` derived from `workspace_url`, `properties.title` = `suggested_title`, and the markdown content converted to Notion blocks (Notion MCP accepts a markdown string and handles conversion). Capture the returned `page_id`. Then call `set_notion_page(file_path=<path>, notion_page_id=<page_id>, client_slug=<active>)` on the getclicked server to persist the mapping so next publish updates in place.
+   - If `action == "update"` (has `notion_page_id`): call Notion MCP `notion-update-page` with that `page_id` and the new markdown content. No registry call needed.
+
+**Failure handling:**
+
+- If `notion_hint.workspace_url` is null: the workspace has no Notion yet. Tell the user once per session: *"This workspace's publish hasn't mirrored to Notion — the workspace_url isn't set. Would you like to add one so your team can see it in Notion?"* Don't retry.
+- If the Notion MCP connector isn't available in this session (tool call fails with "unknown tool" / "no connector"): warn the user once per session: *"Notion connector isn't attached — your publishes are in the agent's memory but won't show up in Notion until you add it."* Don't block the publish.
+- If a specific Notion call fails (rate limit, network, permission): log it in conversation, continue with the remaining pages. Don't roll back the publish — Supabase is canonical.
+
+**Never:**
+- Never skip the mirror call "because the user didn't ask for Notion." Every publish mirrors. That's the contract.
+- Never write directly to Supabase's `notion_page_registry` without going through `set_notion_page` — the tool enforces membership.
+- Never assume a page_id is fresh after an `action=update` call — if Notion returns a "page not found" error, fall back to `create` + re-register.
+</HARD-GATE>
+
 ## Skill Run Logging (Multiplayer)
 
 Every skill SKILL.md must:
